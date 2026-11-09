@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>graao club · Plante, cultive e colha com quem vive tecnologia</title>
   <meta name="description" content="Notícias do mundo tech, trilhas completas e uma comunidade engajada. Tudo em um só lugar: graao club.">
-  <meta name="theme-color" content="#eeeef2">
+  <meta name="theme-color" content="#eef0f6">
   <link rel="icon" href="assets/img/graao-mark.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -262,8 +262,12 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const b = document.getElementById("site-theme"), html = document.documentElement;
-      const paint = () => { b.innerHTML = `<svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-${html.dataset.theme === "dark" ? "sun" : "moon"}"/></svg>`; };
-      b.addEventListener("click", () => { html.dataset.theme = html.dataset.theme === "dark" ? "light" : "dark"; try { localStorage.setItem("graao:site-theme", JSON.stringify(html.dataset.theme)); } catch (e) {} paint(); });
+      const paint = (swap) => { b.innerHTML = `<svg class="g-icon g-icon--sm${swap ? " g-icon--swap" : ""}" aria-hidden="true"><use href="#i-${html.dataset.theme === "dark" ? "sun" : "moon"}"/></svg>`; };
+      // varredura diagonal do design system (G.theme)
+      b.addEventListener("click", () => G.theme(html.dataset.theme === "dark" ? "light" : "dark", (next) => {
+        try { localStorage.setItem("graao:site-theme", JSON.stringify(next)); } catch (e) {}
+        paint(true);
+      }));
       paint();
     });
   </script>

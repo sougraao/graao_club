@@ -394,6 +394,55 @@
     return close;
   }
 
+  /* ---------- Botão principal: luz na borda (.g-btn--accent) ----------
+     A luz segue o cursor com mola; a borda do lado mais próximo acende mais; o clique dá um pulso. */
+  function edge(btn) {
+    if (reduce || btn.dataset.gEdge === "off" || btn.matches(".g-btn--swap, .g-btn--hold") || !once(btn, "gEdgeOn")) return;
+    const REST_X = 0.9, REST_G = 0.5;
+    let x = REST_X, g = REST_G, tx = x, tg = g, raf = 0;
+    const paint = () => { btn.style.setProperty("--ex", x.toFixed(3)); btn.style.setProperty("--eg", g.toFixed(3)); };
+    const tick = () => {
+      x += (tx - x) * 0.16;
+      g += (tg - g) * 0.12;
+      if (Math.abs(tx - x) < 0.002 && Math.abs(tg - g) < 0.002) { x = tx; g = tg; raf = 0; paint(); return; }
+      paint();
+      raf = requestAnimationFrame(tick);
+    };
+    const go = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    const aim = (e) => {
+      const r = btn.getBoundingClientRect();
+      tx = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+      tg = 0.45 + Math.abs(tx - 0.5) * 1.1; // mais forte perto das pontas
+      go();
+    };
+    btn.addEventListener("pointerenter", aim);
+    btn.addEventListener("pointermove", aim);
+    btn.addEventListener("pointerdown", (e) => { aim(e); g = 1.4; paint(); go(); });
+    btn.addEventListener("pointerleave", () => { tx = REST_X; tg = REST_G; go(); });
+  }
+
+  /* ---------- Troca de modo Noite ↔ Dia ----------
+     A página nova entra numa varredura diagonal por cima da antiga (View Transitions).
+     Dia entra pelo canto inferior direito, Noite pelo superior esquerdo.
+     G.theme("light" | "dark", aplicar?) — `aplicar` roda dentro da transição (salvar preferência, trocar ícones).
+     Sem suporte ou com movimento reduzido: troca na hora. */
+  let themeBusy = null;
+  function theme(to, apply) {
+    const html = document.documentElement;
+    const next = to === "light" || to === "dark" ? to : html.dataset.theme === "dark" ? "light" : "dark";
+    const swap = () => { html.dataset.theme = next; apply && apply(next); };
+    if (themeBusy) themeBusy.skipTransition();
+    if (reduce || !document.startViewTransition || html.dataset.theme === next || document.visibilityState !== "visible") {
+      swap();
+      return Promise.resolve();
+    }
+    html.dataset.gThemeTo = next;
+    const t = (themeBusy = document.startViewTransition(swap));
+    const done = () => { if (themeBusy === t) { themeBusy = null; delete html.dataset.gThemeTo; } };
+    t.finished.then(done, done);
+    return t.updateCallbackDone;
+  }
+
   function mount(root = document) {
     // inclui o próprio elemento raiz quando ele também é um componente
     const $$ = (sel, r) => [...(r.matches?.(sel) ? [r] : []), ...r.querySelectorAll(sel)];
@@ -404,6 +453,7 @@
     $$("[data-g-glide]", root).forEach(glide);
     $$("[data-g-hold]", root).forEach(hold);
     $$("[data-g-magnetic]", root).forEach(magnetic);
+    $$(".g-btn--accent", root).forEach(edge);
     $$("[data-g-glow]", root).forEach(glow);
     $$("[data-g-scrub]", root).forEach(scrub);
     $$("[data-g-count]", root).forEach(countUp);
@@ -420,7 +470,7 @@
     if (html.hasAttribute("data-g-smooth") && !Smooth.enabled) Smooth.enable(html.dataset.gSmooth);
   }
 
-  window.G = { mount, toast, modal, icon, smooth: Smooth };
+  window.G = { mount, toast, modal, icon, smooth: Smooth, theme };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => mount());
   else mount();
 })();

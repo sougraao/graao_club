@@ -450,7 +450,7 @@
         </div>
         <aside>
           <section class="g-card g-cover g-cover--noite" style="padding:24px;border:0">
-            <span class="g-eyebrow" style="color:#c5f82a">Prêmios da temporada</span>
+            <span class="g-eyebrow" style="color:var(--g-accent-text)">Prêmios da temporada</span>
             <img src="assets/img/obj-grao.svg" alt="" style="width:64px;margin:18px 0;filter:drop-shadow(0 16px 20px #000a)">
             <h3 class="g-h3">${D.season.prizeVisible && D.season.prize ? esc(D.season.prize) : "Em breve"}</h3><p class="g-caption" style="margin-top:6px;color:#ffffffaa">Temporada ${esc(D.season.name)} · válida até ${fmtDate(D.season.ends)}.</p>
           </section>
@@ -583,7 +583,7 @@
     },
     paleta: {
       html: () => `<div style="display:grid;gap:14px">
-        <div style="display:flex;gap:10px;align-items:center"><input type="color" id="pl-c" value="#c5f82a" aria-label="Cor base" style="width:52px;height:52px;border:0;border-radius:14px;background:none;cursor:pointer"><span class="g-pill-input" style="flex:1"><input id="pl-hex" value="#c5f82a" aria-label="Hex da cor base"></span></div>
+        <div style="display:flex;gap:10px;align-items:center"><input type="color" id="pl-c" value="#fed141" aria-label="Cor base" style="width:52px;height:52px;border:0;border-radius:14px;background:none;cursor:pointer"><span class="g-pill-input" style="flex:1"><input id="pl-hex" value="#fed141" aria-label="Hex da cor base"></span></div>
         <div class="g-segment" data-g-segment id="pl-mode" role="tablist"><button type="button" role="tab" aria-selected="true" data-value="analoga">Análoga</button><button type="button" role="tab" aria-selected="false" data-value="complementar">Complementar</button><button type="button" role="tab" aria-selected="false" data-value="tons">Tons</button></div>
         <div class="swatches" id="pl-out"></div><p class="g-caption">Toque numa cor para copiar o código.</p></div>`,
       wire: (w) => {

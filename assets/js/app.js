@@ -73,17 +73,25 @@
   }
 
   /* ---------- Tema ---------- */
-  function applyTheme(pref) {
+  function resolveTheme(pref) {
     const fallback = document.documentElement.dataset.defaultTheme || "dark";
     const sys = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    document.documentElement.dataset.theme = pref === "light" || pref === "dark" ? pref : pref === "system" ? sys : fallback;
+    return pref === "light" || pref === "dark" ? pref : pref === "system" ? sys : fallback;
+  }
+  function applyTheme(pref, animate = false) {
+    document.documentElement.dataset.theme = resolveTheme(pref);
     $$("[data-theme-toggle]").forEach((b) => {
       const dark = document.documentElement.dataset.theme === "dark";
-      b.innerHTML = icon(dark ? "sun" : "moon", "g-icon--sm");
+      b.innerHTML = icon(dark ? "sun" : "moon", "g-icon--sm" + (animate ? " g-icon--swap" : ""));
       b.setAttribute("aria-label", dark ? "Usar modo Dia" : "Usar modo Noite");
     });
   }
-  function setTheme(pref) { store.set(CONFIG.storage.theme, pref); applyTheme(pref); }
+  // troca com a varredura diagonal do design system (G.theme); sem ele, troca na hora
+  function setTheme(pref) {
+    store.set(CONFIG.storage.theme, pref);
+    if (window.G && G.theme) G.theme(resolveTheme(pref), () => applyTheme(pref, true));
+    else applyTheme(pref);
+  }
   function initTheme() {
     if (!document.body.dataset.appPage && !document.getElementById("auth-form")) return; // o site público tem tema próprio
     applyTheme(store.get(CONFIG.storage.theme, null));

@@ -23,34 +23,78 @@
   --g-ink-200: #b9bfc6;
   --g-ink-100: #e3e6ea;
 
-  /* Mist — névoas do dia */
+  /* Nuvem — névoas do dia (brancos levemente frios, como céu aberto) */
   --g-mist-0: #ffffff;
-  --g-mist-50: #f6f6f8;
-  --g-mist-100: #eeeef2;
-  --g-mist-200: #e2e2e8;
-  --g-mist-300: #cfd0d8;
+  --g-mist-50: #f6f7fb;
+  --g-mist-100: #eef0f6;
+  --g-mist-200: #e2e5ee;
+  --g-mist-300: #cdd2de;
 
-  /* Broto — o acento da marca */
-  --g-broto-300: #dcff7a;
-  --g-broto-400: #d2ff4f;
-  --g-broto-500: #c5f82a;
-  --g-broto-600: #a9dc12;
-  --g-broto-700: #6f9600;
-  --g-broto-800: #4d6b00;
+  /* Paleta "Céu de verão": quatro famílias, cada uma com pastel (50–200) para
+     superfícies, médio (300–500) para preenchimento e profundo (600–900) para texto. */
 
-  /* Safra — gradientes vibrantes para mídia, capas e cards de conteúdo */
-  --g-safra-lima:    linear-gradient(150deg, #e8ff6b 0%, #7cf29c 45%, #19c3d6 100%);
-  --g-safra-brasa:   linear-gradient(150deg, #ff8a5c 0%, #ff3d3d 45%, #9e0f2c 100%);
-  --g-safra-mar:     linear-gradient(150deg, #7ef0ff 0%, #2fa8ff 45%, #2a3bd8 100%);
-  --g-safra-sol:     linear-gradient(150deg, #fff27a 0%, #ffc21a 45%, #ff7a00 100%);
-  --g-safra-uva:     linear-gradient(150deg, #e2b6ff 0%, #9b5cff 45%, #4b1aa8 100%);
-  --g-safra-noite:   linear-gradient(160deg, #2a3242 0%, #151a23 55%, #0b0d10 100%);
+  /* Limão (Limoncello · Pantone 122 C) — o ACENTO da marca: ação, foco, pontos */
+  --g-limao-50:  #fffae6;
+  --g-limao-100: #fff2c2;
+  --g-limao-200: #ffe68a;
+  --g-limao-300: #ffdd66;
+  --g-limao-400: #ffd84f;
+  --g-limao-500: #fed141;   /* marca */
+  --g-limao-600: #f2bc12;   /* press */
+  --g-limao-700: #c99400;
+  --g-limao-800: #8a6200;   /* acento como texto no Dia */
+  --g-limao-900: #3b2a12;
 
-  /* Status */
-  --g-green-500: #4ade80;
-  --g-amber-500: #ffb020;
-  --g-red-500: #ff5a5f;
-  --g-sky-500: #4cc3ff;
+  /* Menta (Summer Green · Pantone 317 C) — crescimento, concluído, sucesso */
+  --g-menta-50:  #eefaf9;
+  --g-menta-100: #d6f3f2;
+  --g-menta-200: #b1e4e3;   /* referência */
+  --g-menta-300: #86d6d3;
+  --g-menta-400: #5bc4c0;
+  --g-menta-500: #2faaa6;
+  --g-menta-600: #178c88;
+  --g-menta-700: #0e726e;
+  --g-menta-800: #0b5a57;
+  --g-menta-900: #08403e;
+
+  /* Lavanda (Soft Lavender · Pantone 7443 C) — comunidade, premium, IA */
+  --g-lavanda-50:  #f7f2fe;
+  --g-lavanda-100: #ebdefc;   /* referência */
+  --g-lavanda-200: #dcc6fa;
+  --g-lavanda-300: #c3a2f6;
+  --g-lavanda-400: #a77cf0;
+  --g-lavanda-500: #8b57e8;
+  --g-lavanda-600: #7340d4;
+  --g-lavanda-700: #5c30b0;
+  --g-lavanda-800: #46248a;
+  --g-lavanda-900: #2f1860;
+
+  /* Céu — o fundo das fotos: informação, links de apoio, tecnologia */
+  --g-ceu-50:  #eef6fe;
+  --g-ceu-100: #d7eafc;
+  --g-ceu-200: #b3d7f9;
+  --g-ceu-300: #85bef5;
+  --g-ceu-400: #57a3f0;
+  --g-ceu-500: #2f88e6;
+  --g-ceu-600: #1f6ecb;
+  --g-ceu-700: #1957a3;
+  --g-ceu-800: #15437d;
+  --g-ceu-900: #102f57;
+
+  /* Apoio de status (fora da paleta principal, só para alerta e erro) */
+  --g-laranja-400: #ffa24c;
+  --g-laranja-700: #a8530a;
+  --g-coral-400: #ff6b6b;
+  --g-coral-700: #c62a2f;
+
+  /* Safra — gradientes das capas e cards de conteúdo (as chaves seguem as mesmas do banco) */
+  --g-safra-lima:  linear-gradient(150deg, #e4faf8 0%, #86d6d3 45%, #2faaa6 100%);   /* Menta */
+  --g-safra-mar:   linear-gradient(160deg, #d7eafc 0%, #57a3f0 32%, #1f6ecb 66%, #1957a3 100%);   /* Céu */
+  --g-safra-sol:   linear-gradient(150deg, #fff4c4 0%, #fed141 50%, #f2a516 100%);   /* Limão */
+  --g-safra-uva:   linear-gradient(150deg, #f3eafe 0%, #c3a2f6 28%, #8b57e8 60%, #5c30b0 100%);   /* Lavanda */
+  --g-safra-brasa: linear-gradient(150deg, #ffd9c7 0%, #ff8a6b 30%, #e2475a 64%, #b8323f 100%);   /* Pôr do sol */
+  --g-safra-ceu:   linear-gradient(180deg, #2f88e6 0%, #85bef5 55%, #eef6fe 100%);   /* assinatura: céu aberto */
+  --g-safra-noite: linear-gradient(160deg, #2b2f4a 0%, #171a28 55%, #0b0d10 100%);   /* noite com toque lavanda */
 
   /* Tipografia */
   --g-font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -119,13 +163,19 @@
   --g-text: #f3f5f7;
   --g-text-2: var(--g-ink-300);
   --g-text-3: var(--g-ink-400);
-  --g-accent: var(--g-broto-500);
-  --g-accent-hover: var(--g-broto-400);
-  --g-accent-press: var(--g-broto-600);
-  --g-accent-text: var(--g-broto-500);   /* acento usado como TEXTO */
+  --g-accent: var(--g-limao-500);
+  --g-accent-hover: var(--g-limao-400);
+  --g-accent-press: var(--g-limao-600);
+  --g-accent-text: var(--g-limao-500);   /* acento usado como TEXTO */
   --g-on-accent: var(--g-ink-950);
-  --g-accent-soft: #c5f82a1f;
-  --g-accent-glow: 0 0 0 1px #c5f82a33, 0 10px 40px -8px #c5f82a66;
+  --g-accent-soft: #fed1411f;
+  --g-accent-glow: 0 0 0 1px #fed14133, 0 10px 40px -8px #fed14166;
+  --g-accent-edge: var(--g-limao-600);   /* luz na borda do botão principal */
+  /* Tons de apoio: fill (preenchimento pastel, texto escuro por cima), soft (fundo translúcido), text (como texto) */
+  --g-menta: var(--g-menta-200);   --g-menta-soft: #86d6d31f;   --g-menta-text: var(--g-menta-300);
+  --g-lavanda: var(--g-lavanda-100); --g-lavanda-soft: #c3a2f622; --g-lavanda-text: var(--g-lavanda-300);
+  --g-ceu: var(--g-ceu-200);       --g-ceu-soft: #85bef51f;     --g-ceu-text: var(--g-ceu-300);
+  --g-limao: var(--g-limao-200);   --g-limao-soft: #fed1411f;   --g-limao-text: var(--g-limao-400);
   --g-track: #ffffff0d;
   --g-hover: #ffffff0a;
   --g-press: #ffffff14;
@@ -133,10 +183,10 @@
   --g-shadow-1: 0 1px 2px #0006;
   --g-shadow-2: 0 12px 32px -12px #000a;
   --g-shadow-3: 0 40px 80px -30px #000c;
-  --g-success: var(--g-green-500);
-  --g-warning: var(--g-amber-500);
-  --g-danger: var(--g-red-500);
-  --g-info: var(--g-sky-500);
+  --g-success: var(--g-menta-300);
+  --g-warning: var(--g-laranja-400);
+  --g-danger: var(--g-coral-400);
+  --g-info: var(--g-ceu-300);
   --g-stripe: repeating-linear-gradient(-45deg, #ffffff08 0 6px, transparent 6px 12px);
 }
 
@@ -157,13 +207,18 @@
   --g-text: var(--g-ink-950);
   --g-text-2: #5c636d;
   --g-text-3: #7d848e;
-  --g-accent: var(--g-broto-500);
-  --g-accent-hover: var(--g-broto-400);
-  --g-accent-press: var(--g-broto-600);
-  --g-accent-text: var(--g-broto-800);
+  --g-accent: var(--g-limao-500);
+  --g-accent-hover: var(--g-limao-400);
+  --g-accent-press: var(--g-limao-600);
+  --g-accent-text: var(--g-limao-800);
   --g-on-accent: var(--g-ink-950);
-  --g-accent-soft: #c5f82a40;
-  --g-accent-glow: 0 0 0 1px #a9dc1255, 0 10px 30px -10px #a9dc1299;
+  --g-accent-soft: #fed14147;
+  --g-accent-glow: 0 0 0 1px #f2bc1266, 0 10px 30px -10px #f2bc12aa;
+  --g-accent-edge: var(--g-limao-700);
+  --g-menta: var(--g-menta-200);   --g-menta-soft: var(--g-menta-100);   --g-menta-text: var(--g-menta-700);
+  --g-lavanda: var(--g-lavanda-100); --g-lavanda-soft: var(--g-lavanda-50); --g-lavanda-text: var(--g-lavanda-600);
+  --g-ceu: var(--g-ceu-200);       --g-ceu-soft: var(--g-ceu-50);       --g-ceu-text: var(--g-ceu-700);
+  --g-limao: var(--g-limao-200);   --g-limao-soft: var(--g-limao-50);   --g-limao-text: var(--g-limao-800);
   --g-track: #0b0d100d;
   --g-hover: #0b0d1008;
   --g-press: #0b0d1012;
@@ -171,16 +226,16 @@
   --g-shadow-1: 0 1px 2px #0b0d1014;
   --g-shadow-2: 0 14px 34px -16px #0b0d1033;
   --g-shadow-3: 0 50px 90px -40px #0b0d1047;
-  --g-success: #138a3e;
-  --g-warning: #a35f00;
-  --g-danger: #c62a2f;
-  --g-info: #0b6fa8;
+  --g-success: var(--g-menta-700);
+  --g-warning: var(--g-laranja-700);
+  --g-danger: var(--g-coral-700);
+  --g-info: var(--g-ceu-700);
   --g-stripe: repeating-linear-gradient(-45deg, #0b0d1008 0 6px, transparent 6px 12px);
 }
 
 .g-noite, .g-dia { color: var(--g-text); }
-:root, [data-theme="dark"], .g-noite { --g-scrollbar: #ffffff1f; --g-scrollbar-hover: #ffffff3d; --g-scrollbar-active: var(--g-broto-500); }
-[data-theme="light"], .g-dia { --g-scrollbar: #0b0d1024; --g-scrollbar-hover: #0b0d1047; --g-scrollbar-active: var(--g-broto-700); }
+:root, [data-theme="dark"], .g-noite { --g-scrollbar: #ffffff1f; --g-scrollbar-hover: #ffffff3d; --g-scrollbar-active: var(--g-limao-500); }
+[data-theme="light"], .g-dia { --g-scrollbar: #0b0d1024; --g-scrollbar-hover: #0b0d1047; --g-scrollbar-active: var(--g-limao-700); }
 
 /* ---------------------------------------------------------------------
    2.1 ROLAGEM — barra personalizada + rolagem suave
@@ -311,9 +366,36 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .g-btn--lg { --_h: var(--g-control-lg); font-size: 15px; }
 .g-btn--block { width: 100%; }
 
-.g-btn--accent { background: var(--g-accent); color: var(--g-on-accent); border-color: transparent; font-weight: 600; }
-.g-btn--accent:hover { background: var(--g-accent-hover); border-color: transparent; box-shadow: var(--g-accent-glow); }
-.g-btn--accent:active { background: var(--g-accent-press); }
+/* Botão principal = luz na borda (edge glow). A luz descansa no lado direito; no hover segue o
+   cursor e acende a borda do lado mais próximo; no clique dá um pulso (JS: graao-ds.js › edge).
+   --ex = posição da luz (0 esquerda → 1 direita) · --eg = intensidade (0 → 1.4).
+   Sem JS ou com movimento reduzido fica no estado de repouso. Desligar: data-g-edge="off". */
+.g-btn--accent {
+  --ex: .9; --eg: .5;
+  --_fill: var(--g-accent);
+  --_core: var(--g-mist-0);
+  --_paint:
+    radial-gradient(80px 140% at calc(var(--ex) * 100%) 50%,
+      color-mix(in srgb, var(--_core) calc(var(--eg) * 70%), transparent) 0%,
+      color-mix(in srgb, var(--g-limao-200) calc(var(--eg) * 55%), transparent) 38%,
+      transparent 80%),
+    var(--_fill);
+  color: var(--g-on-accent); border-color: transparent; font-weight: 600;
+  background: var(--_paint);
+  box-shadow:
+    calc((var(--ex) - .5) * 30px) 0 26px -4px color-mix(in srgb, var(--g-accent-edge) calc(var(--eg) * 70%), transparent),
+    calc((var(--ex) - .5) * 10px) 0 10px -1px color-mix(in srgb, var(--g-accent-edge) calc(var(--eg) * 65%), transparent);
+  transition: color var(--g-dur-2), transform var(--g-dur-2) var(--g-ease-out);
+}
+/* anel de luz: só no primário simples — swap e hold já usam o ::before para o próprio efeito */
+.g-btn--accent:not(.g-btn--swap, .g-btn--hold)::before {
+  content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  background: radial-gradient(55% 160% at calc(var(--ex) * 100%) 50%, color-mix(in srgb, var(--g-mist-0) calc(var(--eg) * 70%), transparent), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.g-btn--accent:hover { --_fill: var(--g-accent-hover); background: var(--_paint); border-color: transparent; }
+.g-btn--accent:active { --_fill: var(--g-accent-press); }
+.g-btn--accent[data-g-edge="off"], .g-btn--accent:is(.g-btn--swap, .g-btn--hold) { --eg: 0; }
 .g-btn--solid { background: var(--g-inverse); color: var(--g-on-inverse); border-color: transparent; }
 .g-btn--solid:hover { background: var(--g-inverse); box-shadow: 0 10px 30px -12px color-mix(in srgb, var(--g-inverse) 60%, transparent); border-color: transparent; }
 .g-btn--soft { background: var(--g-surface-raised); border-color: var(--g-line); }
@@ -337,11 +419,13 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .g-btn--arrow-up:hover .g-icon:last-child { transform: translate(2px, -2px); }
 
 /* Micro-interação: círculo que se expande e preenche (circle swap) */
-.g-btn--swap { padding-left: 5px; gap: 12px; }
-.g-btn--swap .g-btn__orb { position: relative; display: grid; place-items: center; width: calc(var(--_h) - 10px); height: calc(var(--_h) - 10px); border-radius: 50%; background: var(--g-accent); color: var(--g-on-accent); z-index: 1; }
-.g-btn--swap::before { content: ""; position: absolute; left: 5px; top: 5px; width: calc(var(--_h) - 10px); height: calc(var(--_h) - 10px); border-radius: var(--g-radius-pill); background: var(--g-accent); transition: width var(--g-dur-4) var(--g-ease-out); z-index: -1; }
+/* O orbe e o preenchimento ocupam exatamente a mesma caixa (4px dentro da borda de 1px = 5px da borda
+   externa), então a pílula cresce a partir do orbe sem degrau nem anel irregular. */
+.g-btn--swap { padding-left: 4px; gap: 12px; }
+.g-btn--swap .g-btn__orb { position: relative; display: grid; place-items: center; flex: none; width: calc(var(--_h) - 10px); height: calc(var(--_h) - 10px); border-radius: 50%; background: var(--g-accent); color: var(--g-on-accent); z-index: 1; }
+.g-btn--swap::before { content: ""; position: absolute; left: 4px; top: 4px; bottom: 4px; width: calc(var(--_h) - 10px); border-radius: var(--g-radius-pill); background: var(--g-accent); transition: width var(--g-dur-4) var(--g-ease-out); z-index: -1; }
 .g-btn--swap:hover { color: var(--g-on-accent); border-color: transparent; background: transparent; }
-.g-btn--swap:hover::before { width: calc(100% - 10px); }
+.g-btn--swap:hover::before { width: calc(100% - 8px); }
 .g-btn--swap:hover .g-btn__orb .g-icon { transform: rotate(-45deg); }
 
 /* Micro-interação: troca de texto rolando (text roll) */
@@ -377,6 +461,13 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .g-badge--soft { background: var(--g-accent-soft); color: var(--g-accent-text); border-color: transparent; }
 .g-badge--success { color: var(--g-success); border-color: color-mix(in srgb, var(--g-success) 35%, transparent); }
 .g-badge--danger { color: var(--g-danger); border-color: color-mix(in srgb, var(--g-danger) 35%, transparent); }
+.g-badge--warning { color: var(--g-warning); border-color: color-mix(in srgb, var(--g-warning) 35%, transparent); }
+.g-badge--info { color: var(--g-info); border-color: color-mix(in srgb, var(--g-info) 35%, transparent); }
+/* Tons de apoio: menta = crescimento/concluído · lavanda = comunidade/premium/IA · céu = informação/tecnologia · limão = conquistas/pontos */
+.g-badge--menta { background: var(--g-menta-soft); color: var(--g-menta-text); border-color: transparent; }
+.g-badge--lavanda { background: var(--g-lavanda-soft); color: var(--g-lavanda-text); border-color: transparent; }
+.g-badge--ceu { background: var(--g-ceu-soft); color: var(--g-ceu-text); border-color: transparent; }
+.g-badge--limao { background: var(--g-limao-soft); color: var(--g-limao-text); border-color: transparent; }
 .g-badge--sm { height: 22px; padding: 0 8px; font-size: 11px; }
 .g-badge .g-pulse { width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 0 currentColor; animation: g-pulse 2s infinite; }
 .g-count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 99px; font-size: 11px; font-weight: 700; background: var(--g-text); color: var(--g-bg); font-variant-numeric: tabular-nums; }
@@ -543,6 +634,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .g-cover--sol { background: var(--g-safra-sol); color: var(--g-ink-950); }
 .g-cover--uva { background: var(--g-safra-uva); }
 .g-cover--noite { background: var(--g-safra-noite); }
+.g-cover--ceu { background: var(--g-safra-ceu); color: var(--g-ink-950); }
 .g-cover::after { content: ""; position: absolute; inset: 0; background: radial-gradient(80% 60% at 80% 0%, #ffffff40, transparent 60%); pointer-events: none; mix-blend-mode: soft-light; }
 
 .g-media-card { color: #fff; position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; aspect-ratio: 4 / 5; padding: var(--g-space-5); border-radius: var(--g-radius-xl); overflow: visible; isolation: isolate; transition: transform var(--g-dur-4) var(--g-ease-out), box-shadow var(--g-dur-4); box-shadow: 0 30px 60px -30px #0b0d1066; }
@@ -669,11 +761,17 @@ body.has-tabbar .g-actionbar { bottom: calc(var(--g-tabbar-h) + 22px + var(--g-s
 .g-safe-bottom { padding-bottom: calc(16px + var(--g-safe-bottom)); }
 
 /* Barra de abas inferior (navegação principal no celular) */
-.g-tabbar { position: fixed; z-index: 95; left: 50%; bottom: calc(10px + var(--g-safe-bottom)); transform: translateX(-50%); display: flex; align-items: center; gap: 2px; padding: 6px; width: min(440px, calc(100vw - 20px)); height: var(--g-tabbar-h); border-radius: var(--g-radius-pill); background: var(--g-glass); backdrop-filter: blur(22px) saturate(170%); -webkit-backdrop-filter: blur(22px) saturate(170%); border: 1px solid var(--g-line-strong); box-shadow: var(--g-shadow-3); }
-.g-tabbar a, .g-tabbar button { position: relative; flex: 1; display: grid; place-items: center; height: 100%; border-radius: var(--g-radius-pill); color: var(--g-text-2); transition: color var(--g-dur-2), flex var(--g-dur-4) var(--g-ease-out), background var(--g-dur-3); }
+.g-tabbar { position: fixed; z-index: 95; container-type: inline-size; left: 50%; bottom: calc(10px + var(--g-safe-bottom)); transform: translateX(-50%); display: flex; align-items: center; gap: 2px; padding: 6px; width: min(440px, calc(100vw - 20px)); height: var(--g-tabbar-h); border-radius: var(--g-radius-pill); background: var(--g-glass); backdrop-filter: blur(22px) saturate(170%); -webkit-backdrop-filter: blur(22px) saturate(170%); border: 1px solid var(--g-line-strong); box-shadow: var(--g-shadow-3); }
+.g-tabbar a, .g-tabbar button { position: relative; flex: 1 1 0; min-width: 36px; display: grid; place-items: center; height: 100%; border-radius: var(--g-radius-pill); color: var(--g-text-2); transition: color var(--g-dur-2), flex var(--g-dur-4) var(--g-ease-out), background var(--g-dur-3); }
 .g-tabbar a > span, .g-tabbar button > span { display: none; }
-.g-tabbar [aria-current="page"] { flex: 1.9; background: var(--g-accent); color: var(--g-on-accent); display: flex; justify-content: center; gap: 8px; font-size: 13px; font-weight: 600; }
-.g-tabbar [aria-current="page"] > span { display: inline; animation: g-rise var(--g-dur-3) var(--g-ease-out); }
+/* item ativo: cresce até caber ícone + rótulo; se faltar espaço, o rótulo termina em reticências */
+.g-tabbar [aria-current="page"] { flex: 0 1 auto; min-width: 0; padding: 0 14px; background: var(--g-accent); color: var(--g-on-accent); display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 13px; font-weight: 600; }
+.g-tabbar [aria-current="page"] > .g-icon { flex: none; }
+.g-tabbar [aria-current="page"] > span { display: inline; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; animation: g-rise var(--g-dur-3) var(--g-ease-out); }
+/* no item ativo o aviso já foi visto: o ponto some (senão vira um anel escuro sobre a pílula) */
+.g-tabbar [aria-current="page"] .g-dot { display: none; }
+/* barra estreita (ex.: mockup de celular): o ativo mostra só o ícone */
+@container (max-width: 260px) { .g-tabbar [aria-current="page"] { padding: 0 12px; } .g-tabbar [aria-current="page"] > span { display: none; } }
 .g-tabbar .g-dot { position: absolute; top: 8px; left: calc(50% + 6px); width: 8px; height: 8px; border-radius: 50%; background: var(--g-accent); box-shadow: 0 0 0 2px var(--g-surface); }
 .g-tabbar:not(.is-static) { transition: transform var(--g-dur-4) var(--g-ease-out); }
 .g-tabbar.is-hidden { transform: translate(-50%, calc(100% + 24px)); }
@@ -724,6 +822,22 @@ body.has-tabbar .g-fab { bottom: calc(var(--g-tabbar-h) + 26px + var(--g-safe-bo
 @keyframes g-rise { from { opacity: 0; transform: translateY(18px); } }
 .g-reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--g-dur-5) var(--g-ease-out), transform var(--g-dur-5) var(--g-ease-out); }
 .g-reveal.is-in { opacity: 1; transform: none; }
+
+/* Troca de modo Noite ↔ Dia (G.theme): varredura diagonal sobre a página antiga */
+::view-transition-old(root) { z-index: -1; animation: none; }
+::view-transition-new(root) { animation: g-theme-wipe-dia 700ms var(--g-ease-in-out) forwards; }
+:root[data-g-theme-to="dark"]::view-transition-new(root) { animation-name: g-theme-wipe-noite; }
+@keyframes g-theme-wipe-dia {
+  0% { clip-path: polygon(171% 50%, 50% 171%, 50% 171%, 171% 50%); }
+  100% { clip-path: polygon(171% 50%, 50% 171%, -50% 71%, 50% -71%); }
+}
+@keyframes g-theme-wipe-noite {
+  0% { clip-path: polygon(50% -71%, -50% 71%, -50% 71%, 50% -71%); }
+  100% { clip-path: polygon(50% -71%, -50% 71%, 50% 171%, 171% 50%); }
+}
+/* o ícone do botão gira ao trocar (sol ↔ lua) */
+.g-icon--swap { animation: g-theme-icon var(--g-dur-4) var(--g-ease-spring); }
+@keyframes g-theme-icon { from { opacity: 0; transform: rotate(-90deg) scale(.5); } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

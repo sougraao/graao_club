@@ -23,7 +23,7 @@
     .doc-main { padding: 28px clamp(16px, 4vw, 56px) 120px; max-width: 1240px; }
     .doc-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
     .doc-hero { position: relative; overflow: hidden; border-radius: var(--g-radius-2xl); padding: clamp(28px, 5vw, 64px); background: var(--g-surface-grad); border: 1px solid var(--g-line); box-shadow: var(--g-highlight); }
-    .doc-hero::before { content: ""; position: absolute; right: -10%; top: -40%; width: 60%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, #c5f82a33, transparent 70%); }
+    .doc-hero::before { content: ""; position: absolute; right: -10%; top: -40%; width: 60%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--g-accent) 20%, transparent), transparent 70%); }
     .doc-hero > * { position: relative; }
     .doc-hero img.obj { position: absolute; right: 6%; top: 50%; width: clamp(90px, 14vw, 170px); transform: translateY(-50%) rotate(-12deg); filter: drop-shadow(0 30px 30px #0008); animation: float 7s ease-in-out infinite; }
     @keyframes float { 50% { transform: translateY(-56%) rotate(-6deg); } }
@@ -41,6 +41,15 @@
     .swatch { border-radius: var(--g-radius-md); overflow: hidden; border: 1px solid var(--g-line); background: var(--g-surface); }
     .swatch i { display: block; height: 84px; }
     .swatch div { padding: 10px 12px; display: grid; gap: 2px; font-size: 12px; }
+    .ramps { display: grid; gap: 14px; }
+    .ramp { border-radius: var(--g-radius-md); border: 1px solid var(--g-line); background: var(--g-surface); overflow: hidden; }
+    .ramp__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; padding: 12px 14px; font-size: 13px; }
+    .ramp__head span { color: var(--g-text-2); }
+    .ramp__head code { margin-left: auto; font-family: var(--g-font-mono); color: var(--g-text-3); font-size: 11px; }
+    .ramp__cells { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); }
+    .ramp__cells i { position: relative; height: 56px; display: flex; align-items: flex-end; padding: 6px; font: 500 10px var(--g-font-mono); font-style: normal; color: var(--g-ink-950); }
+    .ramp__cells i:nth-child(n+7) { color: var(--g-mist-0); }
+    .ramp__cells i.is-anchor { box-shadow: inset 0 0 0 2px var(--g-text); }
     .swatch code { font-family: var(--g-font-mono); color: var(--g-text-3); font-size: 11px; }
     .type-row { display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid var(--g-line); }
     .type-row code { font-family: var(--g-font-mono); font-size: 12px; color: var(--g-text-3); }
@@ -98,7 +107,7 @@
 
   <main class="doc-main">
     <div class="doc-top">
-      <span class="g-eyebrow">graao club · design system v1.0</span>
+      <span class="g-eyebrow">graao club · design system v1.1</span>
       <div style="display:flex;gap:8px;align-items:center">
         <div class="g-segment" data-g-segment id="theme-seg" role="tablist" aria-label="Modo de cor">
           <button type="button" role="tab" data-value="dark" aria-selected="true"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-moon"/></svg>Noite</button>
@@ -109,9 +118,9 @@
 
     <header class="doc-hero">
       <img class="obj" src="assets/img/obj-grao.svg" alt="">
-      <span class="g-eyebrow">Safra · v1.0</span>
+      <span class="g-eyebrow">Safra · v1.1 · Céu de verão</span>
       <h1 class="g-display" style="margin-top:16px;max-width:9ch">Detalhe é <span class="g-accent-text">colheita.</span></h1>
-      <p class="g-lead" style="margin-top:20px;max-width:54ch">A linguagem visual do graao club: grafite profundo, broto neon, números leves, mídia vibrante e micro-interações que respondem a cada gesto. Toda tela nova nasce daqui.</p>
+      <p class="g-lead" style="margin-top:20px;max-width:54ch">A linguagem visual do graao club: grafite profundo, limão de verão com apoio pastel, números leves, mídia vibrante e micro-interações que respondem a cada gesto. Toda tela nova nasce daqui.</p>
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:28px">
         <a class="g-btn g-btn--accent g-btn--lg g-btn--arrow" href="#botoes">Ver componentes <svg class="g-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
         <a class="g-btn g-btn--lg" href="DESIGN_SYSTEM.md">Ler as regras <svg class="g-icon" aria-hidden="true"><use href="#i-book"/></svg></a>
@@ -122,7 +131,7 @@
     <section class="ds" id="principios">
       <div class="ds-head"><span class="g-eyebrow">01 · Fundamentos</span><h2 class="g-h2">Princípios</h2></div>
       <div class="grid g2">
-        <article class="g-card"><span class="g-badge g-badge--soft">Contraste de superfícies</span><h3 class="g-h4" style="margin-top:14px">Noite com ilhas de luz</h3><p class="g-body" style="margin-top:6px">O app vive no grafite. O que pede atenção vira superfície invertida (pílula branca, sheet clara) ou ganha o broto. Nunca dois focos lima na mesma área.</p></article>
+        <article class="g-card"><span class="g-badge g-badge--soft">Contraste de superfícies</span><h3 class="g-h4" style="margin-top:14px">Noite com ilhas de luz</h3><p class="g-body" style="margin-top:6px">O app vive no grafite. O que pede atenção vira superfície invertida (pílula branca, sheet clara) ou ganha o limão. Nunca dois focos amarelos na mesma área.</p></article>
         <article class="g-card"><span class="g-badge g-badge--soft">Números leves</span><h3 class="g-h4" style="margin-top:14px">Dados grandes, peso 300</h3><p class="g-body" style="margin-top:6px">Valores são protagonistas: grandes, leves, tabulares, com unidade pequena e apagada ao lado.</p></article>
         <article class="g-card"><span class="g-badge g-badge--soft">Tudo é pílula</span><h3 class="g-h4" style="margin-top:14px">Formas macias</h3><p class="g-body" style="margin-top:6px">Botões, filtros, badges e linhas selecionadas são pílulas. Cards usam 24–32px. Ícones de ação ficam em círculos com borda fina.</p></article>
         <article class="g-card"><span class="g-badge g-badge--soft">Gesto tem resposta</span><h3 class="g-h4" style="margin-top:14px">Micro-interação em tudo que se toca</h3><p class="g-body" style="margin-top:6px">Indicadores deslizam, setas avançam, contadores sobem. Movimento curto, com desaceleração suave, e respeitando "reduzir movimento".</p></article>
@@ -132,12 +141,27 @@
     <!-- CORES -->
     <section class="ds" id="cores">
       <div class="ds-head"><span class="g-eyebrow">02 · Fundamentos</span><h2 class="g-h2">Cores</h2><p class="g-body">Use sempre os tokens semânticos (<code class="g-mono">--g-surface</code>, <code class="g-mono">--g-accent</code>…). Eles trocam sozinhos entre Noite e Dia.</p></div>
-      <h3 class="g-h4" style="margin-bottom:14px">Broto — acento da marca</h3>
+      <h3 class="g-h4" style="margin-bottom:6px">Paleta "Céu de verão"</h3>
+      <p class="g-body" style="margin-bottom:16px;max-width:70ch">Quatro famílias sobre a base grafite/névoa. Em cada rampa: 50–200 pastel para fundos, 300–500 para preenchimento, 600–900 profundo para texto. O número em destaque é a cor de referência.</p>
+      <div class="ramps">
+        <div class="ramp"><div class="ramp__head"><b>Limão</b><span>Limoncello · Pantone 122 C · acento único: ação, foco, pontos</span><code>--g-limao-*</code></div><div class="ramp__cells"><i style="background:var(--g-limao-50)" title="--g-limao-50"><span>50</span></i><i style="background:var(--g-limao-100)" title="--g-limao-100"><span>100</span></i><i style="background:var(--g-limao-200)" title="--g-limao-200"><span>200</span></i><i style="background:var(--g-limao-300)" title="--g-limao-300"><span>300</span></i><i style="background:var(--g-limao-400)" title="--g-limao-400"><span>400</span></i><i style="background:var(--g-limao-500)" title="--g-limao-500" class=is-anchor><span>500</span></i><i style="background:var(--g-limao-600)" title="--g-limao-600"><span>600</span></i><i style="background:var(--g-limao-700)" title="--g-limao-700"><span>700</span></i><i style="background:var(--g-limao-800)" title="--g-limao-800"><span>800</span></i><i style="background:var(--g-limao-900)" title="--g-limao-900"><span>900</span></i></div></div>
+        <div class="ramp"><div class="ramp__head"><b>Menta</b><span>Summer Green · Pantone 317 C · crescimento, concluído, sucesso</span><code>--g-menta-*</code></div><div class="ramp__cells"><i style="background:var(--g-menta-50)" title="--g-menta-50"><span>50</span></i><i style="background:var(--g-menta-100)" title="--g-menta-100"><span>100</span></i><i style="background:var(--g-menta-200)" title="--g-menta-200" class=is-anchor><span>200</span></i><i style="background:var(--g-menta-300)" title="--g-menta-300"><span>300</span></i><i style="background:var(--g-menta-400)" title="--g-menta-400"><span>400</span></i><i style="background:var(--g-menta-500)" title="--g-menta-500"><span>500</span></i><i style="background:var(--g-menta-600)" title="--g-menta-600"><span>600</span></i><i style="background:var(--g-menta-700)" title="--g-menta-700"><span>700</span></i><i style="background:var(--g-menta-800)" title="--g-menta-800"><span>800</span></i><i style="background:var(--g-menta-900)" title="--g-menta-900"><span>900</span></i></div></div>
+        <div class="ramp"><div class="ramp__head"><b>Lavanda</b><span>Soft Lavender · Pantone 7443 C · comunidade, premium, IA</span><code>--g-lavanda-*</code></div><div class="ramp__cells"><i style="background:var(--g-lavanda-50)" title="--g-lavanda-50"><span>50</span></i><i style="background:var(--g-lavanda-100)" title="--g-lavanda-100" class=is-anchor><span>100</span></i><i style="background:var(--g-lavanda-200)" title="--g-lavanda-200"><span>200</span></i><i style="background:var(--g-lavanda-300)" title="--g-lavanda-300"><span>300</span></i><i style="background:var(--g-lavanda-400)" title="--g-lavanda-400"><span>400</span></i><i style="background:var(--g-lavanda-500)" title="--g-lavanda-500"><span>500</span></i><i style="background:var(--g-lavanda-600)" title="--g-lavanda-600"><span>600</span></i><i style="background:var(--g-lavanda-700)" title="--g-lavanda-700"><span>700</span></i><i style="background:var(--g-lavanda-800)" title="--g-lavanda-800"><span>800</span></i><i style="background:var(--g-lavanda-900)" title="--g-lavanda-900"><span>900</span></i></div></div>
+        <div class="ramp"><div class="ramp__head"><b>Céu</b><span>O azul das fotos · informação, tecnologia</span><code>--g-ceu-*</code></div><div class="ramp__cells"><i style="background:var(--g-ceu-50)" title="--g-ceu-50"><span>50</span></i><i style="background:var(--g-ceu-100)" title="--g-ceu-100"><span>100</span></i><i style="background:var(--g-ceu-200)" title="--g-ceu-200"><span>200</span></i><i style="background:var(--g-ceu-300)" title="--g-ceu-300"><span>300</span></i><i style="background:var(--g-ceu-400)" title="--g-ceu-400"><span>400</span></i><i style="background:var(--g-ceu-500)" title="--g-ceu-500" class=is-anchor><span>500</span></i><i style="background:var(--g-ceu-600)" title="--g-ceu-600"><span>600</span></i><i style="background:var(--g-ceu-700)" title="--g-ceu-700"><span>700</span></i><i style="background:var(--g-ceu-800)" title="--g-ceu-800"><span>800</span></i><i style="background:var(--g-ceu-900)" title="--g-ceu-900"><span>900</span></i></div></div>
+      </div>
+      <h3 class="g-h4" style="margin:28px 0 14px">Acento e tons de apoio (semânticos)</h3>
       <div class="grid g4">
-        <div class="swatch"><i style="background:var(--g-broto-500)"></i><div><b>Broto 500</b><code>#C5F82A · --g-accent</code></div></div>
-        <div class="swatch"><i style="background:var(--g-broto-400)"></i><div><b>Broto 400</b><code>#D2FF4F · hover</code></div></div>
-        <div class="swatch"><i style="background:var(--g-broto-600)"></i><div><b>Broto 600</b><code>#A9DC12 · press</code></div></div>
-        <div class="swatch"><i style="background:var(--g-broto-800)"></i><div><b>Broto 800</b><code>#4D6B00 · texto no Dia</code></div></div>
+        <div class="swatch"><i style="background:var(--g-accent)"></i><div><b>accent</b><code>#FED141 · --g-accent</code></div></div>
+        <div class="swatch"><i style="background:var(--g-accent-press)"></i><div><b>accent-press</b><code>#F2BC12 · clique</code></div></div>
+        <div class="swatch"><i style="background:var(--g-accent-soft)"></i><div><b>accent-soft</b><code>--g-accent-soft</code></div></div>
+        <div class="swatch"><i style="background:var(--g-accent-text)"></i><div><b>accent-text</b><code>#FED141 Noite · #8A6200 Dia</code></div></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+        <span class="g-badge g-badge--accent">Ativo</span><span class="g-badge g-badge--soft">+12 pontos</span>
+        <span class="g-badge g-badge--menta">Concluído</span><span class="g-badge g-badge--lavanda">Comunidade</span>
+        <span class="g-badge g-badge--ceu">Tecnologia</span><span class="g-badge g-badge--limao">Conquista</span>
+        <span class="g-badge g-badge--success">Salvo</span><span class="g-badge g-badge--info">Informação</span>
+        <span class="g-badge g-badge--warning">Atenção</span><span class="g-badge g-badge--danger">Erro</span>
       </div>
       <h3 class="g-h4" style="margin:28px 0 14px">Superfícies (semânticas)</h3>
       <div class="grid g4">
@@ -152,16 +176,17 @@
       </div>
       <h3 class="g-h4" style="margin:28px 0 14px">Safra — gradientes de mídia</h3>
       <div class="grid g3">
-        <div class="swatch"><i style="background:var(--g-safra-lima);height:110px"></i><div><b>Lima</b><code>--g-safra-lima</code></div></div>
-        <div class="swatch"><i style="background:var(--g-safra-mar);height:110px"></i><div><b>Mar</b><code>--g-safra-mar</code></div></div>
-        <div class="swatch"><i style="background:var(--g-safra-brasa);height:110px"></i><div><b>Brasa</b><code>--g-safra-brasa</code></div></div>
-        <div class="swatch"><i style="background:var(--g-safra-sol);height:110px"></i><div><b>Sol</b><code>--g-safra-sol</code></div></div>
-        <div class="swatch"><i style="background:var(--g-safra-uva);height:110px"></i><div><b>Uva</b><code>--g-safra-uva</code></div></div>
+        <div class="swatch"><i style="background:var(--g-safra-lima);height:110px"></i><div><b>Lima · Menta</b><code>--g-safra-lima</code></div></div>
+        <div class="swatch"><i style="background:var(--g-safra-mar);height:110px"></i><div><b>Mar · Céu</b><code>--g-safra-mar</code></div></div>
+        <div class="swatch"><i style="background:var(--g-safra-sol);height:110px"></i><div><b>Sol · Limão</b><code>--g-safra-sol</code></div></div>
+        <div class="swatch"><i style="background:var(--g-safra-uva);height:110px"></i><div><b>Uva · Lavanda</b><code>--g-safra-uva</code></div></div>
+        <div class="swatch"><i style="background:var(--g-safra-brasa);height:110px"></i><div><b>Brasa · Pôr do sol</b><code>--g-safra-brasa</code></div></div>
+        <div class="swatch"><i style="background:var(--g-safra-ceu);height:110px"></i><div><b>Céu aberto</b><code>--g-safra-ceu</code></div></div>
         <div class="swatch"><i style="background:var(--g-safra-noite);height:110px"></i><div><b>Noite</b><code>--g-safra-noite</code></div></div>
       </div>
       <div class="rule" style="margin-top:20px">
-        <div class="do"><b>Faça</b>Lima como preenchimento (botão, barra, item ativo) com texto grafite por cima.</div>
-        <div class="dont"><b>Evite</b>Lima como cor de texto sobre fundo claro — use <code class="g-mono">--g-accent-text</code>, que escurece no Dia.</div>
+        <div class="do"><b>Faça</b>Limão como preenchimento (botão, barra, item ativo) com texto grafite por cima. Um foco amarelo por área; Menta, Lavanda e Céu só como tom de apoio.</div>
+        <div class="dont"><b>Evite</b>Amarelo ou pastel como cor de texto sobre fundo claro. Use <code class="g-mono">--g-accent-text</code> ou <code class="g-mono">--g-menta-text</code> (e os demais), que escurecem no Dia.</div>
       </div>
     </section>
 
@@ -222,7 +247,7 @@
 
     <!-- ROLAGEM -->
     <section class="ds" id="rolagem">
-      <div class="ds-head"><span class="g-eyebrow">05b · Fundamentos</span><h2 class="g-h2">Rolagem</h2><p class="g-body">Barra fina nos tokens (acende em lima ao arrastar) em toda a página e áreas internas. Rolagem suave com inércia via <code class="g-mono">&lt;html data-g-smooth&gt;</code> — esta página já usa. Repare na linha lima no topo: progresso de leitura.</p></div>
+      <div class="ds-head"><span class="g-eyebrow">05b · Fundamentos</span><h2 class="g-h2">Rolagem</h2><p class="g-body">Barra fina nos tokens (acende em amarelo ao arrastar) em toda a página e áreas internas. Rolagem suave com inércia via <code class="g-mono">&lt;html data-g-smooth&gt;</code> — esta página já usa. Repare na linha amarela no topo: progresso de leitura.</p></div>
       <div class="grid g2">
         <div class="demo"><div class="g-card g-scroll" style="height:220px;display:grid;gap:8px;align-content:start">
           <p class="g-h4">Área rolável interna</p>
@@ -230,7 +255,7 @@
           <div class="g-skeleton" style="height:12px"></div><div class="g-skeleton" style="height:12px;width:80%"></div><div class="g-skeleton" style="height:12px;width:60%"></div><div class="g-skeleton" style="height:12px"></div><div class="g-skeleton" style="height:12px;width:70%"></div><div class="g-skeleton" style="height:12px;width:90%"></div><div class="g-skeleton" style="height:12px;width:50%"></div><div class="g-skeleton" style="height:12px"></div><div class="g-skeleton" style="height:12px;width:75%"></div>
         </div><div class="demo-label"><b>Barra personalizada</b><code>.g-scroll</code></div></div>
         <div class="demo"><div class="g-card" style="padding:16px 0 16px 16px"><div class="g-scroll--x g-scroll--fade" style="display:flex;gap:12px;padding:4px 16px 12px 4px">
-          <div class="g-cover g-cover--lima" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--mar" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--sol" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--brasa" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--uva" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--noite" style="flex:none;width:150px;height:170px"></div>
+          <div class="g-cover g-cover--lima" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--mar" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--sol" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--brasa" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--uva" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--ceu" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--noite" style="flex:none;width:150px;height:170px"></div>
         </div></div><div class="demo-label"><b>Trilho horizontal com encaixe</b><code>.g-scroll--x .g-scroll--fade</code></div></div>
       </div>
       <div class="rule" style="margin-top:16px">
@@ -241,9 +266,11 @@
 
     <!-- BOTÕES -->
     <section class="ds" id="botoes">
-      <div class="ds-head"><span class="g-eyebrow">06 · Componentes</span><h2 class="g-h2">Botões</h2><p class="g-body">Uma ação principal (lima) por área. Passe o mouse para ver as micro-interações.</p></div>
+      <div class="ds-head"><span class="g-eyebrow">06 · Componentes</span><h2 class="g-h2">Botões</h2><p class="g-body">Uma ação principal (amarela) por área. Passe o mouse para ver as micro-interações.</p></div>
       <div class="grid g2">
         <div class="demo"><div class="demo-stage"><button class="g-btn g-btn--accent g-btn--arrow">Começar agora <svg class="g-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button><button class="g-btn g-btn--solid">Selecionar plano</button><button class="g-btn">Saiba mais</button><button class="g-btn g-btn--quiet">Cancelar</button></div><div class="demo-label"><b>Variantes</b><code>.g-btn--accent · --solid · padrão · --quiet</code></div></div>
+        <div class="demo"><div class="demo-stage center" style="min-height:150px"><button class="g-btn g-btn--accent g-btn--lg g-btn--arrow">Ver em ação <svg class="g-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button></div><div class="demo-label"><b>Primário com luz na borda</b><code>.g-btn--accent · automático (data-g-edge="off" desliga)</code></div></div>
+        <div class="demo"><div class="demo-stage center" style="min-height:150px"><button class="g-btn g-btn--lg" type="button" id="demo-theme"><svg class="g-icon" aria-hidden="true"><use href="#i-sun"/></svg>Trocar Noite ↔ Dia</button></div><div class="demo-label"><b>Troca de modo (varredura diagonal)</b><code>G.theme("light" | "dark")</code></div></div>
         <div class="demo"><div class="demo-stage"><button class="g-btn g-btn--sm">Pequeno</button><button class="g-btn">Médio</button><button class="g-btn g-btn--lg">Grande</button><button class="g-btn" disabled>Desabilitado</button></div><div class="demo-label"><b>Tamanhos</b><code>--sm 32 · md 40 · --lg 52</code></div></div>
         <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--lg g-btn--swap"><span class="g-btn__orb"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>Entrar para o clube</button></div><div class="demo-label"><b>Circle swap</b><code>.g-btn--swap</code></div></div>
         <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--lg g-btn--solid"><span class="g-roll"><span>Ver trilhas</span><span>Ver trilhas</span></span><svg class="g-icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></button></div><div class="demo-label"><b>Text roll</b><code>.g-roll</code></div></div>
@@ -407,8 +434,13 @@
     const cur = document.documentElement.dataset.theme;
     seg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.value === cur)));
     seg.addEventListener("g:change", (e) => {
-      document.documentElement.dataset.theme = e.detail.value;
+      G.theme(e.detail.value);
       try { localStorage.setItem("graao:ds-theme", JSON.stringify(e.detail.value)); } catch (_) {}
+    });
+    document.getElementById("demo-theme").addEventListener("click", () => {
+      // aciona o seletor Noite/Dia do topo, que chama G.theme e salva a escolha
+      const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      seg.querySelector(`[data-value="${next}"]`).click();
     });
     document.getElementById("demo-toast").addEventListener("click", () => G.toast("Aula concluída · +2 pontos"));
     document.getElementById("demo-undo").addEventListener("click", () => G.toast("Trilha arquivada", { action: "Desfazer", iconId: "archive", duration: 5000, onAction: () => G.toast("Arquivamento desfeito", { iconId: "check" }) }));
