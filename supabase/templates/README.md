@@ -20,7 +20,7 @@ python supabase/templates/_build.py --preview
 
 ## Como instalar (por projeto: dev e, depois, prod)
 
-> **Pré-requisito:** o Supabase só permite editar assunto e corpo dos modelos **depois de configurar SMTP próprio** (Authentication → Emails → SMTP Settings). Com o envio padrão os campos ficam travados ("Set up custom SMTP to edit templates") — verificado em 2026-11-09 no `graao-club-dev`. Veja a seção "Remetente" abaixo.
+> **Pré-requisito:** o Supabase só permite editar assunto e corpo dos modelos **depois de configurar SMTP próprio** (Authentication → Emails → SMTP Settings). Com o envio padrão os campos ficam travados ("Set up custom SMTP to edit templates") — verificado em 2026-11-09 no `graao-club-dev`. Veja a seção "Remetente" abaixo. **No `graao-club-dev` já está feito** (Resend ligado pela integração oficial, modelos instalados em 2026-11-09); falta repetir no projeto de produção.
 
 1. Supabase → **Authentication → Emails → Templates**.
 2. Para cada modelo da tabela: cole o **assunto** e o conteúdo do arquivo `.html` correspondente → **Save**.
