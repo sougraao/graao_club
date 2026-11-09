@@ -41,6 +41,7 @@
     ["avisos", "Engajamento", "Avisos", "bell", "push.send"],
     ["membros", "Pessoas", "Membros", "users", "users.view"],
     ["planos", "Vendas", "Planos e cupons", "tag", "sales.manage"],
+    ["emails", "Sistema", "E-mails", "mail", "settings.manage"],
     ["config", "Sistema", "Configurações", "settings", "settings.manage"],
   ].map(([id, group, label, icon, perm]) => ({ id, group, label, icon, perm }));
 
@@ -68,6 +69,89 @@
     },
     tabbar: [["painel", "#/painel", "grid", "Painel"], ["trilhas", "#/trilhas", "play", "Trilhas"], ["moderacao", "#/moderacao", "shield", "Moderação"], ["membros", "#/membros", "users", "Membros"], ["mais", "#/mais", "menu", "Mais"]],
   };
+
+  /* ---------- E-mails: montagem do HTML ----------
+     Mesmo layout de supabase/templates/_build.py. E-mail não lê variáveis CSS: as cores dos tokens
+     do design system vão escritas aqui (Dia + acento Limão). Trocou a paleta? Atualize os dois. */
+  const MAIL = {
+    ink: "#0b0d10", ink800: "#1c2127", text2: "#5c636d", text3: "#7d848e",
+    mist50: "#f6f7fb", mist100: "#eef0f6", line: "#e2e5ee",
+    accent: "#fed141", accentText: "#8a6200",
+    font: "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+    mono: "'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+  };
+  // marcador amigável → variável do Supabase (Go template) e valor de exemplo para a prévia
+  const MARKERS = [
+    ["{, nome}", "{{ if .Data.name }}, {{ .Data.name }}{{ end }}", ", Luiz", "“, Nome” só quando a pessoa tem nome"],
+    ["{nome}", "{{ .Data.name }}", "Luiz", "Nome da pessoa (vazio se não informou)"],
+    ["{email}", "{{ .Email }}", "voce@exemplo.com", "E-mail atual da conta"],
+    ["{novo_email}", "{{ .NewEmail }}", "novo@exemplo.com", "Novo e-mail (só na troca de e-mail)"],
+    ["{link}", "{{ .ConfirmationURL }}", "https://www.graao.com/entrar.html?token=exemplo", "Link de confirmação"],
+    ["{codigo}", "{{ .Token }}", "482913", "Código de 6 dígitos"],
+    ["{site}", "{{ .SiteURL }}", "https://www.graao.com", "Endereço do site"],
+  ];
+  const markersFor = (t) => MARKERS.filter(([m]) => (m === "{novo_email}" ? t.id === "troca-de-email" : m === "{codigo}" ? !!t.code : m === "{link}" ? !t.code : true));
+  const escHtml = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  // texto do painel → HTML seguro: escapa tudo, **negrito**, quebra de linha e marcadores
+  function mailText(s, sample) {
+    let out = escHtml(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\n/g, "<br>");
+    MARKERS.forEach(([m, go, ex]) => { out = out.split(m).join(sample ? escHtml(ex) : go); });
+    return out;
+  }
+  function mailHtml(t, sample = false) {
+    const M = MAIL, x = (s) => mailText(s, sample);
+    const url = sample ? MARKERS[4][2] : MARKERS[4][1];
+    const action = t.code
+      ? `<table role="presentation" border="0" cellspacing="0" cellpadding="0" style="margin:26px 0 6px"><tr><td style="background:${M.ink};border-radius:18px;padding:18px 26px">
+                  <span style="font-family:${M.mono};font-size:30px;font-weight:600;letter-spacing:8px;color:${M.accent}">${sample ? MARKERS[5][2] : MARKERS[5][1]}</span></td></tr></table>`
+      : `<table role="presentation" border="0" cellspacing="0" cellpadding="0" style="margin:28px 0 8px"><tr><td align="center" bgcolor="${M.accent}" style="border-radius:999px">
+                  <a href="${url}" target="_blank" style="display:inline-block;padding:15px 28px;font-family:${M.font};font-size:15px;font-weight:600;line-height:1;color:${M.ink};text-decoration:none;border-radius:999px">${x(t.cta)}&nbsp;&rarr;</a></td></tr></table>
+              <p style="margin:18px 0 0;font-family:${M.font};font-size:12.5px;line-height:1.6;color:${M.text3}">O botão não funcionou? Copie e cole este endereço no navegador:<br>
+                <a href="${url}" style="color:${M.accentText};word-break:break-all">${url}</a></p>`;
+    return `<!doctype html>
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light">
+  <title>${x(t.subject)}</title>
+  <!-- Assunto: ${escHtml(t.subject)} · Modelo Supabase: ${t.slot} · gerado em admin.html#/emails -->
+</head>
+<body style="margin:0;padding:0;background:${M.mist100};-webkit-text-size-adjust:100%">
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent">${x(t.preheader)}&#8199;&#65279;&#847;&#8199;&#65279;&#847;</div>
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="${M.mist100}" style="background:${M.mist100}">
+    <tr><td align="center" style="padding:32px 14px">
+      <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:560px">
+        <tr><td style="background:${M.ink};border-radius:28px 28px 0 0;padding:26px 32px">
+          <table role="presentation" border="0" cellspacing="0" cellpadding="0"><tr>
+            <td width="34" height="34" align="center" valign="middle" bgcolor="${M.accent}" style="width:34px;height:34px;border-radius:11px;font-family:${M.font};font-size:17px;font-weight:800;color:${M.ink};line-height:34px">g</td>
+            <td style="padding-left:11px;font-family:${M.font};font-size:20px;letter-spacing:-0.6px;line-height:1"><b style="color:#ffffff">graao</b><span style="color:${M.text3}">club</span></td>
+          </tr></table>
+        </td></tr>
+        <tr><td style="background:#ffffff;padding:36px 32px 32px;border-left:1px solid ${M.line};border-right:1px solid ${M.line}">
+          <p style="margin:0 0 14px;font-family:${M.mono};font-size:11px;font-weight:500;letter-spacing:1.6px;text-transform:uppercase;color:${M.accentText}">${x(t.eyebrow)}</p>
+          <h1 style="margin:0;font-family:${M.font};font-size:28px;line-height:1.15;font-weight:600;letter-spacing:-0.9px;color:${M.ink}">${x(t.title)}</h1>
+          <p style="margin:16px 0 0;font-family:${M.font};font-size:15.5px;line-height:1.65;color:${M.text2}">${x(t.body)}</p>
+          ${action}
+        </td></tr>
+        <tr><td style="background:${M.mist50};padding:18px 32px;border:1px solid ${M.line};border-top:0;border-radius:0 0 28px 28px">
+          <p style="margin:0;font-family:${M.font};font-size:12.5px;line-height:1.6;color:${M.text3}">${x(t.note)}</p>
+        </td></tr>
+        <tr><td align="center" style="padding:26px 12px 6px">
+          <p style="margin:0;font-family:${M.font};font-size:12px;line-height:1.7;color:${M.text3}">
+            <b style="color:${M.ink800}">Plante. Cultive. Colha.</b><br>
+            graao club · Aprenda, compartilhe e cresça com quem vive tecnologia e criatividade.<br>
+            Dúvidas? <a href="mailto:contato@graao.com" style="color:${M.accentText}">contato@graao.com</a>
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>
+`;
+  }
 
   document.addEventListener("graao:ready", () => {
     if (document.body.dataset.appArea !== "admin") return;
@@ -486,6 +570,102 @@
         </div>`;
       $("#save-cfg", main).addEventListener("click", () => { Object.assign(D.settings, read($("#cfg", main), fields)); save("settings"); toast("Configurações salvas", { iconId: "settings" }); });
       $("#reset", main).addEventListener("g:confirm", () => { DB.reset(); setTimeout(() => location.reload(), 700); });
+    };
+
+    S.emails = () => {
+      main.innerHTML = head("Os e-mails que o graao club envia para os membros. Edite os textos e veja a prévia ao vivo.") +
+        `<div class="g-card g-card--raised email-note">${icon("help", "g-icon--sm")}<p class="g-caption">Os textos ficam salvos neste painel. Para valerem nos e-mails reais, use <b>Copiar HTML</b> e cole em Supabase → Authentication → Emails → Templates, no modelo indicado. A sincronização automática chega quando o painel estiver ligado ao banco.</p></div>`;
+      const DEF = (id) => DB.defaults.emails.find((e) => e.id === id) || {};
+      const KEYS = ["subject", "preheader", "eyebrow", "title", "body", "cta", "note"];
+      const changed = (t) => KEYS.some((k) => (t[k] || "") !== (DEF(t.id)[k] || ""));
+      const fields = (t) => [
+        { section: "Caixa de entrada" },
+        { k: "subject", label: "Assunto" },
+        { k: "preheader", label: "Texto de prévia", hint: "Aparece ao lado do assunto na caixa de entrada" },
+        { section: "Conteúdo" },
+        { k: "eyebrow", label: "Etiqueta" },
+        { k: "title", label: "Título" },
+        { k: "body", label: "Mensagem", type: "textarea", rows: 5, hint: "**texto** vira negrito · Enter quebra a linha" },
+        ...(t.code ? [] : [{ k: "cta", label: "Texto do botão" }]),
+        { k: "note", label: "Aviso no rodapé", type: "textarea", rows: 2 },
+      ];
+      masterDetail({
+        items: () => D.emails, text: (t) => t.name + t.subject,
+        filters: [{ value: "all", label: "Todos" }, { value: "edit", label: "Editados", test: changed }],
+        row: (t) => `<span class="g-icon-btn g-icon-btn--sm">${icon(t.code ? "lock" : "mail", "g-icon--sm")}</span><span><span class="g-row__title">${esc(t.name)}</span><br><span class="g-row__sub">${esc(t.when)}</span></span>${changed(t) ? `<span class="g-badge g-badge--sm g-badge--soft">Editado</span>` : ""}`,
+        detail: (t, host, ctl) => {
+          host.classList.add("email-host");
+          const fs = fields(t);
+          host.innerHTML = `
+            <div class="email-editor">
+              <div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px"><div><h3 class="g-h4">${esc(t.name)}</h3><p class="g-caption">${esc(t.when)} · modelo <span class="g-mono">${esc(t.slot)}</span></p></div></div>
+                <div class="admin-form" data-mail-form>${form(fs, t)}</div>
+                <div class="email-markers"><span class="g-caption">Marcadores (toque para inserir no campo onde está o cursor)</span>
+                  <div class="email-markers__list">${markersFor(t).map(([m, , , d]) => `<button type="button" class="g-badge g-mono g-tooltip" data-tip="${esc(d)}" data-marker="${esc(m)}">${esc(m)}</button>`).join("")}</div></div>
+              </div>
+              <div class="email-preview-col">
+                <div class="email-preview-head"><span class="g-eyebrow">Prévia</span>
+                  <div class="g-segment" data-g-segment data-device role="tablist" aria-label="Tamanho da prévia"><button type="button" role="tab" data-value="desk" aria-selected="true">${icon("monitor", "g-icon--sm")}Computador</button><button type="button" role="tab" data-value="phone" aria-selected="false">${icon("phone", "g-icon--sm")}Celular</button></div></div>
+                <div class="g-row email-inbox" aria-label="Como aparece na caixa de entrada"><span class="g-avatar g-avatar--sm email-inbox__logo">g</span><span><span class="g-row__title">graao club <span class="g-caption">· agora</span></span><br><span class="email-inbox__line"><b data-pv-subject></b> <span data-pv-pre></span></span></span></div>
+                <div class="email-frame" data-frame><iframe title="Prévia do e-mail" sandbox="allow-same-origin" data-pv></iframe></div>
+              </div>
+            </div>
+            <div class="admin-actions">
+              <button class="g-btn g-btn--hold g-btn--danger" type="button" data-g-hold="1100" data-done="Restaurado" data-reset>${icon("archive", "g-icon--sm")}<span data-label>Segure para restaurar o original</span></button>
+              <span style="flex:1"></span><span class="g-caption" data-dirty></span>
+              <button class="g-btn g-btn--quiet" type="button" data-download>${icon("download", "g-icon--sm")}Baixar .html</button>
+              <button class="g-btn" type="button" data-copy>${icon("copy", "g-icon--sm")}Copiar HTML</button>
+              <button class="g-btn g-btn--accent" type="button" data-save>${icon("check", "g-icon--sm")}Salvar</button>
+            </div>`;
+          const formEl = $("[data-mail-form]", host), frame = $("[data-pv]", host);
+          const draft = () => ({ ...t, ...read(formEl, fs) });
+          let lastField = null;
+          $$("input, textarea", formEl).forEach((el) => el.addEventListener("focus", () => (lastField = el)));
+          const paint = () => {
+            const d = draft();
+            $("[data-pv-subject]", host).innerHTML = mailText(d.subject, true);
+            $("[data-pv-pre]", host).innerHTML = "— " + mailText(d.preheader, true);
+            clearTimeout(paint.t); // a prévia recarrega quando a digitação pausa
+            paint.t = setTimeout(() => (frame.srcdoc = mailHtml(draft(), true)), frame.srcdoc ? 180 : 0);
+            $("[data-dirty]", host).textContent = KEYS.some((k) => (d[k] || "") !== (t[k] || "")) ? "Alterações não salvas" : "";
+          };
+          // a altura acompanha o conteúdo do e-mail (muda ao trocar computador/celular e ao editar)
+          const fit = () => { const b = frame.contentDocument?.body; if (b) frame.style.height = Math.ceil(b.getBoundingClientRect().height) + "px"; };
+          frame.addEventListener("load", fit);
+          // depois da animação de largura (computador ↔ celular), mede de novo
+          const refit = () => { clearTimeout(refit.t); refit.t = setTimeout(() => requestAnimationFrame(() => requestAnimationFrame(fit)), 620); };
+          formEl.addEventListener("input", paint);
+          $("[data-device]", host).addEventListener("g:change", (e) => { $("[data-frame]", host).classList.toggle("is-phone", e.detail.value === "phone"); refit(); });
+          new ResizeObserver(refit).observe($("[data-frame]", host));
+          $$("[data-marker]", host).forEach((b) => b.addEventListener("click", () => {
+            const el = lastField || $("[data-k='body']", formEl);
+            const s = el.selectionStart ?? el.value.length, e2 = el.selectionEnd ?? s;
+            el.value = el.value.slice(0, s) + b.dataset.marker + el.value.slice(e2);
+            el.focus(); el.setSelectionRange(s + b.dataset.marker.length, s + b.dataset.marker.length);
+            paint();
+          }));
+          const exportHtml = () => mailHtml(draft(), false);
+          $("[data-copy]", host).addEventListener("click", async () => {
+            try { await navigator.clipboard.writeText(exportHtml()); toast(`HTML copiado · cole no modelo “${t.slot}”`, { iconId: "copy" }); }
+            catch (e) { toast("Não deu para copiar · use Baixar .html", { iconId: "copy" }); }
+          });
+          $("[data-download]", host).addEventListener("click", () => {
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(new Blob([exportHtml()], { type: "text/html" }));
+            a.download = `${t.id}.html`; a.click();
+            setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+          });
+          $("[data-save]", host).addEventListener("click", () => {
+            const v = read(formEl, fs);
+            if (!v.subject || !v.title) return toast("Assunto e título não podem ficar vazios", { iconId: "mail" });
+            Object.assign(t, v); save("emails"); ctl.refresh(); toast("E-mail salvo", { iconId: "mail" });
+          });
+          $("[data-reset]", host).addEventListener("g:confirm", () => { Object.assign(t, JSON.parse(JSON.stringify(DEF(t.id)))); save("emails"); ctl.refresh(); toast("Texto original restaurado", { iconId: "archive" }); });
+          paint();
+        },
+      });
+      $(".admin-md", main).classList.add("admin-md--mail");
     };
 
     S.mais = () => {

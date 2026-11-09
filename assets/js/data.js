@@ -169,6 +169,35 @@ window.GRAAO_DATA = {
     { id: "c2", code: "COLHEITA-BF", discount: 35, plan: "colheita", uses: 12, limit: 100, active: false, ends: "2026-11-30" },
   ],
   settings: { name: "graao club", supportEmail: "contato@graao.com", maintenance: false, signups: true },
+  /* E-mails enviados aos membros (editados em admin.html#/emails).
+     Marcadores: {nome} {, nome} {email} {novo_email} {link} {codigo} {site} — viram variáveis do Supabase ao exportar.
+     **texto** = negrito. Mesmos textos de supabase/templates/_build.py. */
+  emails: [
+    { id: "confirmacao", slot: "Confirm signup", name: "Confirmação de cadastro", when: "Logo depois que a pessoa cria a conta",
+      subject: "Confirme seu e-mail · graao club", preheader: "Falta um passo para plantar seu primeiro grão.", eyebrow: "Bem-vindo ao clube",
+      title: "Confirme seu e-mail{, nome}", body: "Você está a um toque de entrar no graao club. Confirme este endereço para ativar sua conta e começar pela trilha **Comece Aqui**.",
+      cta: "Confirmar meu e-mail", note: "Se você não criou uma conta no graao club, ignore esta mensagem — nada vai acontecer." },
+    { id: "convite", slot: "Invite user", name: "Convite", when: "Quando a equipe convida alguém pelo painel",
+      subject: "Você foi convidado para o graao club", preheader: "Um lugar para aprender, compartilhar e crescer com quem vive tecnologia.", eyebrow: "Convite",
+      title: "Seu lugar no clube está reservado", body: "Alguém da equipe do graao club convidou você para entrar. Aceite o convite para criar sua senha e acessar a plataforma.",
+      cta: "Aceitar convite", note: "Não esperava este convite? Pode ignorar este e-mail com tranquilidade." },
+    { id: "link-magico", slot: "Magic Link", name: "Link de acesso", when: "Quando a pessoa pede para entrar sem senha",
+      subject: "Seu link de acesso ao graao club", preheader: "Entre sem senha com um toque.", eyebrow: "Acesso rápido",
+      title: "Entre no graao club", body: "Use o botão abaixo para entrar na sua conta sem digitar senha. O link funciona uma única vez.",
+      cta: "Entrar agora", note: "Se não foi você que pediu este acesso, ignore este e-mail. Sua conta continua protegida." },
+    { id: "troca-de-email", slot: "Change Email Address", name: "Troca de e-mail", when: "Quando a pessoa muda o e-mail da conta",
+      subject: "Confirme seu novo e-mail · graao club", preheader: "Confirme a troca do e-mail da sua conta.", eyebrow: "Segurança da conta",
+      title: "Confirme seu novo e-mail", body: "Recebemos um pedido para trocar o e-mail da sua conta de **{email}** para **{novo_email}**. Confirme para concluir a troca.",
+      cta: "Confirmar novo e-mail", note: "Se você não pediu essa troca, não confirme e fale com a gente em contato@graao.com." },
+    { id: "redefinir-senha", slot: "Reset Password", name: "Redefinir senha", when: "Quando a pessoa usa “Esqueci a senha”",
+      subject: "Redefinir sua senha do graao club", preheader: "Crie uma nova senha para voltar a cultivar.", eyebrow: "Segurança da conta",
+      title: "Vamos criar uma nova senha", body: "Recebemos um pedido para redefinir a senha da sua conta. Toque no botão abaixo e escolha uma nova senha.",
+      cta: "Criar nova senha", note: "Se você não pediu para trocar a senha, ignore este e-mail — sua senha atual continua valendo." },
+    { id: "reautenticacao", slot: "Reauthentication", name: "Código de verificação", when: "Antes de uma ação sensível na conta", code: true,
+      subject: "Seu código de verificação · graao club", preheader: "Use este código para confirmar que é você.", eyebrow: "Verificação",
+      title: "Confirme que é você", body: "Use o código abaixo para concluir a ação sensível que você começou no graao club.",
+      cta: "", note: "Nunca compartilhe este código. A equipe do graao club jamais vai pedi-lo." },
+  ],
   team: { julia: "EDITOR", rafael: "STAFF" },
 };
 
