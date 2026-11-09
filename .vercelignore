@@ -1,0 +1,8 @@
+# Arquivos do repositório que NÃO devem ser publicados no site (continuam no GitHub)
+supabase/
+.claude/
+.mcp.json
+.gitattributes
+.env*
+*.md
+!DESIGN_SYSTEM.md

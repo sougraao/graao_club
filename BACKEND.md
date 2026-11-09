@@ -20,6 +20,7 @@
 | Configuração do front | [`assets/js/env.js`](assets/js/env.js) (URL + chave pública; vazio = modo demonstração) · [`assets/js/api.js`](assets/js/api.js) (supabase-js 2.49.4 via jsDelivr) |
 | Domínio | **graao.com** — DNS no Google Cloud DNS (`ns-cloud-e1…e4.googledomains.com`). Em 2026-11-09 não tinha MX nem TXT: nenhum `@graao.com` recebe e-mail ainda (contato@ precisa de caixa de entrada ou encaminhamento) |
 | Envio de e-mail (planejado) | Resend com domínio verificado → SMTP próprio no Supabase (`smtp.resend.com`, porta 465, usuário `resend`, senha = chave de API do Resend colada pelo dono da conta) · remetente `graao club <nao-responda@graao.com>` |
+| Site publicado | **https://graaoclub.vercel.app** (Vercel, projeto `graaoclub`, ligado ao GitHub: push na `main` = produção, PR = prévia). Usa o Supabase `graao-club-dev` por enquanto. `.vercelignore` impede publicar `supabase/`, documentação interna e configs |
 | Equipe (dev) | `holaluiz.mail` = **ADMIN** (concedido em 2026-11-09 via SQL com papel de serviço; registrado no `audit_log`) |
 | E-mails de autenticação | 6 modelos em português no visual graao em [`supabase/templates/`](supabase/templates/README.md) — **bloqueado até configurar SMTP próprio**: o Supabase trava a edição dos modelos no envio padrão. Depende de domínio + serviço de envio (ex.: Resend) |
 | Conta de teste (dev) | `membro.teste@graao.test`, plano Semente, sem papel de equipe — senha em `.env.test` (fora do Git) |
