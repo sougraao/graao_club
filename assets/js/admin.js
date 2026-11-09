@@ -72,11 +72,11 @@
 
   /* ---------- E-mails: montagem do HTML ----------
      Mesmo layout de supabase/templates/_build.py. E-mail não lê variáveis CSS: as cores dos tokens
-     do design system vão escritas aqui (Dia + acento Limão). Trocou a paleta? Atualize os dois. */
+     do design system vão escritas aqui (Dia + acento Broto). Trocou a paleta? Atualize os dois. */
   const MAIL = {
     ink: "#0b0d10", ink800: "#1c2127", text2: "#5c636d", text3: "#7d848e",
-    mist50: "#f6f7fb", mist100: "#eef0f6", line: "#e2e5ee",
-    accent: "#fed141", accentText: "#8a6200",
+    mist50: "#f6f6f8", mist100: "#eeeef2", line: "#e2e2e8",
+    accent: "#c5f82a", accentText: "#4d6b00",
     font: "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
     mono: "'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
   };

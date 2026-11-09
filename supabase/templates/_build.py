@@ -17,11 +17,11 @@ INK_950 = "#0b0d10"   # --g-ink-950  (fundo da faixa, texto principal)
 INK_800 = "#1c2127"
 TEXT_2 = "#5c636d"    # --g-text-2 (Dia)
 TEXT_3 = "#7d848e"    # --g-text-3 (Dia)
-MIST_50 = "#f6f7fb"   # --g-mist-50
-MIST_100 = "#eef0f6"  # --g-mist-100 (fundo)
-LINE = "#e2e5ee"      # --g-mist-200
-ACCENT = "#fed141"     # --g-limao-500 (acento Limoncello)
-ACCENT_TEXT = "#8a6200"  # --g-limao-800 (acento como texto no Dia)
+MIST_50 = "#f6f6f8"   # --g-mist-50
+MIST_100 = "#eeeef2"  # --g-mist-100 (fundo)
+LINE = "#e2e2e8"      # --g-mist-200
+BROTO = "#c5f82a"     # --g-broto-500 (acento)
+BROTO_TEXT = "#4d6b00"  # --g-broto-800 (acento como texto no Dia)
 FONT = "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
 MONO = "'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
 
@@ -91,17 +91,17 @@ TEMPLATES = [
 
 def button(label, url):
     return f"""<table role="presentation" border="0" cellspacing="0" cellpadding="0" style="margin:28px 0 8px">
-                <tr><td align="center" bgcolor="{ACCENT}" style="border-radius:999px">
+                <tr><td align="center" bgcolor="{BROTO}" style="border-radius:999px">
                   <a href="{url}" target="_blank" style="display:inline-block;padding:15px 28px;font-family:{FONT};font-size:15px;font-weight:600;line-height:1;color:{INK_950};text-decoration:none;border-radius:999px">{label}&nbsp;&rarr;</a>
                 </td></tr></table>
               <p style="margin:18px 0 0;font-family:{FONT};font-size:12.5px;line-height:1.6;color:{TEXT_3}">O botão não funcionou? Copie e cole este endereço no navegador:<br>
-                <a href="{url}" style="color:{ACCENT_TEXT};word-break:break-all">{url}</a></p>"""
+                <a href="{url}" style="color:{BROTO_TEXT};word-break:break-all">{url}</a></p>"""
 
 
 def code_box(code):
     return f"""<table role="presentation" border="0" cellspacing="0" cellpadding="0" style="margin:26px 0 6px">
                 <tr><td style="background:{INK_950};border-radius:18px;padding:18px 26px">
-                  <span style="font-family:{MONO};font-size:30px;font-weight:600;letter-spacing:8px;color:{ACCENT}">{code}</span>
+                  <span style="font-family:{MONO};font-size:30px;font-weight:600;letter-spacing:8px;color:{BROTO}">{code}</span>
                 </td></tr></table>"""
 
 
@@ -126,7 +126,7 @@ def render(t):
         <!-- Faixa da marca -->
         <tr><td style="background:{INK_950};border-radius:28px 28px 0 0;padding:26px 32px">
           <table role="presentation" border="0" cellspacing="0" cellpadding="0"><tr>
-            <td width="34" height="34" align="center" valign="middle" bgcolor="{ACCENT}" style="width:34px;height:34px;border-radius:11px;font-family:{FONT};font-size:17px;font-weight:800;color:{INK_950};line-height:34px">g</td>
+            <td width="34" height="34" align="center" valign="middle" bgcolor="{BROTO}" style="width:34px;height:34px;border-radius:11px;font-family:{FONT};font-size:17px;font-weight:800;color:{INK_950};line-height:34px">g</td>
             <td style="padding-left:11px;font-family:{FONT};font-size:20px;letter-spacing:-0.6px;line-height:1">
               <b style="color:#ffffff">graao</b><span style="color:{TEXT_3}">club</span>
             </td>
@@ -135,7 +135,7 @@ def render(t):
 
         <!-- Conteúdo -->
         <tr><td style="background:#ffffff;padding:36px 32px 32px;border-left:1px solid {LINE};border-right:1px solid {LINE}">
-          <p style="margin:0 0 14px;font-family:{MONO};font-size:11px;font-weight:500;letter-spacing:1.6px;text-transform:uppercase;color:{ACCENT_TEXT}">{t["eyebrow"]}</p>
+          <p style="margin:0 0 14px;font-family:{MONO};font-size:11px;font-weight:500;letter-spacing:1.6px;text-transform:uppercase;color:{BROTO_TEXT}">{t["eyebrow"]}</p>
           <h1 style="margin:0;font-family:{FONT};font-size:28px;line-height:1.15;font-weight:600;letter-spacing:-0.9px;color:{INK_950}">{t["title"]}</h1>
           <p style="margin:16px 0 0;font-family:{FONT};font-size:15.5px;line-height:1.65;color:{TEXT_2}">{t["body"]}</p>
           {action}
@@ -151,7 +151,7 @@ def render(t):
           <p style="margin:0;font-family:{FONT};font-size:12px;line-height:1.7;color:{TEXT_3}">
             <b style="color:{INK_800}">Plante. Cultive. Colha.</b><br>
             graao club · Aprenda, compartilhe e cresça com quem vive tecnologia e criatividade.<br>
-            Dúvidas? <a href="mailto:contato@graao.com" style="color:{ACCENT_TEXT}">contato@graao.com</a>
+            Dúvidas? <a href="mailto:contato@graao.com" style="color:{BROTO_TEXT}">contato@graao.com</a>
           </p>
         </td></tr>
 

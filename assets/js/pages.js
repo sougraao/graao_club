@@ -583,7 +583,7 @@
     },
     paleta: {
       html: () => `<div style="display:grid;gap:14px">
-        <div style="display:flex;gap:10px;align-items:center"><input type="color" id="pl-c" value="#fed141" aria-label="Cor base" style="width:52px;height:52px;border:0;border-radius:14px;background:none;cursor:pointer"><span class="g-pill-input" style="flex:1"><input id="pl-hex" value="#fed141" aria-label="Hex da cor base"></span></div>
+        <div style="display:flex;gap:10px;align-items:center"><input type="color" id="pl-c" value="#c5f82a" aria-label="Cor base" style="width:52px;height:52px;border:0;border-radius:14px;background:none;cursor:pointer"><span class="g-pill-input" style="flex:1"><input id="pl-hex" value="#c5f82a" aria-label="Hex da cor base"></span></div>
         <div class="g-segment" data-g-segment id="pl-mode" role="tablist"><button type="button" role="tab" aria-selected="true" data-value="analoga">Análoga</button><button type="button" role="tab" aria-selected="false" data-value="complementar">Complementar</button><button type="button" role="tab" aria-selected="false" data-value="tons">Tons</button></div>
         <div class="swatches" id="pl-out"></div><p class="g-caption">Toque numa cor para copiar o código.</p></div>`,
       wire: (w) => {

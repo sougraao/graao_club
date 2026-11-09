@@ -1,6 +1,6 @@
 # E-mails de autenticação do graao club
 
-Modelos em português no visual do design system (faixa grafite, marca, botão Limoncello, aviso de segurança).
+Modelos em português no visual do design system (faixa grafite, marca, botão Broto, aviso de segurança).
 Gerados por [`_build.py`](_build.py) a partir de um layout único — **edite o script, não os .html**, e rode:
 
 ```bash
@@ -50,4 +50,4 @@ A senha do SMTP fica só no painel do Supabase — nunca no repositório.
 
 ## Logo
 
-E-mail não exibe SVG (Gmail/Outlook). Por enquanto a marca é feita com texto e um quadrado Limoncello. Quando o site estiver no domínio final (Vercel), troque por um PNG hospedado (`assets/img/graao-mark@2x.png`, 68×68) no `_build.py`.
+E-mail não exibe SVG (Gmail/Outlook). Por enquanto a marca é feita com texto e um quadrado Broto. Quando o site estiver no domínio final (Vercel), troque por um PNG hospedado (`assets/img/graao-mark@2x.png`, 68×68) no `_build.py`.
