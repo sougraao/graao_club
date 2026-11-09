@@ -1,0 +1,7 @@
+# Quebras de linha padronizadas (LF) no repositório, em qualquer sistema
+* text=auto eol=lf
+*.svg text eol=lf
+*.png binary
+*.jpg binary
+*.webp binary
+*.woff2 binary

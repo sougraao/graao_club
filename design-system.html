@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark" data-g-smooth="0.1">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Safra · Design System graao</title>
+  <meta name="description" content="Design system do graao club: tokens, componentes e micro-interações.">
+  <link rel="icon" href="assets/img/graao-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/graao-ds.css">
+  <script>try{var t=JSON.parse(localStorage.getItem("graao:ds-theme"));if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+  <script src="assets/js/graao-icons.js" defer></script>
+  <script src="assets/js/graao-ds.js" defer></script>
+  <style>
+    /* Layout da documentação (não faz parte do sistema) */
+    .doc { display: grid; grid-template-columns: 240px minmax(0, 1fr); min-height: 100vh; }
+    .doc-nav { position: sticky; top: 0; height: 100vh; overflow: auto; padding: 24px 16px; border-right: 1px solid var(--g-line); background: var(--g-canvas); }
+    .doc-brand { display: flex; align-items: center; gap: 10px; padding: 0 12px 20px; font-size: 18px; letter-spacing: -.03em; }
+    .doc-brand img { width: 30px; height: 30px; }
+    .doc-brand span { color: var(--g-text-3); font-weight: 400; }
+    .doc-main { padding: 28px clamp(16px, 4vw, 56px) 120px; max-width: 1240px; }
+    .doc-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+    .doc-hero { position: relative; overflow: hidden; border-radius: var(--g-radius-2xl); padding: clamp(28px, 5vw, 64px); background: var(--g-surface-grad); border: 1px solid var(--g-line); box-shadow: var(--g-highlight); }
+    .doc-hero::before { content: ""; position: absolute; right: -10%; top: -40%; width: 60%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, #c5f82a33, transparent 70%); }
+    .doc-hero > * { position: relative; }
+    .doc-hero img.obj { position: absolute; right: 6%; top: 50%; width: clamp(90px, 14vw, 170px); transform: translateY(-50%) rotate(-12deg); filter: drop-shadow(0 30px 30px #0008); animation: float 7s ease-in-out infinite; }
+    @keyframes float { 50% { transform: translateY(-56%) rotate(-6deg); } }
+    section.ds { padding-top: 88px; scroll-margin-top: 20px; }
+    .ds-head { display: grid; gap: 10px; margin-bottom: 28px; max-width: 760px; }
+    .grid { display: grid; gap: 16px; }
+    .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .demo { display: grid; gap: 18px; align-content: start; }
+    .demo-stage { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; min-height: 120px; padding: 28px; border-radius: var(--g-radius-lg); background: var(--g-canvas); border: 1px solid var(--g-line); }
+    .demo-stage.center { justify-content: center; }
+    .demo-label { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; }
+    .demo-label code { font-family: var(--g-font-mono); font-size: 12px; color: var(--g-text-3); }
+    .swatch { border-radius: var(--g-radius-md); overflow: hidden; border: 1px solid var(--g-line); background: var(--g-surface); }
+    .swatch i { display: block; height: 84px; }
+    .swatch div { padding: 10px 12px; display: grid; gap: 2px; font-size: 12px; }
+    .swatch code { font-family: var(--g-font-mono); color: var(--g-text-3); font-size: 11px; }
+    .type-row { display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid var(--g-line); }
+    .type-row code { font-family: var(--g-font-mono); font-size: 12px; color: var(--g-text-3); }
+    .space-bar { height: 14px; border-radius: 4px; background: var(--g-accent); }
+    .radius-box { width: 100%; aspect-ratio: 1; background: var(--g-surface-raised); border: 1px solid var(--g-line-strong); display: grid; place-items: end start; padding: 10px; font-family: var(--g-font-mono); font-size: 11px; color: var(--g-text-3); }
+    .rule { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .rule > div { padding: 16px; border-radius: var(--g-radius-md); font-size: 14px; line-height: 1.55; }
+    .rule .do { background: var(--g-accent-soft); }
+    .rule .dont { background: color-mix(in srgb, var(--g-danger) 12%, transparent); }
+    .rule b { display: block; margin-bottom: 4px; font-size: 12px; font-family: var(--g-font-mono); letter-spacing: .1em; text-transform: uppercase; }
+    .mobile-nav { display: none; }
+    .doc > *, .grid > *, .demo > *, .type-row > * { min-width: 0; }
+    .demo-stage { overflow-x: auto; }
+    .type-row span { overflow-wrap: anywhere; }
+    .m-phone { width: min(300px, 100%); margin: 0 auto; aspect-ratio: 9 / 18.5; padding: 9px; border-radius: 44px; background: var(--g-ink-1000); box-shadow: var(--g-shadow-3), inset 0 0 0 1px #ffffff1a; }
+    .m-screen { position: relative; height: 100%; overflow: hidden; border-radius: 36px; background: var(--g-canvas); border: 1px solid var(--g-line); }
+    .m-screen::before { content: ""; position: absolute; z-index: 5; top: 10px; left: 50%; transform: translateX(-50%); width: 80px; height: 22px; border-radius: 99px; background: #000; }
+    @media (max-width: 1000px) { .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .g3 { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 860px) {
+      .doc { grid-template-columns: 1fr; }
+      .doc-nav { display: none; }
+      .mobile-nav { display: flex; }
+      .g2, .g3 { grid-template-columns: 1fr; }
+      .type-row { grid-template-columns: 1fr; gap: 6px; }
+      .rule { grid-template-columns: 1fr; }
+      .doc-hero img.obj { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="g-scroll-progress" data-g-scroll-progress aria-hidden="true"></div>
+<div class="doc">
+  <aside class="doc-nav" aria-label="Seções do design system">
+    <a class="doc-brand" href="index.html"><img src="assets/img/graao-mark.svg" alt=""><b>graao</b><span>safra</span></a>
+    <nav class="g-sidenav" data-g-spotlight>
+      <span class="g-sidenav__label">Fundamentos</span>
+      <a href="#principios" aria-current="page"><svg class="g-icon" aria-hidden="true"><use href="#i-seed"/></svg>Princípios</a>
+      <a href="#cores"><svg class="g-icon" aria-hidden="true"><use href="#i-palette"/></svg>Cores</a>
+      <a href="#tipografia"><svg class="g-icon" aria-hidden="true"><use href="#i-book"/></svg>Tipografia</a>
+      <a href="#forma"><svg class="g-icon" aria-hidden="true"><use href="#i-layers"/></svg>Espaço e forma</a>
+      <a href="#movimento"><svg class="g-icon" aria-hidden="true"><use href="#i-activity"/></svg>Movimento</a>
+      <a href="#rolagem"><svg class="g-icon" aria-hidden="true"><use href="#i-arrow-down"/></svg>Rolagem</a>
+      <span class="g-sidenav__label">Componentes</span>
+      <a href="#botoes"><svg class="g-icon" aria-hidden="true"><use href="#i-sparkles"/></svg>Botões</a>
+      <a href="#formularios"><svg class="g-icon" aria-hidden="true"><use href="#i-sliders"/></svg>Formulários</a>
+      <a href="#navegacao"><svg class="g-icon" aria-hidden="true"><use href="#i-menu"/></svg>Navegação</a>
+      <a href="#dados"><svg class="g-icon" aria-hidden="true"><use href="#i-activity"/></svg>Dados</a>
+      <a href="#dados-densos"><svg class="g-icon" aria-hidden="true"><use href="#i-layers"/></svg>Dados densos</a>
+      <a href="#superficies"><svg class="g-icon" aria-hidden="true"><use href="#i-grid"/></svg>Superfícies</a>
+      <a href="#midia"><svg class="g-icon" aria-hidden="true"><use href="#i-image"/></svg>Mídia</a>
+      <a href="#feedback"><svg class="g-icon" aria-hidden="true"><use href="#i-bell"/></svg>Feedback</a>
+      <a href="#mobile"><svg class="g-icon" aria-hidden="true"><use href="#i-phone"/></svg>Mobile</a>
+    </nav>
+  </aside>
+
+  <main class="doc-main">
+    <div class="doc-top">
+      <span class="g-eyebrow">graao club · design system v1.0</span>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="g-segment" data-g-segment id="theme-seg" role="tablist" aria-label="Modo de cor">
+          <button type="button" role="tab" data-value="dark" aria-selected="true"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-moon"/></svg>Noite</button>
+          <button type="button" role="tab" data-value="light" aria-selected="false"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-sun"/></svg>Dia</button>
+        </div>
+      </div>
+    </div>
+
+    <header class="doc-hero">
+      <img class="obj" src="assets/img/obj-grao.svg" alt="">
+      <span class="g-eyebrow">Safra · v1.0</span>
+      <h1 class="g-display" style="margin-top:16px;max-width:9ch">Detalhe é <span class="g-accent-text">colheita.</span></h1>
+      <p class="g-lead" style="margin-top:20px;max-width:54ch">A linguagem visual do graao club: grafite profundo, broto neon, números leves, mídia vibrante e micro-interações que respondem a cada gesto. Toda tela nova nasce daqui.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:28px">
+        <a class="g-btn g-btn--accent g-btn--lg g-btn--arrow" href="#botoes">Ver componentes <svg class="g-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        <a class="g-btn g-btn--lg" href="DESIGN_SYSTEM.md">Ler as regras <svg class="g-icon" aria-hidden="true"><use href="#i-book"/></svg></a>
+      </div>
+    </header>
+
+    <!-- PRINCÍPIOS -->
+    <section class="ds" id="principios">
+      <div class="ds-head"><span class="g-eyebrow">01 · Fundamentos</span><h2 class="g-h2">Princípios</h2></div>
+      <div class="grid g2">
+        <article class="g-card"><span class="g-badge g-badge--soft">Contraste de superfícies</span><h3 class="g-h4" style="margin-top:14px">Noite com ilhas de luz</h3><p class="g-body" style="margin-top:6px">O app vive no grafite. O que pede atenção vira superfície invertida (pílula branca, sheet clara) ou ganha o broto. Nunca dois focos lima na mesma área.</p></article>
+        <article class="g-card"><span class="g-badge g-badge--soft">Números leves</span><h3 class="g-h4" style="margin-top:14px">Dados grandes, peso 300</h3><p class="g-body" style="margin-top:6px">Valores são protagonistas: grandes, leves, tabulares, com unidade pequena e apagada ao lado.</p></article>
+        <article class="g-card"><span class="g-badge g-badge--soft">Tudo é pílula</span><h3 class="g-h4" style="margin-top:14px">Formas macias</h3><p class="g-body" style="margin-top:6px">Botões, filtros, badges e linhas selecionadas são pílulas. Cards usam 24–32px. Ícones de ação ficam em círculos com borda fina.</p></article>
+        <article class="g-card"><span class="g-badge g-badge--soft">Gesto tem resposta</span><h3 class="g-h4" style="margin-top:14px">Micro-interação em tudo que se toca</h3><p class="g-body" style="margin-top:6px">Indicadores deslizam, setas avançam, contadores sobem. Movimento curto, com desaceleração suave, e respeitando "reduzir movimento".</p></article>
+      </div>
+    </section>
+
+    <!-- CORES -->
+    <section class="ds" id="cores">
+      <div class="ds-head"><span class="g-eyebrow">02 · Fundamentos</span><h2 class="g-h2">Cores</h2><p class="g-body">Use sempre os tokens semânticos (<code class="g-mono">--g-surface</code>, <code class="g-mono">--g-accent</code>…). Eles trocam sozinhos entre Noite e Dia.</p></div>
+      <h3 class="g-h4" style="margin-bottom:14px">Broto — acento da marca</h3>
+      <div class="grid g4">
+        <div class="swatch"><i style="background:var(--g-broto-500)"></i><div><b>Broto 500</b><code>#C5F82A · --g-accent</code></div></div>
+        <div class="swatch"><i style="background:var(--g-broto-400)"></i><div><b>Broto 400</b><code>#D2FF4F · hover</code></div></div>
+        <div class="swatch"><i style="background:var(--g-broto-600)"></i><div><b>Broto 600</b><code>#A9DC12 · press</code></div></div>
+        <div class="swatch"><i style="background:var(--g-broto-800)"></i><div><b>Broto 800</b><code>#4D6B00 · texto no Dia</code></div></div>
+      </div>
+      <h3 class="g-h4" style="margin:28px 0 14px">Superfícies (semânticas)</h3>
+      <div class="grid g4">
+        <div class="swatch"><i style="background:var(--g-bg)"></i><div><b>bg</b><code>--g-bg</code></div></div>
+        <div class="swatch"><i style="background:var(--g-canvas)"></i><div><b>canvas</b><code>--g-canvas</code></div></div>
+        <div class="swatch"><i style="background:var(--g-surface)"></i><div><b>surface</b><code>--g-surface</code></div></div>
+        <div class="swatch"><i style="background:var(--g-surface-raised)"></i><div><b>raised</b><code>--g-surface-raised</code></div></div>
+        <div class="swatch"><i style="background:var(--g-inverse)"></i><div><b>inverse</b><code>--g-inverse</code></div></div>
+        <div class="swatch"><i style="background:var(--g-text)"></i><div><b>text</b><code>--g-text</code></div></div>
+        <div class="swatch"><i style="background:var(--g-text-2)"></i><div><b>text-2</b><code>--g-text-2</code></div></div>
+        <div class="swatch"><i style="background:var(--g-line-strong)"></i><div><b>line</b><code>--g-line(-strong)</code></div></div>
+      </div>
+      <h3 class="g-h4" style="margin:28px 0 14px">Safra — gradientes de mídia</h3>
+      <div class="grid g3">
+        <div class="swatch"><i style="background:var(--g-safra-lima);height:110px"></i><div><b>Lima</b><code>--g-safra-lima</code></div></div>
+        <div class="swatch"><i style="background:var(--g-safra-mar);height:110px"></i><div><b>Mar</b><code>--g-safra-mar</code></div></div>
+        <div class="swatch"><i style="background:var(--g-safra-brasa);height:110px"></i><div><b>Brasa</b><code>--g-safra-brasa</code></div></div>
+        <div class="swatch"><i style="background:var(--g-safra-sol);height:110px"></i><div><b>Sol</b><code>--g-safra-sol</code></div></div>
+        <div class="swatch"><i style="background:var(--g-safra-uva);height:110px"></i><div><b>Uva</b><code>--g-safra-uva</code></div></div>
+        <div class="swatch"><i style="background:var(--g-safra-noite);height:110px"></i><div><b>Noite</b><code>--g-safra-noite</code></div></div>
+      </div>
+      <div class="rule" style="margin-top:20px">
+        <div class="do"><b>Faça</b>Lima como preenchimento (botão, barra, item ativo) com texto grafite por cima.</div>
+        <div class="dont"><b>Evite</b>Lima como cor de texto sobre fundo claro — use <code class="g-mono">--g-accent-text</code>, que escurece no Dia.</div>
+      </div>
+    </section>
+
+    <!-- TIPOGRAFIA -->
+    <section class="ds" id="tipografia">
+      <div class="ds-head"><span class="g-eyebrow">03 · Fundamentos</span><h2 class="g-h2">Tipografia</h2><p class="g-body">Geist para tudo; Geist Mono para rótulos técnicos, códigos e eyebrows. Títulos com tracking negativo, números em peso 300.</p></div>
+      <div class="type-row"><code>.g-display</code><span class="g-display">Plante.</span></div>
+      <div class="type-row"><code>.g-h1</code><span class="g-h1">Cultive todo dia</span></div>
+      <div class="type-row"><code>.g-h2</code><span class="g-h2">Colha resultados</span></div>
+      <div class="type-row"><code>.g-h3</code><span class="g-h3">Primeiros passos</span></div>
+      <div class="type-row"><code>.g-h4</code><span class="g-h4">Novas aulas</span></div>
+      <div class="type-row"><code>.g-body</code><span class="g-body">Aprenda no seu ritmo com trilhas completas e uma comunidade que troca de verdade.</span></div>
+      <div class="type-row"><code>.g-eyebrow</code><span class="g-eyebrow">Seu próximo passo</span></div>
+      <div class="type-row"><code>.g-num--xl</code><span class="g-num g-num--xl"><small>R$</small>31.211<small>,00</small></span></div>
+      <div class="type-row"><code>.g-num</code><span class="g-num">12 <small>dias</small></span></div>
+    </section>
+
+    <!-- FORMA -->
+    <section class="ds" id="forma">
+      <div class="ds-head"><span class="g-eyebrow">04 · Fundamentos</span><h2 class="g-h2">Espaço e forma</h2><p class="g-body">Grade de 4px. Raio cresce com o tamanho do elemento: controles em pílula, cards 24px, seções 32–44px.</p></div>
+      <div class="grid g2">
+        <div class="g-card demo">
+          <h3 class="g-h4">Espaço</h3>
+          <div style="display:grid;gap:10px">
+            <div style="display:grid;grid-template-columns:70px 1fr;align-items:center;gap:12px"><code class="g-mono g-caption">4</code><div class="space-bar" style="width:4px"></div></div>
+            <div style="display:grid;grid-template-columns:70px 1fr;align-items:center;gap:12px"><code class="g-mono g-caption">8</code><div class="space-bar" style="width:8px"></div></div>
+            <div style="display:grid;grid-template-columns:70px 1fr;align-items:center;gap:12px"><code class="g-mono g-caption">16</code><div class="space-bar" style="width:16px"></div></div>
+            <div style="display:grid;grid-template-columns:70px 1fr;align-items:center;gap:12px"><code class="g-mono g-caption">24</code><div class="space-bar" style="width:24px"></div></div>
+            <div style="display:grid;grid-template-columns:70px 1fr;align-items:center;gap:12px"><code class="g-mono g-caption">40</code><div class="space-bar" style="width:40px"></div></div>
+            <div style="display:grid;grid-template-columns:70px 1fr;align-items:center;gap:12px"><code class="g-mono g-caption">64</code><div class="space-bar" style="width:64px"></div></div>
+            <div style="display:grid;grid-template-columns:70px 1fr;align-items:center;gap:12px"><code class="g-mono g-caption">96</code><div class="space-bar" style="width:96px"></div></div>
+          </div>
+        </div>
+        <div class="g-card demo">
+          <h3 class="g-h4">Raios</h3>
+          <div class="grid g4" style="gap:10px">
+            <div class="radius-box" style="border-radius:var(--g-radius-xs)">8</div>
+            <div class="radius-box" style="border-radius:var(--g-radius-sm)">12</div>
+            <div class="radius-box" style="border-radius:var(--g-radius-md)">18</div>
+            <div class="radius-box" style="border-radius:var(--g-radius-lg)">24</div>
+            <div class="radius-box" style="border-radius:var(--g-radius-xl)">32</div>
+            <div class="radius-box" style="border-radius:var(--g-radius-2xl)">44</div>
+            <div class="radius-box" style="border-radius:999px;aspect-ratio:2/1;grid-column:span 2;place-items:center">pill</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOVIMENTO -->
+    <section class="ds" id="movimento">
+      <div class="ds-head"><span class="g-eyebrow">05 · Fundamentos</span><h2 class="g-h2">Movimento</h2><p class="g-body">Saída rápida e pouso suave. Mola só em coisas pequenas que "quicam" (checkbox, avatar, carta que sobe).</p></div>
+      <div class="grid g3">
+        <div class="g-card"><code class="g-mono g-caption">--g-ease-out</code><p class="g-h4" style="margin-top:8px">cubic-bezier(.16,1,.3,1)</p><p class="g-body" style="margin-top:6px">Padrão para deslizes, indicadores, reveals.</p></div>
+        <div class="g-card"><code class="g-mono g-caption">--g-ease-spring</code><p class="g-h4" style="margin-top:8px">cubic-bezier(.34,1.56,.64,1)</p><p class="g-body" style="margin-top:6px">Quiques curtos: check, toast, card que sobe.</p></div>
+        <div class="g-card"><code class="g-mono g-caption">Durações</code><p class="g-h4" style="margin-top:8px">120 · 200 · 320 · 560 · 900ms</p><p class="g-body" style="margin-top:6px">Cor 200 · posição 320–560 · números 900+.</p></div>
+      </div>
+    </section>
+
+    <!-- ROLAGEM -->
+    <section class="ds" id="rolagem">
+      <div class="ds-head"><span class="g-eyebrow">05b · Fundamentos</span><h2 class="g-h2">Rolagem</h2><p class="g-body">Barra fina nos tokens (acende em lima ao arrastar) em toda a página e áreas internas. Rolagem suave com inércia via <code class="g-mono">&lt;html data-g-smooth&gt;</code> — esta página já usa. Repare na linha lima no topo: progresso de leitura.</p></div>
+      <div class="grid g2">
+        <div class="demo"><div class="g-card g-scroll" style="height:220px;display:grid;gap:8px;align-content:start">
+          <p class="g-h4">Área rolável interna</p>
+          <p class="g-body">A rolagem com inércia é desligada automaticamente dentro de áreas roláveis, para que elas rolem de forma nativa e previsível.</p>
+          <div class="g-skeleton" style="height:12px"></div><div class="g-skeleton" style="height:12px;width:80%"></div><div class="g-skeleton" style="height:12px;width:60%"></div><div class="g-skeleton" style="height:12px"></div><div class="g-skeleton" style="height:12px;width:70%"></div><div class="g-skeleton" style="height:12px;width:90%"></div><div class="g-skeleton" style="height:12px;width:50%"></div><div class="g-skeleton" style="height:12px"></div><div class="g-skeleton" style="height:12px;width:75%"></div>
+        </div><div class="demo-label"><b>Barra personalizada</b><code>.g-scroll</code></div></div>
+        <div class="demo"><div class="g-card" style="padding:16px 0 16px 16px"><div class="g-scroll--x g-scroll--fade" style="display:flex;gap:12px;padding:4px 16px 12px 4px">
+          <div class="g-cover g-cover--lima" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--mar" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--sol" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--brasa" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--uva" style="flex:none;width:150px;height:170px"></div><div class="g-cover g-cover--noite" style="flex:none;width:150px;height:170px"></div>
+        </div></div><div class="demo-label"><b>Trilho horizontal com encaixe</b><code>.g-scroll--x .g-scroll--fade</code></div></div>
+      </div>
+      <div class="rule" style="margin-top:16px">
+        <div class="do"><b>Faça</b>Use <code class="g-mono">data-g-smooth</code> no site público e em páginas longas de leitura. Use <code class="g-mono">G.smooth.to(y)</code> para rolar via código.</div>
+        <div class="dont"><b>Evite</b>Ligar a inércia em telas de trabalho densas do app (listas, formulários). Lá, só a barra personalizada e o scroll nativo.</div>
+      </div>
+    </section>
+
+    <!-- BOTÕES -->
+    <section class="ds" id="botoes">
+      <div class="ds-head"><span class="g-eyebrow">06 · Componentes</span><h2 class="g-h2">Botões</h2><p class="g-body">Uma ação principal (lima) por área. Passe o mouse para ver as micro-interações.</p></div>
+      <div class="grid g2">
+        <div class="demo"><div class="demo-stage"><button class="g-btn g-btn--accent g-btn--arrow">Começar agora <svg class="g-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button><button class="g-btn g-btn--solid">Selecionar plano</button><button class="g-btn">Saiba mais</button><button class="g-btn g-btn--quiet">Cancelar</button></div><div class="demo-label"><b>Variantes</b><code>.g-btn--accent · --solid · padrão · --quiet</code></div></div>
+        <div class="demo"><div class="demo-stage"><button class="g-btn g-btn--sm">Pequeno</button><button class="g-btn">Médio</button><button class="g-btn g-btn--lg">Grande</button><button class="g-btn" disabled>Desabilitado</button></div><div class="demo-label"><b>Tamanhos</b><code>--sm 32 · md 40 · --lg 52</code></div></div>
+        <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--lg g-btn--swap"><span class="g-btn__orb"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>Entrar para o clube</button></div><div class="demo-label"><b>Circle swap</b><code>.g-btn--swap</code></div></div>
+        <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--lg g-btn--solid"><span class="g-roll"><span>Ver trilhas</span><span>Ver trilhas</span></span><svg class="g-icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></button></div><div class="demo-label"><b>Text roll</b><code>.g-roll</code></div></div>
+        <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--lg g-btn--shine g-btn--accent">ASSINAR COLHEITA</button></div><div class="demo-label"><b>Shine</b><code>.g-btn--shine</code></div></div>
+        <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--lg g-btn--hold" data-g-hold="1200" data-done="Excluído"><svg class="g-icon" aria-hidden="true"><use href="#i-trash"/></svg><span data-label>Segure para excluir</span></button></div><div class="demo-label"><b>Hold to confirm</b><code>data-g-hold="1200"</code></div></div>
+        <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--lg g-btn--soft" data-g-magnetic=".25" style="position:relative" data-g-glow>Botão magnético</button></div><div class="demo-label"><b>Magnético + borda luminosa</b><code>data-g-magnetic · data-g-glow</code></div></div>
+        <div class="demo"><div class="demo-stage center"><button class="g-icon-btn" aria-label="Voltar"><svg class="g-icon" aria-hidden="true"><use href="#i-arrow-left"/></svg></button><button class="g-icon-btn" aria-label="Notificações"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-bell"/></svg><span class="g-dot">2</span></button><button class="g-icon-btn g-icon-btn--accent" aria-label="Adicionar"><svg class="g-icon" aria-hidden="true"><use href="#i-plus"/></svg></button><button class="g-icon-btn g-icon-btn--lg" aria-label="Abrir"><svg class="g-icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></button></div><div class="demo-label"><b>Botões de ícone</b><code>.g-icon-btn</code></div></div>
+      </div>
+    </section>
+
+    <!-- FORMULÁRIOS -->
+    <section class="ds" id="formularios">
+      <div class="ds-head"><span class="g-eyebrow">07 · Componentes</span><h2 class="g-h2">Formulários</h2></div>
+      <div class="grid g2">
+        <div class="demo"><div class="demo-stage" style="display:grid"><div class="g-field"><input type="text" placeholder=" " id="ds-name"><label for="ds-name">Nome do projeto</label></div><div class="g-field"><input type="email" placeholder=" " id="ds-mail" value="voce@graao.com"><label for="ds-mail">E-mail</label></div></div><div class="demo-label"><b>Campo com rótulo flutuante</b><code>.g-field</code></div></div>
+        <div class="demo"><div class="demo-stage"><span class="g-pill-input"><select aria-label="Trilha"><option>Todas as trilhas</option><option>Design</option><option>Formação IA</option></select><span class="g-pill-input__end"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></span><span class="g-pill-input"><input type="text" placeholder="Buscar aula…" aria-label="Buscar aula"><span class="g-pill-input__end"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-search"/></svg></span></span><span class="g-pill-input"><span style="color:var(--g-text)">Novembro 2026</span><span class="g-pill-input__end"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-calendar"/></svg></span></span></div><div class="demo-label"><b>Pílulas de filtro</b><code>.g-pill-input</code></div></div>
+        <div class="demo"><div class="demo-stage" style="display:grid;gap:14px"><label class="g-check"><input type="checkbox" checked><span class="g-check__box"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7"/></svg></span><span class="g-check__label">Assistir aula 1</span></label><label class="g-check"><input type="checkbox"><span class="g-check__box"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7"/></svg></span><span class="g-check__label">Publicar primeiro projeto</span></label></div><div class="demo-label"><b>Checkbox com quique</b><code>.g-check</code></div></div>
+        <div class="demo"><div class="demo-stage" style="gap:28px"><label class="g-switch"><input type="checkbox" checked><span class="g-switch__track"></span>Notificações</label><label class="g-switch"><input type="checkbox"><span class="g-switch__track"></span>Resumo semanal</label><div class="g-scrub" data-g-scrub data-min="0" data-max="200" data-step="1"><span class="g-scrub__label">Meta / semana</span><span class="g-scrub__value">48</span><span class="g-scrub__label">min</span></div></div><div class="demo-label"><b>Switch · número arrastável</b><code>.g-switch · data-g-scrub</code></div></div>
+      </div>
+    </section>
+
+    <!-- NAVEGAÇÃO -->
+    <section class="ds" id="navegacao">
+      <div class="ds-head"><span class="g-eyebrow">08 · Componentes</span><h2 class="g-h2">Navegação</h2></div>
+      <div class="grid g2">
+        <div class="demo"><div class="demo-stage center" style="flex-direction:column"><div class="g-segment g-segment--inverse" data-g-segment role="tablist"><button role="tab" aria-selected="false">Trilhas</button><button role="tab" aria-selected="true">+ Aulas</button><button role="tab" aria-selected="false">Projetos</button><button role="tab" aria-selected="false">Eventos</button></div><div class="g-segment" data-g-segment role="tablist"><button role="tab" aria-selected="true">Todas</button><button role="tab" aria-selected="false">Rascunho <span class="g-count">3</span></button><button role="tab" aria-selected="false">Publicadas <span class="g-count">5</span></button></div></div><div class="demo-label"><b>Segmento deslizante</b><code>.g-segment[data-g-segment]</code></div></div>
+        <div class="demo"><div class="demo-stage" style="display:block"><div class="g-tabs" data-g-tabs role="tablist"><button role="tab" aria-selected="true">Publicações</button><button role="tab" aria-selected="false">Certificados</button><button role="tab" aria-selected="false">Sobre</button></div><div style="margin-top:22px;display:flex;justify-content:center"><div class="g-icon-tabs" role="tablist"><button role="tab" aria-selected="true"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-grid"/></svg><span>Visão geral</span></button><button role="tab" aria-selected="false"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-activity"/></svg><span>Atividade</span></button><button role="tab" aria-selected="false"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-users"/></svg><span>Membros</span></button><button role="tab" aria-selected="false"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-tag"/></svg><span>Planos</span></button></div></div></div><div class="demo-label"><b>Tabs sublinhadas · abas de ícone</b><code>.g-tabs · .g-icon-tabs</code></div></div>
+        <div class="demo"><div class="demo-stage" style="display:block;max-width:300px"><nav class="g-sidenav" data-g-spotlight><a href="#navegacao" aria-current="page"><svg class="g-icon" aria-hidden="true"><use href="#i-grid"/></svg>Dashboard</a><a href="#navegacao"><svg class="g-icon" aria-hidden="true"><use href="#i-play"/></svg>Conteúdos</a><a href="#navegacao"><svg class="g-icon" aria-hidden="true"><use href="#i-message"/></svg>Comunidade</a><a href="#navegacao"><svg class="g-icon" aria-hidden="true"><use href="#i-star"/></svg>Ranking</a></nav></div><div class="demo-label"><b>Navegação com spotlight</b><code>.g-sidenav[data-g-spotlight]</code></div></div>
+        <div class="demo"><div class="demo-stage center" style="min-height:300px"><div class="g-menu" data-g-glide role="menu"><p class="g-menu__title">Ações da trilha</p><button class="g-menu__item" role="menuitem"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-users"/></svg>Convidar pessoas<kbd>@</kbd></button><button class="g-menu__item" role="menuitem"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-bookmark"/></svg>Salvar<kbd>S</kbd></button><button class="g-menu__item" role="menuitem"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-share"/></svg>Compartilhar<kbd>⌘C</kbd></button><div class="g-menu__sep"></div><button class="g-menu__item" role="menuitem"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-archive"/></svg>Arquivar</button></div></div><div class="demo-label"><b>Menu com destaque deslizante</b><code>.g-menu[data-g-glide]</code></div></div>
+      </div>
+    </section>
+
+    <!-- DADOS -->
+    <section class="ds" id="dados">
+      <div class="ds-head"><span class="g-eyebrow">09 · Componentes</span><h2 class="g-h2">Dados</h2></div>
+      <div class="g-card" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px">
+        <div class="g-stat"><span class="g-stat__label">Horas estudadas</span><span class="g-num g-num--lg"><span data-g-count="128" data-duration="1200">128</span><small>h</small></span><div class="g-progress"><div class="g-progress__fill" style="--v:72%"></div></div><span class="g-stat__meta">Set — Out <span class="g-delta">+12,4%</span></span></div>
+        <div class="g-stat"><span class="g-stat__label">Membros ativos</span><span class="g-num g-num--lg"><span data-g-count="48290">48.290</span></span><div class="g-avatar-stack"><span class="g-avatar g-avatar--sm" style="--i:0;background:var(--g-safra-lima)">M</span><span class="g-avatar g-avatar--sm" style="--i:1;background:var(--g-safra-mar)">R</span><span class="g-avatar g-avatar--sm" style="--i:2;background:var(--g-safra-sol)">J</span><span class="g-avatar g-avatar--sm" style="--i:3;background:var(--g-safra-brasa)">T</span></div></div>
+        <div class="g-stat"><span class="g-stat__label">Tempo médio por aula</span><span class="g-num g-num--lg">12 <small>min</small></span><div style="display:flex;gap:14px;align-items:center"><div class="g-ring" data-g-ring="64"><span>64%</span></div><span class="g-caption">da trilha concluída</span></div></div>
+      </div>
+      <div class="grid g2" style="margin-top:16px">
+        <div class="g-card" style="display:grid;gap:4px">
+          <h3 class="g-h4" style="margin-bottom:10px">Lista selecionável</h3>
+          <button class="g-row"><span class="g-avatar" style="background:var(--g-safra-mar)">RN</span><span><span class="g-row__title">Rafael Nunes</span><br><span class="g-row__sub">há 2 dias</span></span><span class="g-badge g-badge--sm">Visto</span><span class="g-num g-num--sm">54 <small>pts</small></span></button>
+          <button class="g-row" aria-selected="true"><span class="g-avatar" style="background:var(--g-safra-lima)">MD</span><span><span class="g-row__title">Marina Duarte</span><br><span class="g-row__sub">há 5 dias</span></span><span class="g-badge g-badge--sm">Novo</span><span class="g-num g-num--sm">96 <small>pts</small></span></button>
+          <button class="g-row"><span class="g-avatar" style="background:var(--g-safra-sol)">JC</span><span><span class="g-row__title">Júlia Campos</span><br><span class="g-row__sub">há 1 semana</span></span><span class="g-badge g-badge--sm">Visto</span><span class="g-num g-num--sm">40 <small>pts</small></span></button>
+        </div>
+        <div class="g-card" style="display:grid;gap:14px;align-content:start">
+          <div style="display:flex;justify-content:space-between;align-items:start"><div><span class="g-stat__label">Pontos disponíveis</span><div class="g-num g-num--lg" style="margin-top:8px">2.140 <small>pts</small></div></div><button class="g-icon-btn" aria-label="Detalhes"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></button></div>
+          <div class="g-stack-cards"><button class="g-stack-card" aria-pressed="false"><b>Semente</b>grátis</button><button class="g-stack-card" aria-pressed="true"><b>Broto</b>mais escolhido</button><button class="g-stack-card" aria-pressed="false"><b>Colheita</b>tudo liberado</button></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="g-badge g-badge--accent">Ativo</span><span class="g-badge g-badge--inverse">Não enviado</span><span class="g-badge">Visto</span><span class="g-badge g-badge--soft"><span class="g-pulse"></span>Ao vivo</span><span class="g-badge g-badge--success">Concluído</span><span class="g-badge g-badge--danger">Expirado</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DADOS DENSOS -->
+    <section class="ds" id="dados-densos">
+      <div class="ds-head"><span class="g-eyebrow">09b · Componentes</span><h2 class="g-h2">Dados densos (admin)</h2><p class="g-body">Tabela que vira lista no celular, status com texto, gráfico de barras com tooltip.</p></div>
+      <div class="grid g2">
+        <div class="g-table-wrap"><table class="g-table g-table--stack"><thead><tr><th>Trilha</th><th>Status</th><th class="g-table__num">Inscritos</th></tr></thead><tbody>
+          <tr><td><b>Comece Aqui</b></td><td data-label="Status"><span class="g-status g-status--on">publicado</span></td><td class="g-table__num" data-label="Inscritos">980</td></tr>
+          <tr><td><b>Formação IA</b></td><td data-label="Status"><span class="g-status g-status--info">beta</span></td><td class="g-table__num" data-label="Inscritos">520</td></tr>
+          <tr aria-selected="true"><td><b>Web Start</b></td><td data-label="Status"><span class="g-status g-status--warn">em revisão</span></td><td class="g-table__num" data-label="Inscritos">412</td></tr>
+          <tr><td><b>No-code</b></td><td data-label="Status"><span class="g-status">rascunho</span></td><td class="g-table__num" data-label="Inscritos">—</td></tr>
+        </tbody></table></div>
+        <div class="g-card"><div style="display:flex;justify-content:space-between;align-items:center"><b>Novos membros</b><span class="g-delta">+42%</span></div>
+          <div class="g-bars-wrap"><div class="g-bars" style="--max:126"><div class="g-bar" style="--v:42" data-label="S1" data-value="42"></div><div class="g-bar" style="--v:58" data-label="S2" data-value="58"></div><div class="g-bar" style="--v:51" data-label="S3" data-value="51"></div><div class="g-bar" style="--v:73" data-label="S4" data-value="73"></div><div class="g-bar" style="--v:88" data-label="S5" data-value="88"></div><div class="g-bar" style="--v:94" data-label="S6" data-value="94"></div><div class="g-bar is-peak" style="--v:126" data-label="S7" data-value="126"></div></div></div></div>
+      </div>
+      <div class="demo-label" style="margin-top:12px"><b>Tabela · status · barras</b><code>.g-table .g-status .g-bars</code></div>
+    </section>
+
+    <!-- SUPERFÍCIES -->
+    <section class="ds" id="superficies">
+      <div class="ds-head"><span class="g-eyebrow">10 · Componentes</span><h2 class="g-h2">Superfícies</h2><p class="g-body">Card padrão, card dentro de card, sheet clara encaixada com aba recortada, vidro e área tracejada para "adicionar".</p></div>
+      <div class="g-sheet" style="padding-top:64px">
+        <div class="g-notch"><div class="g-segment" data-g-segment role="tablist" style="background:var(--g-ink-850)"><button role="tab" aria-selected="false" style="color:#8a929c">Todas</button><button role="tab" aria-selected="true">Pendentes <span class="g-count" style="background:#0b0d10;color:#fff">5</span></button></div></div>
+        <div class="grid g2" style="align-items:stretch">
+          <div style="display:grid;gap:4px;align-content:start"><h3 class="g-h4" style="margin-bottom:8px">Sheet clara</h3><p class="g-body">Usada para destacar a área de trabalho principal dentro do app escuro.</p></div>
+          <div class="g-card g-noite" style="display:grid;gap:12px;grid-template-columns:1fr 1fr">
+            <div class="g-card g-card--raised"><span class="g-caption">Aulas</span><div class="g-num g-num--sm" style="margin-top:6px">24</div></div>
+            <div class="g-card g-card--raised"><span class="g-caption">Projetos</span><div class="g-num g-num--sm" style="margin-top:6px">3</div></div>
+            <div class="g-card g-card--raised"><span class="g-caption">Horas</span><div class="g-num g-num--sm" style="margin-top:6px">18 <small>h</small></div></div>
+            <button class="g-card g-card--raised g-card--dashed" style="display:grid;place-items:center" aria-label="Adicionar meta"><span class="g-icon-btn"><svg class="g-icon" aria-hidden="true"><use href="#i-plus"/></svg></span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MÍDIA -->
+    <section class="ds" id="midia">
+      <div class="ds-head"><span class="g-eyebrow">11 · Componentes</span><h2 class="g-h2">Mídia</h2><p class="g-body">Cards vibrantes com objeto que "sai" do card e carrossel com foco no centro. Clique nos cards laterais ou use as setas.</p></div>
+      <div class="g-card g-dia" style="background:var(--g-mist-50);overflow:hidden">
+        <div class="g-carousel" data-g-carousel>
+          <a class="g-carousel__item" href="#midia"><article class="g-media-card"><div class="g-cover g-cover--lima"></div><img class="g-media-card__figure" src="assets/img/obj-broto.svg" alt=""><span class="g-stars"><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><svg viewBox="0 0 24 24"><use href="#i-star"/></svg></span><h3 class="g-media-card__title" style="color:#0b0d10">Comece Aqui</h3><div class="g-media-card__meta" style="color:#0b0d10"><span>3 módulos</span><span class="g-price">Grátis</span></div></article></a>
+          <a class="g-carousel__item" href="#midia"><article class="g-media-card"><div class="g-cover g-cover--brasa"></div><img class="g-media-card__figure" src="assets/img/obj-balao.svg" alt=""><h3 class="g-media-card__title">Comunidade</h3><div class="g-media-card__meta"><span>1,2 mil posts</span><span class="g-price">Ao vivo</span></div></article></a>
+          <a class="g-carousel__item" href="#midia"><article class="g-media-card"><div class="g-cover g-cover--noite"></div><img class="g-media-card__figure" src="assets/img/obj-grao.svg" alt="" style="width:52%"><span class="g-badge g-badge--accent g-badge--sm" style="align-self:flex-start">Novo</span><h3 class="g-media-card__title">Formação IA</h3><div class="g-media-card__meta"><span>8 módulos · 6 h</span><span class="g-price">Colheita</span></div></article></a>
+          <a class="g-carousel__item" href="#midia"><article class="g-media-card"><div class="g-cover g-cover--mar"></div><img class="g-media-card__figure" src="assets/img/obj-orbe.svg" alt=""><h3 class="g-media-card__title">Web Start</h3><div class="g-media-card__meta"><span>5 módulos</span><span class="g-price">Broto</span></div></article></a>
+          <a class="g-carousel__item" href="#midia"><article class="g-media-card"><div class="g-cover g-cover--sol"></div><img class="g-media-card__figure" src="assets/img/obj-cubo.svg" alt="" style="width:60%"><h3 class="g-media-card__title" style="color:#0b0d10">Design</h3><div class="g-media-card__meta" style="color:#0b0d10"><span>5 módulos</span><span class="g-price">Broto</span></div></article></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEEDBACK -->
+    <section class="ds" id="feedback">
+      <div class="ds-head"><span class="g-eyebrow">12 · Componentes</span><h2 class="g-h2">Feedback</h2></div>
+      <div class="grid g2">
+        <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--soft" id="demo-toast">Mostrar toast</button><button class="g-btn g-btn--soft" id="demo-undo"><svg class="g-icon" aria-hidden="true"><use href="#i-archive"/></svg>Arquivar (com desfazer)</button><button class="g-btn g-btn--soft" id="demo-modal">Abrir modal</button></div><div class="demo-label"><b>Toast, desfazer com pavio, modal</b><code>G.toast() · G.modal()</code></div></div>
+        <div class="demo"><div class="demo-stage center"><span class="g-tooltip g-icon-btn" tabindex="0" data-tip="Você ganha 2 pontos por aula"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-help"/></svg></span><div style="display:grid;gap:8px;width:180px"><div class="g-skeleton" style="height:12px"></div><div class="g-skeleton" style="height:12px;width:70%"></div><div class="g-skeleton" style="height:12px;width:40%"></div></div></div><div class="demo-label"><b>Tooltip · skeleton</b><code>.g-tooltip · .g-skeleton</code></div></div>
+        <div class="demo" style="grid-column:1/-1"><div class="g-empty"><span class="g-empty__icon"><svg class="g-icon" aria-hidden="true"><use href="#i-award"/></svg></span><h3 class="g-h4" style="color:var(--g-text)">Nenhum certificado ainda</h3><p class="g-caption">Conclua sua primeira trilha para colher o primeiro.</p><a class="g-btn g-btn--accent g-btn--arrow" href="#midia">Explorar trilhas <svg class="g-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div><div class="demo-label"><b>Estado vazio</b><code>.g-empty</code></div></div>
+      </div>
+    </section>
+    <!-- MOBILE -->
+    <section class="ds" id="mobile">
+      <div class="ds-head"><span class="g-eyebrow">13 · Plataforma</span><h2 class="g-h2">Mobile</h2><p class="g-body">Mobile-first: todo componente acima já se adapta ao toque. Estes são os padrões exclusivos do celular. Breakpoints: <code class="g-mono">sm 520 · md 860 · lg 1100 · xl 1360</code>.</p></div>
+      <div class="grid g3" style="align-items:start">
+        <div class="demo">
+          <div class="m-phone"><div class="m-screen">
+            <div class="g-appbar" style="position:absolute;top:0;left:0;right:0;padding-top:34px;background:transparent"><span class="g-icon-btn g-icon-btn--sm"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-arrow-left"/></svg></span><span class="g-appbar__title">Formação IA</span><span class="g-icon-btn g-icon-btn--sm"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-more"/></svg></span></div>
+            <div style="padding:92px 14px 0;display:grid;gap:10px">
+              <div class="g-cover g-cover--uva" style="height:120px;display:grid;place-items:center"><img src="assets/img/obj-grao.svg" alt="" style="width:46px"></div>
+              <div class="g-card g-card--raised" style="display:flex;justify-content:space-between;align-items:center"><div><span class="g-caption">Progresso</span><div class="g-num g-num--sm">64<small>%</small></div></div><div class="g-ring" data-g-ring="64" style="--_s:44px;font-size:11px"><span>64%</span></div></div>
+              <button class="g-row is-active" type="button" style="grid-template-columns:auto 1fr auto"><span class="g-icon-btn g-icon-btn--sm g-icon-btn--accent"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-play"/></svg></span><span class="g-row__title" style="font-size:13px">Aula 4 · Contexto</span><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+            </div>
+            <span class="g-fab" style="position:absolute;bottom:84px;right:14px;width:48px;height:48px"><svg class="g-icon" aria-hidden="true"><use href="#i-plus"/></svg></span>
+            <nav class="g-tabbar is-static" style="position:absolute;bottom:12px;width:calc(100% - 20px);height:56px" aria-label="Exemplo de barra de abas" id="demo-tabbar">
+              <button type="button" aria-current="page"><svg class="g-icon" aria-hidden="true"><use href="#i-grid"/></svg><span>Início</span></button>
+              <button type="button"><svg class="g-icon" aria-hidden="true"><use href="#i-play"/></svg><span>Aulas</span></button>
+              <button type="button"><svg class="g-icon" aria-hidden="true"><use href="#i-message"/></svg><span>Comunidade</span><i class="g-dot"></i></button>
+              <button type="button"><svg class="g-icon" aria-hidden="true"><use href="#i-user"/></svg><span>Perfil</span></button>
+            </nav>
+          </div></div>
+          <div class="demo-label"><b>Appbar · barra de abas · FAB</b><code>.g-appbar .g-tabbar .g-fab</code></div>
+        </div>
+        <div class="demo">
+          <div class="m-phone"><div class="m-screen" style="display:grid;place-items:center;padding:20px">
+            <div style="text-align:center;display:grid;gap:12px;justify-items:center"><span class="g-empty__icon"><svg class="g-icon" aria-hidden="true"><use href="#i-layers"/></svg></span><b>Bottom sheet</b><p class="g-caption">No celular todo modal vira sheet e fecha arrastando para baixo.</p><button class="g-btn g-btn--accent" type="button" id="demo-sheet">Abrir sheet</button></div>
+          </div></div>
+          <div class="demo-label"><b>Bottom sheet arrastável</b><code>G.modal(html, { sheet: true })</code></div>
+        </div>
+        <div class="demo">
+          <div class="g-card" style="display:grid;gap:14px">
+            <h3 class="g-h4">Regras de toque</h3>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="g-body">Alvo mínimo</span><span class="g-badge g-badge--soft">44 × 44px</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="g-body">Texto de input</span><span class="g-badge g-badge--soft">16px (sem zoom iOS)</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="g-body">Área segura</span><span class="g-badge g-badge--soft">env(safe-area-*)</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="g-body">Gutter lateral</span><span class="g-badge g-badge--soft">16px</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="g-body">Hover</span><span class="g-badge g-badge--soft">vira :active</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="g-body">Carrossel</span><span class="g-badge g-badge--soft">swipe + encaixe</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="g-body">Rolagem com inércia</span><span class="g-badge g-badge--soft">desligada no toque</span></div>
+          </div>
+          <div class="demo-label"><b>Fundamentos de toque</b><code>@media (pointer: coarse)</code></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const seg = document.getElementById("theme-seg");
+    const cur = document.documentElement.dataset.theme;
+    seg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.value === cur)));
+    seg.addEventListener("g:change", (e) => {
+      document.documentElement.dataset.theme = e.detail.value;
+      try { localStorage.setItem("graao:ds-theme", JSON.stringify(e.detail.value)); } catch (_) {}
+    });
+    document.getElementById("demo-toast").addEventListener("click", () => G.toast("Aula concluída · +2 pontos"));
+    document.getElementById("demo-undo").addEventListener("click", () => G.toast("Trilha arquivada", { action: "Desfazer", iconId: "archive", duration: 5000, onAction: () => G.toast("Arquivamento desfeito", { iconId: "check" }) }));
+    document.getElementById("demo-modal").addEventListener("click", () => G.modal(`
+      <span class="g-eyebrow">Colheita</span>
+      <h3 class="g-h3" style="margin-top:10px">Desbloqueie todas as trilhas</h3>
+      <p class="g-body" style="margin-top:8px">Acesso total, lives e suporte prioritário. Cancele quando quiser.</p>
+      <div style="display:flex;gap:10px;margin-top:24px;flex-wrap:wrap"><button class="g-btn g-btn--accent g-btn--lg" data-close>Assinar</button><button class="g-btn g-btn--lg" data-close>Agora não</button></div>`, { label: "Assinar Colheita" }));
+    document.getElementById("demo-sheet").addEventListener("click", () => G.modal(`
+      <span class="g-eyebrow">Compartilhar aula</span>
+      <h3 class="g-h3" style="margin-top:8px">Prompts claros</h3>
+      <div style="display:grid;gap:4px;margin-top:16px" class="g-menu" data-g-glide>
+        <button class="g-menu__item" data-close><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-link"/></svg>Copiar link</button>
+        <button class="g-menu__item" data-close><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-message"/></svg>Postar na comunidade</button>
+        <button class="g-menu__item" data-close><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-bookmark"/></svg>Salvar para depois</button>
+      </div>`, { sheet: true, label: "Compartilhar aula" }));
+    const tb = document.getElementById("demo-tabbar");
+    tb.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+      tb.querySelectorAll("button").forEach((o) => o.removeAttribute("aria-current"));
+      b.setAttribute("aria-current", "page");
+    }));
+    // Sidenav da doc acompanha a seção visível
+    const links = [...document.querySelectorAll(".doc-nav a[href^='#']")];
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      links.forEach((a) => a.setAttribute("aria-current", a.getAttribute("href") === "#" + e.target.id ? "page" : "false"));
+      document.querySelector(".doc-nav .g-sidenav").dispatchEvent(new Event("mouseleave"));
+    }), { rootMargin: "-40% 0px -55% 0px" });
+    document.querySelectorAll("section.ds").forEach((s) => io.observe(s));
+  });
+</script>
+</body>
+</html>

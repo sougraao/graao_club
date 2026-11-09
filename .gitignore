@@ -1,0 +1,20 @@
+# Segredos e ambientes — nunca versionar
+.env
+.env.*
+!.env.example
+supabase/.env
+supabase/.temp/
+supabase/.branches/
+
+# Prévias geradas dos e-mails
+supabase/templates/_preview/
+
+# Vercel / dependências
+.vercel/
+node_modules/
+
+# Sistema e editores
+.DS_Store
+Thumbs.db
+*.log
+.claude/settings.local.json
