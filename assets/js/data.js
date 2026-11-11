@@ -156,9 +156,8 @@ window.GRAAO_DATA = {
     { id: "i2", user: "gabriel", text: "Modo offline no aplicativo.", votes: 21, status: "planejada" },
     { id: "i3", user: "lia", text: "Desafios semanais com ranking próprio.", votes: 18, status: "nova" },
   ],
-  announcements: [
-    { id: "a1", title: "A nova temporada do ranking começou", body: "Pontue aprendendo, ajudando e mantendo a constância.", audience: "todos", date: "2026-11-01", link: "ranking.html" },
-  ],
+  // Avisos reais da equipe (admin › Avisos). Vazio por padrão: nada de aviso de exemplo para os membros.
+  announcements: [],
   plans: [
     { id: "semente", name: "Semente", monthly: 0, yearly: 0, active: true },
     { id: "broto", name: "Broto", monthly: 29.9, yearly: 249.9, active: true },

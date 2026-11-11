@@ -11,7 +11,8 @@
 | URL da API | `https://luhjaekwowmzdzwukgdx.supabase.co` |
 | Chave pública (publishable) | `sb_publishable_DtQrbhzSJRtrUCZ8Hzj0aw_u03o7vRh` — pública por design; a *service role* nunca sai do Supabase |
 | Migrações aplicadas | `20261108000001_init` (35 tabelas, RLS em todas, gatilhos, dados iniciais) · `20261109000002_private_helpers` (funções de permissão no schema `private`, fora da API) · `20261109000003_rls_performance` (políticas com `(select auth.uid())`, uma política por ação, 27 índices de FK) |
-| Teste de regras | [`supabase/tests/rls_smoke.sql`](supabase/tests/rls_smoke.sql) — **22/22 passou** (membro, editor e visitante), antes e depois da otimização |
+| Migração IA para TDAH | `20261111000005_ia_para_tdah` **aplicada no dev em 2026-11-11**: `interest_leads` (escrita pública só via RPC `register_interest`, com armadilha anti-robô, limite por origem e sem duplicados), `unsubscribe_interest`, `creative_projects` + `project_steps` + `project_activity` (RLS só do dono; equipe sem acesso aos briefings), `admin_overview()` (agregados com permissão conferida no servidor), permissões `leads.view`/`leads.manage`. Rollback preparado (não aplicado) em `supabase/rollback/` |
+| Teste de regras | [`supabase/tests/rls_smoke.sql`](supabase/tests/rls_smoke.sql) — **54/54 passou** em 2026-11-11 (22 anteriores + 32 do IA para TDAH: visitante, membro, editor e admin) |
 | Supabase Advisor — segurança | 1 aviso intencional: `season_leaderboard` é `SECURITY DEFINER` para somar pontos de todos no ranking; devolve só nome/total e só para usuários logados |
 | Supabase Advisor — desempenho | 0 avisos. Só a nota informativa "índice não usado", esperada com o banco vazio |
 | Cloudflare R2 | bucket privado `graao-aulas` criado |
@@ -88,6 +89,7 @@ Mapeado 1:1 a partir de `data.js` e do admin. Tudo em `public`, com RLS ativado 
 | Suporte | `tickets`, `ticket_messages`, `ideas`, `idea_votes` |
 | Vendas | `plans`, `coupons`, `subscriptions` |
 | Sistema | `settings`, `audit_log` |
+| IA para TDAH (2026-11-11) | `interest_leads` (+ `private.lead_hits`, hash da origem guardado por 1 dia), `creative_projects`, `project_steps` (microtarefas, `orbita` O/R/B/I/T/A, `is_next` único por projeto), `project_activity` (notas, microtarefas concluídas e mudanças de situação, gravadas por gatilho) |
 
 Decisões importantes:
 - **Pontos são um livro-razão** (`point_events`), nunca um número editável pelo cliente. Só funções do servidor inserem eventos, com `unique (user_id, rule_id, ref)` para impedir pontuar duas vezes a mesma aula.
@@ -118,6 +120,10 @@ Mesmo modelo do admin (`assets/js/admin.js`), agora no banco:
 | dashboard.view, content.manage, tools.manage, news.manage, community.moderate | ✓ | ✓ | ✓ |
 | analytics.view, support.tickets, ranking.manage, push.send, users.view, users.manage | ✓ | ✓ | — |
 | roles.manage, sales.manage, settings.manage | ✓ | — | — |
+| leads.view (ver interessados) | ✓ | ✓ | — |
+| leads.manage (situação, exclusão, exportação de interessados) | ✓ | — | — |
+
+Projetos dos alunos (`creative_projects` e filhas) não têm política para a equipe: nenhum papel lê briefings. A equipe vê só agregados via `admin_overview()`.
 
 ---
 

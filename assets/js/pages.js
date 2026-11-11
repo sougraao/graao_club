@@ -131,6 +131,7 @@
      PÁGINAS
      ===================================================================== */
   const RENDER = {};
+  window.GRAAO_RENDER = RENDER; // pages-ia.js (IA para TDAH) acrescenta/substitui telas aqui
 
   /* ---------- Dashboard ---------- */
   RENDER.dashboard = (main) => {
@@ -604,6 +605,8 @@
     },
   };
 
+  window.GRAAO_TOOL_APPS = TOOL_APPS;
+
   RENDER.ferramentas = (main) => {
     const tools = () => D.tools.filter((t) => t.status !== "desligada");
     main.innerHTML = `
@@ -642,8 +645,8 @@
   /* ---------- Configurações ---------- */
   RENDER.configuracoes = (main) => {
     const SECTIONS = [
-      ["Conta", [["geral", "grid", "Visão geral"], ["perfil", "user", "Perfil"], ["plano", "tag", "Plano e acessos"]]],
-      ["Preferências", [["notificacoes", "bell", "Notificações"], ["aparencia", "palette", "Aparência"]]],
+      ["Conta", [["geral", "grid", "Visão geral"], ["perfil", "user", "Perfil"], ["plano", "tag", "Acesso e turma"]]],
+      ["Preferências", [["notificacoes", "bell", "Avisos"], ["aparencia", "palette", "Aparência"], ["acessibilidade", "eye", "Acessibilidade"]]],
       ["Privacidade e segurança", [["seguranca", "lock", "Senha e conta"], ["privacidade", "shield", "Privacidade e dados"]]],
     ];
     main.innerHTML = `<div class="settings">
@@ -655,20 +658,20 @@
       geral() {
         const u = getUser();
         return `<h2 class="g-h3">Visão geral</h2><p class="g-caption">Os pontos principais da sua conta.</p>
-          <div class="g-card" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">${avatar(u.name, u.hue, "g-avatar--lg")}<div style="flex:1"><b>${esc(u.name)}</b><div class="g-caption">${esc(u.email || "sem e-mail")}</div><span class="g-badge g-badge--sm g-badge--soft" style="margin-top:6px">${icon("seed", "g-icon--sm")}Plano ${u.plan === "semente" ? "Semente" : u.plan === "broto" ? "Broto" : "Colheita"}</span></div><a class="g-btn" href="#perfil">Editar perfil</a></div>
+          <div class="g-card" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">${avatar(u.name, u.hue, "g-avatar--lg")}<div style="flex:1"><b>${esc(u.name)}</b><div class="g-caption">${esc(u.email || "sem e-mail")}</div>${u.role ? `<span class="g-badge g-badge--sm g-badge--soft" style="margin-top:6px">${esc(u.role)}</span>` : ""}</div><a class="g-btn" href="#perfil">Editar perfil</a></div>
           <div class="settings-cards">
-            <a class="g-card g-card--interactive" href="perfil.html"><span class="g-icon-btn">${icon("user", "g-icon--sm")}</span><span class="g-caption" style="margin-top:14px;display:block">Perfil público</span><b>@${esc(u.username)}</b></a>
-            <a class="g-card g-card--interactive" href="#plano"><span class="g-icon-btn">${icon("tag", "g-icon--sm")}</span><span class="g-caption" style="margin-top:14px;display:block">Plano e acessos</span><b>${u.plan === "semente" ? "Gratuito" : "Assinante"}</b></a>
-            <a class="g-card g-card--interactive" href="#seguranca"><span class="g-icon-btn">${icon("lock", "g-icon--sm")}</span><span class="g-caption" style="margin-top:14px;display:block">Segurança</span><b>Senha opcional</b></a>
+            <a class="g-card g-card--interactive" href="perfil.html"><span class="g-icon-btn">${icon("user", "g-icon--sm")}</span><span class="g-caption" style="margin-top:14px;display:block">Seu perfil</span><b>@${esc(u.username)}</b></a>
+            <a class="g-card g-card--interactive" href="#plano"><span class="g-icon-btn">${icon("tag", "g-icon--sm")}</span><span class="g-caption" style="margin-top:14px;display:block">Acesso e turma</span><b>Conta gratuita</b></a>
+            <a class="g-card g-card--interactive" href="#privacidade"><span class="g-icon-btn">${icon("shield", "g-icon--sm")}</span><span class="g-caption" style="margin-top:14px;display:block">Privacidade</span><b>Exportar meus dados</b></a>
           </div>`;
       },
       perfil() {
         const u = getUser();
-        return `<h2 class="g-h3">Perfil</h2><p class="g-caption">Como a comunidade vê você. <a class="g-accent-text" href="perfil.html">Ver perfil público</a></p>
+        return `<h2 class="g-h3">Perfil</h2><p class="g-caption">Seus dados de conta. Não pedimos nem guardamos informações de saúde. <a class="g-accent-text" href="perfil.html">Ver meu perfil</a></p>
           <form class="g-card" id="pf" style="display:grid;gap:12px">
             <span class="g-eyebrow">Identidade</span>
             <div class="form-2">${field("f-name", "Nome", u.name)}${field("f-user", "Nome de usuário", u.username)}</div>
-            <div class="form-2">${field("f-role", "O que você faz", u.role)}${field("f-company", "Empresa (opcional)", u.company)}</div>
+            <div class="form-2">${field("f-role", "Área de atuação (ex.: designer, editor de vídeo)", u.role)}${field("f-company", "Empresa (opcional)", u.company)}</div>
             <span class="g-eyebrow" style="margin-top:8px">Sobre você</span>
             <div class="g-field"><textarea id="f-bio" placeholder=" " maxlength="280">${esc(u.bio)}</textarea><label for="f-bio">Bio</label></div>
             ${field("f-city", "Cidade", u.city)}
@@ -680,23 +683,18 @@
           </form>`;
       },
       plano() {
-        const u = getUser();
-        const live = !!window.GRAAO_API?.enabled;
-        if (live) return `<h2 class="g-h3">Plano e acessos</h2><p class="g-caption">Seu plano atual e o que ele libera.</p>
-          <div class="g-card" style="display:grid;gap:18px">
-            <div style="display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap"><div><span class="g-stat__label">Plano atual</span><div class="g-num g-num--lg" style="margin-top:6px">${esc({ semente: "Semente", broto: "Broto", colheita: "Colheita" }[u.plan] || "Semente")}</div></div><a class="g-btn g-btn--accent" href="index.html#planos">${u.plan === "semente" ? "Assinar um plano" : "Mudar de plano"}</a></div>
-            <p class="g-caption">O plano muda automaticamente quando o pagamento é confirmado. Pagamentos pelo Asaas chegam na próxima etapa.</p>
-          </div>`;
-        return `<h2 class="g-h3">Plano e acessos</h2><p class="g-caption">Modo demonstração: escolha um plano para simular o acesso às trilhas.</p>
-          <div class="g-card" style="display:grid;gap:18px">
-            <div style="display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap"><div><span class="g-stat__label">Trilhas liberadas</span><div class="g-num g-num--lg" style="margin-top:6px"><span id="unl">${TRAILS().filter((t) => !trailLocked(t)).length}</span><small>/ ${TRAILS().length}</small></div></div><a class="g-btn g-btn--solid" href="index.html#planos">Comparar planos</a></div>
-            <div class="g-stack-cards" id="plans" style="height:120px">${[["semente", "Semente", "grátis"], ["broto", "Broto", "trilhas essenciais"], ["colheita", "Colheita", "tudo liberado"]].map(([id, n, d]) => `<button class="g-stack-card" data-plan="${id}" aria-pressed="${u.plan === id}"><b>${n}</b>${d}</button>`).join("")}</div>
+        return `<h2 class="g-h3">Acesso e turma</h2><p class="g-caption">O que a sua conta libera hoje.</p>
+          <div class="g-card" style="display:grid;gap:14px">
+            <div><span class="g-stat__label">Sua conta</span><div class="g-h4" style="margin-top:6px">Conta gratuita</div></div>
+            <p class="g-body">Você já pode usar Meu Dia, Projetos e o Copiloto. A Academia está em preparação.</p>
+            <p class="g-body">A primeira turma do programa <b>Da Ideia à Entrega</b> ainda não abriu inscrições. Datas e condições serão divulgadas quando estiverem confirmadas.</p>
+            <a class="g-btn g-btn--accent g-btn--arrow" style="justify-self:start" href="index.html#primeira-turma">Conhecer a primeira turma ${icon("arrow-right", "g-icon--sm")}</a>
           </div>`;
       },
       notificacoes() {
-        const prefs = store.get(CONFIG.storage.prefs, { replies: true, follows: true, news: false, weekly: true, email: false });
-        const items = [["replies", "Respostas e comentários", "Quando alguém responder você"], ["follows", "Novos seguidores", "Quando alguém começar a seguir você"], ["news", "Notícias em alta", "Destaques do dia"], ["weekly", "Resumo semanal", "Seu progresso toda segunda"], ["email", "Também por e-mail", "Além das notificações no app"]];
-        return `<h2 class="g-h3">Notificações</h2><p class="g-caption">Escolha quais avisos receber.</p>
+        const prefs = store.get(CONFIG.storage.prefs, { turma: true, retomada: false, email: false });
+        const items = [["turma", "Novidades da primeira turma", "Inscrições, datas e condições"], ["retomada", "Lembretes para retomar projetos", "No máximo um por semana. Desligado por padrão"], ["email", "Também por e-mail", "Além dos avisos dentro da plataforma"]];
+        return `<h2 class="g-h3">Avisos</h2><p class="g-caption">Ainda não enviamos avisos automáticos. Suas escolhas ficam salvas neste navegador e serão respeitadas quando os avisos existirem.</p>
           <div class="g-card" style="display:grid;gap:4px">${items.map(([k, t, s]) => `<label class="g-row" style="grid-template-columns:1fr auto;cursor:pointer"><span><span class="g-row__title">${t}</span><br><span class="g-row__sub">${s}</span></span><span class="g-switch"><input type="checkbox" data-pref="${k}" ${prefs[k] ? "checked" : ""}><span class="g-switch__track"></span></span></label>`).join("")}</div>`;
       },
       aparencia() {
@@ -707,14 +705,25 @@
             <div class="theme-previews"><div class="g-noite tp"><span></span><i></i><i></i></div><div class="g-dia tp"><span></span><i></i><i></i></div></div>
           </div>`;
       },
+      acessibilidade() {
+        const on = window.G?.motion?.current() === "reduce";
+        return `<h2 class="g-h3">Acessibilidade</h2><p class="g-caption">Ajuste estímulos e movimento ao seu jeito.</p>
+          <div class="g-card" style="display:grid;gap:4px">
+            <label class="g-row" style="grid-template-columns:1fr auto;cursor:pointer"><span><span class="g-row__title">Reduzir animações</span><br><span class="g-row__sub">Desliga transições, contadores e efeitos de movimento. Também seguimos a preferência do seu sistema.</span></span><span class="g-switch"><input type="checkbox" id="motion" ${on ? "checked" : ""}><span class="g-switch__track"></span></span></label>
+            <a class="g-row" href="#aparencia" style="grid-template-columns:1fr auto"><span><span class="g-row__title">Modo Noite ou Dia</span><br><span class="g-row__sub">Escolha o contraste mais confortável</span></span>${icon("arrow-right", "g-icon--sm")}</a>
+          </div>`;
+      },
       seguranca() {
-        return `<h2 class="g-h3">Senha e conta</h2><p class="g-caption">Você entrou com acesso de demonstração. Defina uma senha opcional.</p>
+        const live = !!window.GRAAO_API?.enabled;
+        return `<h2 class="g-h3">Senha e conta</h2><p class="g-caption">${live ? "Troque a senha da sua conta." : "Modo demonstração: nenhuma senha real é salva."}</p>
           <form class="g-card" id="pw" style="display:grid;gap:12px;max-width:520px">${field("pw1", "Nova senha", "", "password")}${field("pw2", "Confirmar senha", "", "password")}<p class="form-error" id="pw-err"></p><button class="g-btn g-btn--accent" type="submit" style="justify-self:start">Salvar senha</button></form>`;
       },
       privacidade() {
-        return `<h2 class="g-h3">Privacidade e dados</h2><p class="g-caption">Exporte ou apague os dados guardados neste navegador.</p>
-          <div class="g-card" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between"><div><b>Exportar meus dados</b><p class="g-caption">Arquivo JSON com perfil, progresso e publicações.</p></div><button class="g-btn" id="export">${icon("download", "g-icon--sm")}Exportar</button></div>
-          <div class="g-card" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;border-color:color-mix(in srgb,var(--g-danger) 30%,transparent)"><div><b>Apagar conta</b><p class="g-caption">Remove todos os dados do graao club deste navegador. Não dá para desfazer.</p></div><button class="g-btn g-btn--hold g-btn--danger" data-g-hold="1500" data-done="Apagado" id="wipe">${icon("trash", "g-icon--sm")}<span data-label>Segure para apagar</span></button></div>`;
+        const live = !!window.GRAAO_API?.enabled;
+        return `<h2 class="g-h3">Privacidade e dados</h2><p class="g-caption">Seus projetos são privados: a equipe não lê seus briefings. <a class="g-accent-text" href="privacidade.html">Política de privacidade</a></p>
+          <div class="g-card" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between"><div><b>Exportar meus dados</b><p class="g-caption">Arquivo JSON com seu perfil, seus projetos, microtarefas e registros.</p></div><button class="g-btn" id="export">${icon("download", "g-icon--sm")}Exportar</button></div>
+          <div class="g-card" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;border-color:color-mix(in srgb,var(--g-danger) 30%,transparent)"><div><b>Apagar todos os meus projetos</b><p class="g-caption">Remove projetos, microtarefas e registros${live ? " do servidor" : " deste navegador"}. Não dá para desfazer.</p></div><button class="g-btn g-btn--hold g-btn--danger" data-g-hold="1800" data-done="Apagado" id="wipe-projects">${icon("trash", "g-icon--sm")}<span data-label>Segure para apagar</span></button></div>
+          <div class="g-card" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;border-color:color-mix(in srgb,var(--g-danger) 30%,transparent)"><div><b>Excluir conta</b><p class="g-caption">${live ? "A exclusão definitiva da conta ainda é feita manualmente pela equipe. O canal oficial para esse pedido está sendo configurado e será publicado na política de privacidade. Este botão encerra a sessão e limpa os dados deste navegador." : "Remove todos os dados deste navegador. Não dá para desfazer."}</p></div><button class="g-btn g-btn--hold g-btn--danger" data-g-hold="1500" data-done="Feito" id="wipe">${icon("logout", "g-icon--sm")}<span data-label>${live ? "Segure para sair e limpar" : "Segure para apagar"}</span></button></div>`;
       },
     };
     const show = () => {
@@ -740,36 +749,53 @@
           btn.disabled = false; btn.textContent = "Salvar alterações";
           if (r.error) return toast(r.error, { iconId: "x", duration: 5000 });
         } else saveUser(patch);
-        if (v("f-role") && v("f-bio")) completeStep("perfil");
         toast("Perfil atualizado");
       });
-      if (key === "plano" && !window.GRAAO_API?.enabled) $$("#plans [data-plan]", panel).forEach((b) => b.addEventListener("click", () => {
-        saveUser({ plan: b.dataset.plan });
-        $("#unl", panel).textContent = TRAILS().filter((t) => !trailLocked(t)).length;
-        toast(`Simulando plano ${b.textContent.trim().split(/\s/)[0]}`, { iconId: "tag" });
-      }));
+      if (key === "acessibilidade") $("#motion", panel).addEventListener("change", (e) => {
+        window.G?.motion?.(e.target.checked ? "reduce" : "auto");
+        toast(e.target.checked ? "Animações reduzidas" : "Animações normais", { iconId: "eye", duration: 1800 });
+      });
       if (key === "notificacoes") $$("[data-pref]", panel).forEach((c) => c.addEventListener("change", () => {
         const prefs = store.get(CONFIG.storage.prefs, {}); prefs[c.dataset.pref] = c.checked; store.set(CONFIG.storage.prefs, prefs);
         toast("Preferência salva", { iconId: "bell", duration: 1600 });
       }));
       if (key === "aparencia") $("#theme", panel).addEventListener("g:change", (e) => GRAAO.setTheme(e.detail.value));
-      if (key === "seguranca") $("#pw", panel).addEventListener("submit", (e) => {
+      if (key === "seguranca") $("#pw", panel).addEventListener("submit", async (e) => {
         e.preventDefault();
         const a = $("#pw1", panel).value, b = $("#pw2", panel).value, err = $("#pw-err", panel);
         if (a.length < 6) return (err.textContent = "Use pelo menos 6 caracteres.");
         if (a !== b) return (err.textContent = "As senhas não conferem.");
-        err.textContent = ""; e.target.reset(); toast("Senha definida (demonstração)", { iconId: "lock" });
+        err.textContent = "";
+        if (window.GRAAO_API?.enabled) {
+          const btn = $("button[type=submit]", e.target); btn.disabled = true;
+          const r = await window.GRAAO_API.updatePassword(a);
+          btn.disabled = false;
+          if (r.error) return (err.textContent = r.error);
+          e.target.reset(); toast("Senha atualizada", { iconId: "lock" });
+        } else { e.target.reset(); toast("Modo demonstração: nenhuma senha foi salva", { iconId: "lock" }); }
       });
       if (key === "privacidade") {
-        $("#export", panel).addEventListener("click", () => {
-          const data = {}; Object.values(CONFIG.storage).forEach((k) => (data[k] = store.get(k, null)));
+        $("#export", panel).addEventListener("click", async (e) => {
+          const btn = e.currentTarget; btn.disabled = true;
+          const data = { exportado_em: new Date().toISOString(), perfil: getUser(), navegador: {} };
+          Object.values(CONFIG.storage).forEach((k) => (data.navegador[k] = store.get(k, null)));
+          try { data.projetos = await window.GRAAO_PROJECTS?.exportAll(); }
+          catch (err) { btn.disabled = false; return toast("Não foi possível exportar os projetos: " + err.message, { iconId: "x", duration: 5000 }); }
           const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
-          const a = Object.assign(document.createElement("a"), { href: url, download: "graao-club-dados.json" }); a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+          const a = Object.assign(document.createElement("a"), { href: url, download: "ia-para-tdah-meus-dados.json" }); a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+          btn.disabled = false;
+        });
+        $("#wipe-projects", panel).addEventListener("g:confirm", async () => {
+          try {
+            const PR = window.GRAAO_PROJECTS, list = await PR.list();
+            for (const p of list) await PR.remove(p.id);
+            toast(`${list.length} projeto(s) apagado(s)`, { iconId: "trash" });
+          } catch (err) { toast(err.message, { iconId: "x", duration: 5000 }); }
         });
         $("#wipe", panel).addEventListener("g:confirm", async () => {
           if (window.GRAAO_API?.enabled) {
             // Exclusão definitiva da conta exige a Edge Function account-delete (fase de LGPD). Por enquanto: sai e orienta.
-            toast("A exclusão definitiva ainda não é automática: peça pelo e-mail contato@graao.com. Você foi desconectado.", { iconId: "shield", duration: 6000 });
+            toast("Sessão encerrada. A exclusão definitiva da conta ainda é manual (ver política de privacidade).", { iconId: "shield", duration: 6000 });
             await window.GRAAO_API.signOut();
           }
           Object.values(CONFIG.storage).forEach((k) => store.del(k));

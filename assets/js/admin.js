@@ -11,6 +11,8 @@
   const PERMS = {
     "dashboard.view": ["Visão geral", "Ver painel inicial"],
     "analytics.view": ["Visão geral", "Ver analytics"],
+    "leads.view": ["Primeira turma", "Ver interessados"],
+    "leads.manage": ["Primeira turma", "Gerenciar interessados (situação, exclusão e exportação)"],
     "content.manage": ["Conteúdo", "Gerenciar trilhas, módulos e aulas"],
     "tools.manage": ["Conteúdo", "Gerenciar ferramentas"],
     "news.manage": ["Conteúdo", "Gerenciar notícias"],
@@ -26,12 +28,13 @@
   };
   const ROLES = {
     ADMIN: { label: "Administrador", perms: Object.keys(PERMS) },
-    STAFF: { label: "Equipe", perms: ["dashboard.view", "analytics.view", "content.manage", "tools.manage", "news.manage", "community.moderate", "support.tickets", "ranking.manage", "push.send", "users.view", "users.manage"] },
+    STAFF: { label: "Equipe", perms: ["dashboard.view", "analytics.view", "leads.view", "content.manage", "tools.manage", "news.manage", "community.moderate", "support.tickets", "ranking.manage", "push.send", "users.view", "users.manage"] },
     EDITOR: { label: "Editor", perms: ["dashboard.view", "content.manage", "tools.manage", "news.manage", "community.moderate"] },
   };
   const ROUTES = [
     ["painel", "Visão geral", "Painel", "grid", "dashboard.view"],
-    ["analytics", "Visão geral", "Analytics", "activity", "analytics.view"],
+    ["analytics", "Visão geral", "Indicadores", "activity", "analytics.view"],
+    ["leads", "Primeira turma", "Interessados", "mail", "leads.view"],
     ["trilhas", "Conteúdo", "Trilhas e aulas", "play", "content.manage"],
     ["ferramentas", "Conteúdo", "Ferramentas", "sparkles", "tools.manage"],
     ["noticias", "Conteúdo", "Notícias", "news", "news.manage"],
@@ -67,7 +70,7 @@
         return `${head}<a href="#/${r.id}" data-route="${r.id}"><svg class="g-icon" aria-hidden="true"><use href="#i-${r.icon}"/></svg><span class="label">${r.label}</span></a>`;
       }).join("");
     },
-    tabbar: [["painel", "#/painel", "grid", "Painel"], ["trilhas", "#/trilhas", "play", "Trilhas"], ["moderacao", "#/moderacao", "shield", "Moderação"], ["membros", "#/membros", "users", "Membros"], ["mais", "#/mais", "menu", "Mais"]],
+    tabbar: [["painel", "#/painel", "grid", "Painel"], ["leads", "#/leads", "mail", "Interessados"], ["trilhas", "#/trilhas", "play", "Trilhas"], ["membros", "#/membros", "users", "Membros"], ["mais", "#/mais", "menu", "Mais"]],
   };
 
   /* ---------- E-mails: montagem do HTML ----------
@@ -255,45 +258,124 @@
        ================================================================= */
     const S = {};
 
+    /* ---------- Indicadores reais (IA para TDAH) ----------
+       Vêm de admin_overview(): agregados calculados no servidor, que confere a permissão.
+       Sem backend, nada de número de exemplo: mostramos o aviso. */
+    const API = () => (live() ? window.GRAAO_API : null);
+    const overview = async () => {
+      const { data, error } = await API().client.rpc("admin_overview");
+      if (error) throw new Error(window.GRAAO_API.friendly(error));
+      return data;
+    };
+    const AREA_LABEL = { design: "Design", "social-media": "Social media", conteudo: "Criação de conteúdo", edicao: "Edição", audiovisual: "Audiovisual", comunicacao: "Comunicação", outra: "Outra área criativa", "nao-informada": "Não informada" };
+    const offline = (what) => `<div class="g-empty"><span class="g-empty__icon">${icon("lock")}</span><b style="color:var(--g-text)">${what} só aparecem com o backend ativo</b><p class="g-caption">Este é o modo demonstração. Não mostramos números de exemplo como se fossem reais.</p></div>`;
+    const realNote = (d) => `<p class="g-caption">${icon("check", "g-icon--sm")} Números reais do banco, só agregados (nenhum briefing é lido). Atualizado às ${new Date(d.generated_at).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}.</p>`;
+    const weekBars = (rows) => { const max = Math.max(1, ...rows.map((r) => r.n)); return `<div class="g-bars-wrap"><div class="g-bars" style="--max:${max};--h:200px">${rows.map((r) => `<div class="g-bar${r.n === max && r.n > 0 ? " is-peak" : ""}" style="--v:${r.n}" data-label="${esc(r.week)}" data-value="${r.n}"></div>`).join("")}</div></div>`; };
+
     S.painel = () => {
-      const pendingReports = D.reports.filter((r) => r.status === "pendente");
-      const openTickets = D.tickets.filter((t) => t.status !== "resolvido");
-      const series = [42, 58, 51, 73, 66, 88, 94, 81, 102, 97, 118, 126];
-      const max = Math.max(...series);
-      main.innerHTML = `
-        ${head(`Olá, equipe. Você está como <b>${roleLabel()}</b> — o menu mostra só o que este papel pode acessar.`, `${can("push.send") ? `<a class="g-btn" href="#/avisos">${icon("bell", "g-icon--sm")}Novo aviso</a>` : ""}${can("content.manage") ? `<a class="g-btn g-btn--accent" href="#/trilhas">${icon("plus", "g-icon--sm")}Nova trilha</a>` : ""}`)}
-        <div class="kpis">
-          ${kpi("Membros", `<span data-g-count="${1284 + D.users.length}">0</span>`, `<span class="g-delta">+38 na semana</span>`, can("users.view") ? "#/membros" : "")}
-          ${kpi("Trilhas publicadas", D.trails.filter((t) => t.status !== "rascunho").length + `<small>/ ${D.trails.length}</small>`, `${D.trails.reduce((n, t) => n + t.modules.reduce((m, md) => m + md.lessons.length, 0), 0)} aulas`, can("content.manage") ? "#/trilhas" : "")}
-          ${kpi("Denúncias pendentes", pendingReports.length, pendingReports.length ? `<span class="g-status g-status--warn">precisa de atenção</span>` : `<span class="g-status g-status--on">tudo em dia</span>`, can("community.moderate") ? "#/moderacao" : "")}
-          ${kpi("Chamados abertos", openTickets.length, `${D.ideas.length} ideias recebidas`, can("support.tickets") ? "#/suporte" : "")}
-        </div>
-        <div class="split">
-          <section class="g-card"><div class="card-head"><div><h2 class="g-h4">Novos membros por semana</h2><p class="g-caption">Últimas 12 semanas · demonstração</p></div><span class="g-delta">+${Math.round((series[11] / series[0] - 1) * 100)}%</span></div>
-            <div class="g-bars-wrap"><div class="g-bars" style="--max:${max};--h:200px">${series.map((v, i) => `<div class="g-bar${v === max ? " is-peak" : ""}" style="--v:${v}" data-label="S${i + 1}" data-value="${v}"></div>`).join("")}</div></div></section>
-          <aside>
-            <section class="g-card"><div class="card-head"><h2 class="g-h4">Fila de moderação</h2>${can("community.moderate") ? `<a class="link-more" href="#/moderacao">Abrir ${icon("arrow-up-right", "g-icon--sm")}</a>` : ""}</div>
-              ${pendingReports.length ? pendingReports.slice(0, 3).map((r) => `<div class="g-row" style="grid-template-columns:auto 1fr;cursor:default"><span class="g-icon-btn g-icon-btn--sm">${icon("shield", "g-icon--sm")}</span><span><span class="g-row__title">${esc(r.reason)}</span><br><span class="g-row__sub">post de ${esc(userName((D.posts.find((p) => p.id === r.post) || {}).user))} · ${fmtDate(r.date)}</span></span></div>`).join("") : `<p class="g-caption">Nenhuma denúncia pendente.</p>`}</section>
-            <section class="g-card"><div class="card-head"><h2 class="g-h4">Chamados</h2>${can("support.tickets") ? `<a class="link-more" href="#/suporte">Abrir ${icon("arrow-up-right", "g-icon--sm")}</a>` : ""}</div>
-              ${openTickets.slice(0, 3).map((t) => `<div class="g-row" style="grid-template-columns:1fr auto;cursor:default"><span><span class="g-row__title">${esc(t.subject)}</span><br><span class="g-row__sub">${esc(userName(t.user))} · ${esc(t.category)}</span></span>${statusBadge(t.status)}</div>`).join("") || `<p class="g-caption">Nenhum chamado aberto.</p>`}</section>
-          </aside>
-        </div>`;
+      main.innerHTML = `${head(`Olá, equipe. Você está como <b>${roleLabel()}</b>: o menu mostra só o que este papel pode acessar.`, `${can("leads.view") ? `<a class="g-btn" href="#/leads">${icon("mail", "g-icon--sm")}Interessados</a>` : ""}`)}
+        <div id="ov" aria-live="polite">${live() ? `<div class="kpis">${'<div class="g-skeleton" style="height:120px"></div>'.repeat(4)}</div>` : offline("Os indicadores")}</div>`;
+      if (!live()) return;
+      const box = $("#ov", main);
+      overview().then((d) => {
+        const hasLeads = "leads_active" in d;
+        box.innerHTML = `
+          <div class="kpis">
+            ${hasLeads ? kpi("Interessados na primeira turma", fmtInt(d.leads_active), `+${fmtInt(d.leads_7d)} nos últimos 7 dias`, "#/leads") : ""}
+            ${kpi("Contas criadas", fmtInt(d.accounts), "todas as contas da plataforma", can("users.view") ? "#/membros" : "")}
+            ${kpi("Pessoas com projeto", fmtInt(d.members_with_project), "criaram ao menos um projeto")}
+            ${kpi("Projetos iniciados", fmtInt(d.projects_total), `${fmtInt(d.projects_active)} em andamento · ${fmtInt(d.projects_paused)} pausados`)}
+            ${kpi("Entregas concluídas", fmtInt(d.projects_delivered), "projetos marcados como entregues")}
+            ${kpi("Microtarefas concluídas", fmtInt(d.steps_done) + `<small>/ ${fmtInt(d.steps_total)}</small>`, `${fmtInt(d.notes_total)} registros de progresso`)}
+          </div>
+          ${realNote(d)}
+          ${hasLeads ? `<section class="g-card" style="margin-top:16px"><div class="card-head"><div><h2 class="g-h4">Novos interessados por semana</h2><p class="g-caption">Últimas 8 semanas · dados reais</p></div></div>${weekBars(d.leads_by_week || [])}</section>` : ""}`;
+        mount(box);
+      }).catch((e) => { box.innerHTML = `<div class="g-empty"><span class="g-empty__icon">${icon("x")}</span><b style="color:var(--g-text)">Não foi possível carregar os indicadores</b><p class="g-caption">${esc(e.message)}</p></div>`; });
     };
 
     S.analytics = () => {
-      const SERIES = { "7": [12, 18, 15, 22, 19, 27, 31], "30": [42, 58, 51, 73], "90": [140, 188, 212, 260, 244, 301, 322, 298, 340, 372, 390, 415] };
-      main.innerHTML = `${head("Crescimento, engajamento e uso das ferramentas. Dados de demonstração.", `<div class="g-segment" data-g-segment id="period" role="tablist"><button role="tab" type="button" data-value="7" aria-selected="false">7 dias</button><button role="tab" type="button" data-value="30" aria-selected="true">30 dias</button><button role="tab" type="button" data-value="90" aria-selected="false">90 dias</button></div>`)}
-        <div class="kpis">${kpi("Membros ativos", `<span data-g-count="842">0</span>`, `<span class="g-delta">+6,2%</span>`)}${kpi("Aulas concluídas", `<span data-g-count="3120">0</span>`, `<span class="g-delta">+11%</span>`)}${kpi("Retenção 30 dias", `64<small>%</small>`, `<div class="g-progress" style="width:100%"><div class="g-progress__fill" style="--v:64%"></div></div>`)}${kpi("Posts na comunidade", `<span data-g-count="1206">0</span>`, `<span class="g-delta g-delta--down">−2%</span>`)}</div>
-        <div class="split">
-          <section class="g-card"><div class="card-head"><h2 class="g-h4">Novos membros</h2></div><div class="g-bars-wrap" id="chart"></div></section>
-          <aside><section class="g-card"><div class="card-head"><h2 class="g-h4">Uso das ferramentas</h2></div>${[...D.tools].sort((a, b) => b.uses - a.uses).map((t) => `<div style="display:grid;gap:6px;margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:14px"><span>${esc(t.name)}</span><span class="g-mono g-caption">${fmtInt(t.uses)}</span></div><div class="g-progress g-progress--thin"><div class="g-progress__fill" style="--v:${Math.round((t.uses / Math.max(...D.tools.map((x) => x.uses || 1))) * 100)}%"></div></div></div>`).join("")}</section></aside>
-        </div>
-        <section class="g-card"><div class="card-head"><h2 class="g-h4">Trilhas por conclusão</h2></div><div class="g-table-wrap" style="border:0"><table class="g-table g-table--stack"><thead><tr><th>Trilha</th><th>Plano</th><th class="g-table__num">Inscritos</th><th>Conclusão</th></tr></thead><tbody>
-          ${D.trails.map((t, i) => { const pct = [72, 48, 55, 39, 30][i % 5]; return `<tr><td><b>${esc(t.name)}</b></td><td data-label="Plano">${esc(t.plan || (t.free ? "semente" : "broto"))}</td><td class="g-table__num" data-label="Inscritos">${fmtInt([980, 412, 388, 520, 160][i % 5])}</td><td data-label="Conclusão"><div style="display:flex;align-items:center;gap:10px;min-width:160px"><div class="g-progress g-progress--thin" style="flex:1"><div class="g-progress__fill" style="--v:${pct}%"></div></div><span class="g-mono g-caption">${pct}%</span></div></td></tr>`; }).join("")}
-        </tbody></table></div></section>`;
-      const draw = (k) => { const s = SERIES[k], max = Math.max(...s); $("#chart", main).innerHTML = `<div class="g-bars" style="--max:${max};--h:220px">${s.map((v, i) => `<div class="g-bar${v === max ? " is-peak" : ""}" style="--v:${v}" data-label="${k === "7" ? ["S", "T", "Q", "Q", "S", "S", "D"][i] : k === "30" ? "Sem " + (i + 1) : "S" + (i + 1)}" data-value="${v}"></div>`).join("")}</div>`; };
-      $("#period", main).addEventListener("g:change", (e) => draw(e.detail.value));
-      draw("30");
+      main.innerHTML = `${head("Indicadores agregados do IA para TDAH. Sem dados de demonstração: os números de crescimento e conclusão que existiam aqui eram fictícios e foram retirados.")}<div id="an" aria-live="polite">${live() ? `<div class="g-skeleton" style="height:240px"></div>` : offline("Os indicadores")}</div>`;
+      if (!live()) return;
+      const box = $("#an", main);
+      overview().then((d) => {
+        const total = Math.max(1, d.projects_total);
+        const rows = [["Em andamento", d.projects_active], ["Pausados", d.projects_paused], ["Entregues", d.projects_delivered], ["Arquivados", Math.max(0, d.projects_total - d.projects_active - d.projects_paused - d.projects_delivered)]];
+        const areas = Object.entries(d.leads_by_area || {}).sort((a, b) => b[1] - a[1]);
+        box.innerHTML = `
+          <div class="split">
+            <section class="g-card"><div class="card-head"><h2 class="g-h4">Projetos por situação</h2><span class="g-caption">${fmtInt(d.projects_total)} no total</span></div>
+              ${rows.map(([l, n]) => `<div style="display:grid;gap:6px;margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:14px"><span>${l}</span><span class="g-mono g-caption">${fmtInt(n)}</span></div><div class="g-progress g-progress--thin"><div class="g-progress__fill" style="--v:${Math.round((n / total) * 100)}%"></div></div></div>`).join("")}</section>
+            <aside>${"leads_by_area" in d ? `<section class="g-card"><div class="card-head"><h2 class="g-h4">Interessados por área</h2></div>${areas.length ? areas.map(([a, n]) => `<div style="display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:6px 0;border-bottom:1px solid var(--g-line)"><span>${esc(AREA_LABEL[a] || a)}</span><span class="g-mono">${fmtInt(n)}</span></div>`).join("") : `<p class="g-caption">Nenhum interessado ainda.</p>`}<p class="g-caption" style="margin-top:10px">${fmtInt(d.leads_unsubscribed)} descadastrados</p></section>` : ""}</aside>
+          </div>
+          ${realNote(d)}`;
+        mount(box);
+      }).catch((e) => { box.innerHTML = `<div class="g-empty"><span class="g-empty__icon">${icon("x")}</span><b style="color:var(--g-text)">Não foi possível carregar</b><p class="g-caption">${esc(e.message)}</p></div>`; });
+    };
+
+    /* ---------- Interessados (interest_leads). Leitura exige leads.view; edição, exclusão e exportação, leads.manage. A RLS confere no servidor. ---------- */
+    S.leads = () => {
+      main.innerHTML = head("Pessoas que pediram para receber informações da primeira turma. Respeite o consentimento: só envie comunicações sobre o programa, sempre com link de descadastro.", can("leads.manage") && live() ? `<button class="g-btn" type="button" id="lead-csv">${icon("download", "g-icon--sm")}Exportar CSV</button>` : "");
+      if (!live()) { main.insertAdjacentHTML("beforeend", offline("Os interessados")); return; }
+      main.insertAdjacentHTML("beforeend", `<div id="lb"><div class="g-skeleton" style="height:240px"></div></div>`);
+      const box = $("#lb", main);
+      const STATUS = { novo: "Novo", contatado: "Contatado", descadastrado: "Descadastrado" };
+      const leadStatus = (s) => `<span class="g-status g-status--${{ novo: "info", contatado: "on", descadastrado: "off" }[s]}">${STATUS[s] || s}</span>`;
+      const dt = (iso) => new Date(iso).toLocaleDateString("pt-BR");
+      let rows = [];
+      const load = async () => {
+        const { data, error } = await API().client.from("interest_leads").select("id,email,name,area,source,consent_version,consent_at,status,unsubscribed_at,note,created_at").order("created_at", { ascending: false }).limit(2000);
+        if (error) throw new Error(window.GRAAO_API.friendly(error));
+        rows = data;
+      };
+      const csvCell = (v) => { let t = String(v ?? ""); if (/^[=+\-@\t\r]/.test(t)) t = "'" + t; return /[",\n;]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; };
+      $("#lead-csv", main)?.addEventListener("click", () => {
+        const head = ["email", "nome", "area", "origem", "situacao", "consentimento_versao", "consentimento_em", "cadastrado_em"];
+        const lines = [head.join(",")].concat(rows.map((r) => [r.email, r.name, AREA_LABEL[r.area] || r.area, r.source, r.status, r.consent_version, r.consent_at, r.created_at].map(csvCell).join(",")));
+        const url = URL.createObjectURL(new Blob(["﻿" + lines.join("\n")], { type: "text/csv;charset=utf-8" }));
+        Object.assign(document.createElement("a"), { href: url, download: `interessados-${new Date().toISOString().slice(0, 10)}.csv` }).click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        toast(`${rows.length} interessado(s) exportado(s). Guarde o arquivo com cuidado: são dados pessoais.`, { iconId: "download", duration: 5000 });
+      });
+      load().then(() => {
+        box.innerHTML = "";
+        if (!rows.length) { box.innerHTML = `<div class="g-empty"><span class="g-empty__icon">${icon("mail")}</span><b style="color:var(--g-text)">Nenhum interessado ainda</b><p class="g-caption">Os cadastros feitos na página inicial aparecem aqui.</p></div>`; return; }
+        masterDetail({
+          root: box,
+          items: () => rows,
+          text: (r) => `${r.email} ${r.name || ""} ${AREA_LABEL[r.area] || ""}`,
+          filters: [{ value: "all", label: "Todos", test: () => true }, { value: "novo", label: "Novos", test: (r) => r.status === "novo" }, { value: "contatado", label: "Contatados", test: (r) => r.status === "contatado" }, { value: "descadastrado", label: "Descadastrados", test: (r) => r.status === "descadastrado" }],
+          row: (r) => `<span class="g-icon-btn g-icon-btn--sm">${icon("mail", "g-icon--sm")}</span><span style="min-width:0"><span class="g-row__title" style="display:block;overflow:hidden;text-overflow:ellipsis">${esc(r.email)}</span><span class="g-row__sub">${esc(r.name || "sem nome")} · ${esc(AREA_LABEL[r.area] || "área não informada")} · ${dt(r.created_at)}</span></span>${leadStatus(r.status)}`,
+          detail: (r, host, ctl) => {
+            const canEdit = can("leads.manage");
+            host.innerHTML = `<div class="admin-form">
+              <span class="g-eyebrow">Interessado</span><h3 class="g-h3" style="overflow-wrap:anywhere">${esc(r.email)}</h3>
+              <div class="g-card g-card--raised" style="display:grid;gap:6px;font-size:14px">
+                <span><b>Nome:</b> ${esc(r.name || "não informado")}</span><span><b>Área:</b> ${esc(AREA_LABEL[r.area] || "não informada")}</span>
+                <span><b>Origem:</b> ${esc(r.source)}</span><span><b>Cadastro:</b> ${new Date(r.created_at).toLocaleString("pt-BR")}</span>
+                <span><b>Consentimento:</b> ${esc(r.consent_version)} em ${new Date(r.consent_at).toLocaleString("pt-BR")}</span>
+                ${r.unsubscribed_at ? `<span><b>Descadastro:</b> ${new Date(r.unsubscribed_at).toLocaleString("pt-BR")}</span>` : ""}
+              </div>
+              <div class="g-field"><select id="ld-status" ${canEdit ? "" : "disabled"}>${Object.entries(STATUS).map(([k, l]) => `<option value="${k}" ${r.status === k ? "selected" : ""}>${l}</option>`).join("")}</select><label for="ld-status">Situação</label></div>
+              <div class="g-field"><textarea id="ld-note" maxlength="500" placeholder=" " rows="3" ${canEdit ? "" : "disabled"}>${esc(r.note)}</textarea><label for="ld-note">Anotação interna (sem dados de saúde)</label></div>
+              ${canEdit ? "" : `<p class="g-caption">Seu papel pode ver, mas não alterar interessados.</p>`}
+              <p class="g-caption">E-mail e consentimento não podem ser alterados por aqui (regra do banco).</p>
+            </div>${canEdit ? detailActions() : ""}`;
+            if (!canEdit) return;
+            $("[data-save]", host).addEventListener("click", async () => {
+              const patch = { status: $("#ld-status", host).value, note: $("#ld-note", host).value.trim() };
+              const { data, error } = await API().client.from("interest_leads").update(patch).eq("id", r.id).select().single();
+              if (error) return toast(window.GRAAO_API.friendly(error), { iconId: "x", duration: 5000 });
+              Object.assign(r, data); toast("Interessado atualizado"); ctl.refresh();
+            });
+            $("[data-del]", host).addEventListener("g:confirm", async () => {
+              const { error } = await API().client.from("interest_leads").delete().eq("id", r.id);
+              if (error) return toast(window.GRAAO_API.friendly(error), { iconId: "x", duration: 5000 });
+              rows = rows.filter((x) => x.id !== r.id); toast("Interessado excluído"); ctl.close();
+            });
+          },
+        });
+      }).catch((e) => { box.innerHTML = `<div class="g-empty"><span class="g-empty__icon">${icon("x")}</span><b style="color:var(--g-text)">Não foi possível carregar</b><p class="g-caption">${esc(e.message)}</p></div>`; });
     };
 
     S.trilhas = () => {
@@ -672,6 +754,8 @@
       main.innerHTML = `${head("Todas as áreas do painel.")}<div class="kpis">${ROUTES.filter((r) => can(r.perm)).map((r) => `<a class="g-card g-card--interactive" href="#/${r.id}" style="display:grid;gap:12px"><span class="g-icon-btn">${icon(r.icon, "g-icon--sm")}</span><b>${r.label}</b><span class="g-caption">${r.group}</span></a>`).join("")}</div>`;
     };
 
+    const DEMO_ROUTES = ["trilhas", "ferramentas", "noticias", "moderacao", "suporte", "ranking", "avisos", "membros", "planos"];
+
     /* ---------- Roteador ---------- */
     function go() {
       let id = currentId();
@@ -682,13 +766,15 @@
       document.querySelector(".app")?.classList.remove("drawer");
       const title = id === "mais" ? "Mais" : r?.label || "Painel";
       $("#page-title").textContent = title;
-      document.title = `${title} · Admin · graao club`;
+      document.title = `${title} · Admin · IA para TDAH`;
       if (id !== "mais" && (!r || !can(r.perm))) {
         main.innerHTML = `<div class="g-empty" style="margin-top:24px"><span class="g-empty__icon">${icon("lock")}</span><h3 class="g-h4" style="color:var(--g-text)">Sem permissão</h3><p class="g-caption">O papel ${roleLabel()} não acessa “${esc(r?.label || id)}”.</p><a class="g-btn g-btn--accent" href="#/painel">Ir para o painel</a></div>`;
         return;
       }
       main.innerHTML = "";
       S[id]();
+      // Áreas que ainda leem os dados de demonstração (data.js + localStorage), não o banco
+      if (DEMO_ROUTES.includes(id)) main.insertAdjacentHTML("afterbegin", `<p class="g-card g-card--raised demo-note" role="note">${icon("archive", "g-icon--sm")}<span><b>Dados de demonstração.</b> Esta área ainda usa conteúdo fictício salvo só neste navegador. Não use os números daqui como reais.</span></p>`);
       mount(main);
       scrollTo({ top: 0 });
     }

@@ -99,23 +99,28 @@
   }
 
   /* ---------- Shell do app ---------- */
+  /* IA para TDAH: o caminho principal é Meu Dia → Projetos → Academia → Copiloto → Perfil.
+     Áreas legadas continuam acessíveis (sem rotas quebradas), mas fora do caminho principal. */
   const NAV = [
     { group: "Principal", items: [
-      ["dashboard", "inicio.html", "grid", "Dashboard"],
-      ["conteudos", "conteudos.html", "play", "Conteúdos"],
-      ["comunidade", "comunidade.html", "message", "Comunidade"],
-      ["ranking", "ranking.html", "star", "Ranking"],
-      ["ferramentas", "ferramentas.html", "sparkles", "Ferramentas"],
-    ] },
-    { group: "Informação", items: [["noticias", "noticias.html", "send", "Notícias"]] },
-    { group: "Conta", items: [
-      ["certificados", "certificados.html", "award", "Certificados"],
-      ["planos", "index.html#planos", "tag", "Planos"],
+      ["dashboard", "inicio.html", "target", "Meu Dia"],
+      ["projetos", "projetos.html", "folder", "Projetos"],
+      ["conteudos", "conteudos.html", "book", "Academia"],
+      ["ferramentas", "ferramentas.html", "sparkles", "Copiloto"],
       ["perfil", "perfil.html", "user", "Perfil"],
+    ] },
+    { group: "Conta", items: [
       ["configuracoes", "configuracoes.html", "settings", "Configurações"],
       ["ajuda", "index.html#faq", "help", "Ajuda"],
     ] },
+    { group: "Outras áreas", items: [
+      ["comunidade", "comunidade.html", "message", "Comunidade"],
+      ["noticias", "noticias.html", "news", "Notícias"],
+      ["ranking", "ranking.html", "star", "Ranking"],
+      ["certificados", "certificados.html", "award", "Certificados"],
+    ] },
   ];
+  const TABBAR = [["dashboard", "inicio.html", "target", "Meu Dia"], ["projetos", "projetos.html", "folder", "Projetos"], ["conteudos", "conteudos.html", "book", "Academia"], ["ferramentas", "ferramentas.html", "sparkles", "Copiloto"], ["perfil", "perfil.html", "user", "Perfil"]];
 
   function renderShell() {
     const realPage = document.body.dataset.appPage;
@@ -131,11 +136,12 @@
       `<a href="${href}"${id === page ? ' aria-current="page"' : ""}>${icon(ic)}<span class="label">${label}</span></a>`).join("")}`).join("");
     const D = window.GRAAO_DATA;
     const ann = (D?.announcements || []).slice(0, 3);
+    // só avisos reais cadastrados pela equipe (sem notificações de exemplo)
     const notifs = ann.map((a) => `<a class="g-menu__item notif-item" href="${esc(a.link || "inicio.html")}"><span class="g-avatar g-avatar--sm" style="background:var(--g-accent)">${icon("bell", "g-icon--sm")}</span><span>${esc(a.title)}<small>${esc(fmtDate(a.date))}</small></span></a>`).join("")
-      + `<a class="g-menu__item notif-item" href="comunidade.html">${avatar("Marina Duarte", 0, "g-avatar--sm")}<span><b>Marina</b> comentou no seu post<small>há 2 h</small></span></a>`;
+      || `<p class="g-caption" style="padding:8px 10px">Nenhum aviso por enquanto.</p>`;
     const corner = admin
       ? `<a class="points-card" href="inicio.html"><span class="g-icon-btn">${icon("arrow-left", "g-icon--sm")}</span><div><b>Voltar ao app</b><div class="g-caption">visão do membro</div></div></a>`
-      : `<a class="points-card" href="ranking.html"><span class="g-icon-btn">${icon("trophy", "g-icon--sm")}</span><div><b data-points-label>0 pontos</b><div class="g-caption">nesta temporada</div></div></a>`;
+      : `<a class="points-card" href="projetos.html"><span class="g-icon-btn">${icon("folder", "g-icon--sm")}</span><div><b>Retomar projeto</b><div class="g-caption">continue de onde parou</div></div></a>`;
 
     const app = document.createElement("div");
     app.className = "app";
@@ -160,9 +166,9 @@
             <div class="top-actions">
               <button class="g-icon-btn" data-theme-toggle type="button" aria-label="Alternar modo"></button>
               <div class="user-wrap">
-                <button class="g-icon-btn" type="button" data-g-popover="notif-menu" aria-label="Notificações">${icon("bell", "g-icon--sm")}<span class="g-dot">${ann.length + 1}</span></button>
+                <button class="g-icon-btn" type="button" data-g-popover="notif-menu" aria-label="Avisos">${icon("bell", "g-icon--sm")}${ann.length ? `<span class="g-dot">${ann.length}</span>` : ""}</button>
                 <div class="g-popover" id="notif-menu"><div class="g-menu" data-g-glide style="width:min(320px,calc(100vw - 24px))">
-                  <p class="g-menu__title">Notificações</p>
+                  <p class="g-menu__title">Avisos</p>
                   ${notifs}
                 </div></div>
               </div>
@@ -182,7 +188,7 @@
           <div class="main-slot"></div>
           <footer class="app-footer">
             <span>© ${new Date().getFullYear()} graao club</span>
-            <nav aria-label="Rodapé"><a href="index.html#faq">Central de ajuda</a><a href="index.html#faq">Termos</a><a href="index.html#faq">Privacidade</a><a href="design-system.html">Design system</a></nav>
+            <nav aria-label="Rodapé"><a href="index.html#faq">Perguntas frequentes</a><a href="termos.html">Termos</a><a href="privacidade.html">Privacidade</a><a href="design-system.html">Design system</a></nav>
           </footer>
         </div>
       </div>`;
@@ -193,18 +199,11 @@
     tabbar.className = "g-tabbar";
     tabbar.setAttribute("aria-label", "Navegação principal");
     tabbar.dataset.gAutohide = "";
-    tabbar.innerHTML = (admin ? admin.tabbar : [["dashboard", "inicio.html", "grid", "Início"], ["conteudos", "conteudos.html", "play", "Aulas"], ["comunidade", "comunidade.html", "message", "Comunidade"], ["noticias", "noticias.html", "news", "Notícias"], ["perfil", "perfil.html", "user", "Perfil"]])
+    tabbar.innerHTML = (admin ? admin.tabbar : TABBAR)
       .map(([id, href, ic, label]) => `<a href="${href}" aria-label="${label}" data-tab="${id}"${id === page ? ' aria-current="page"' : ""}>${icon(ic)}<span>${label}</span></a>`).join("");
     document.body.append(tabbar);
 
-    if (page !== "dashboard" && !admin) {
-      const bubble = document.createElement("a");
-      bubble.className = "g-ring bubble";
-      bubble.href = "inicio.html#first-steps";
-      bubble.setAttribute("aria-label", "Progresso dos primeiros passos");
-      bubble.innerHTML = '<span data-steps-count>0/5</span>';
-      document.body.append(bubble);
-    }
+    // (a bolha "primeiros passos" do graao club saiu: o Meu Dia agora mostra a próxima ação do projeto)
   }
 
   function initShell() {
@@ -295,16 +294,16 @@
     const fail = (msg, field) => { err.textContent = msg; if (field) field.closest(".g-field").classList.add("g-field--error"); };
 
     if (signup) {
-      $("#auth-title").textContent = "Crie sua conta grátis";
-      $("#auth-sub").textContent = "Comece pelo plano Semente. Sem cartão.";
+      $("#auth-title").textContent = "Crie sua conta";
+      $("#auth-sub").textContent = "Organize seus projetos e acompanhe as novidades da primeira turma.";
       $("#name-field").hidden = false;
-      $("#art-title").textContent = "Seu primeiro grão começa aqui.";
-      $("#art-sub").textContent = "Aprenda, compartilhe e cresça com quem vive tecnologia e criatividade.";
+      $("#art-title").textContent = "Suas ideias merecem chegar até a entrega.";
+      $("#art-sub").textContent = "Sua mente cria. Seu sistema entrega.";
       label.textContent = "Criar conta";
       $("#forgot").hidden = true;
       $("#switch").innerHTML = 'Já tem conta? <a class="g-accent-text" href="entrar.html">Entrar</a>';
       pw.autocomplete = "new-password";
-      document.title = "Criar conta · graao club";
+      document.title = "Criar conta · IA para TDAH";
     }
     if (newPassword) {
       $("#auth-title").textContent = "Defina uma nova senha";

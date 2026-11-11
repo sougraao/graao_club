@@ -5,7 +5,11 @@
    ===================================================================== */
 (function () {
   "use strict";
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* Movimento reduzido: preferência do sistema OU escolha da pessoa no app (G.motion("reduce")).
+     A escolha fica em localStorage "g:motion" e marca <html data-g-motion="reduce"> (o CSS desliga animações). */
+  const motionPref = (() => { try { return localStorage.getItem("g:motion"); } catch (e) { return null; } })();
+  if (motionPref === "reduce") document.documentElement.dataset.gMotion = "reduce";
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches || motionPref === "reduce";
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const once = (el, key) => (el.dataset[key] ? false : (el.dataset[key] = "1"));
 
@@ -470,7 +474,15 @@
     if (html.hasAttribute("data-g-smooth") && !Smooth.enabled) Smooth.enable(html.dataset.gSmooth);
   }
 
-  window.G = { mount, toast, modal, icon, smooth: Smooth, theme };
+  /* G.motion("reduce" | "auto"): salva a escolha. O efeito completo vale a partir do próximo carregamento. */
+  function motion(v) {
+    try { v === "reduce" ? localStorage.setItem("g:motion", "reduce") : localStorage.removeItem("g:motion"); } catch (e) { /* storage indisponível */ }
+    if (v === "reduce") document.documentElement.dataset.gMotion = "reduce"; else delete document.documentElement.dataset.gMotion;
+    return v === "reduce";
+  }
+  motion.current = () => (document.documentElement.dataset.gMotion === "reduce" ? "reduce" : "auto");
+
+  window.G = { mount, toast, modal, icon, smooth: Smooth, theme, motion };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => mount());
   else mount();
 })();

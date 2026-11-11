@@ -26,6 +26,9 @@
     [/profiles_username_key|duplicate key.*username/i, "Esse nome de usuário já está em uso."],
     [/profiles_username_check/i, "Nome de usuário: 3 a 30 caracteres, só letras minúsculas, números, ponto ou _."],
     [/sem permissão/i, "Você não tem permissão para essa alteração."],
+    [/row-level security|permission denied/i, "Você não tem permissão para essa ação."],
+    [/violates check constraint/i, "Algum campo está vazio ou passou do limite de caracteres."],
+    [/JWT expired|invalid jwt/i, "Sua sessão expirou. Entre de novo."],
     [/failed to fetch|network/i, "Sem conexão com o servidor. Verifique sua internet."],
   ];
   const friendly = (err) => {

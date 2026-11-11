@@ -116,6 +116,8 @@ Regras: títulos nunca em negrito 800+; nunca texto em CAIXA ALTA fora do `.g-ey
 
 Sempre respeitar `prefers-reduced-motion` (já tratado no CSS e no JS). Nunca animar `width/height` de layout grande; prefira `transform`/`opacity`.
 
+**Escolha da pessoa (1.2):** além da preferência do sistema, a pessoa pode reduzir animações dentro do app (Configurações › Acessibilidade). `G.motion("reduce" | "auto")` salva em `localStorage["g:motion"]` e marca `<html data-g-motion="reduce">`; o CSS desliga transições e animações com a mesma regra do `prefers-reduced-motion`, e o JS trata como movimento reduzido no próximo carregamento. `G.motion.current()` devolve o estado.
+
 ### 3.6 Rolagem
 
 - **Barra personalizada** (automática em toda página que carrega `graao-ds.css`): fina, arredondada, nos tokens `--g-scrollbar` / `--g-scrollbar-hover`, e acende em lima (`--g-scrollbar-active`) ao arrastar. Funciona em Chrome/Edge/Safari (`::-webkit-scrollbar`) e Firefox (`scrollbar-color`).
@@ -147,7 +149,7 @@ Todos vivos em `design-system.html`. Classe → quando usar.
 | Ícone circular | `.g-icon-btn` (`--sm/--lg/--accent/--ghost`) + `.g-dot` | Ações de ícone, voltar, notificações |
 
 ### Formulários
-`.g-field` (rótulo flutuante — exige `placeholder=" "`), `.g-pill-input` (filtros, busca, select, data), `.g-check` (quique + risco), `.g-switch`, `.g-scrub` (número arrastável/teclado).
+`.g-field` (rótulo flutuante — exige `placeholder=" "`; com `select` ou `input[type=date]` o rótulo fica sempre no alto e o `select` ganha a seta do sistema), `.g-pill-input` (filtros, busca, select, data), `.g-check` (quique + risco), `.g-switch`, `.g-scrub` (número arrastável/teclado).
 
 ### Navegação
 `.g-segment[data-g-segment]` (pílula deslizante; `--inverse` para a barra flutuante branca), `.g-tabs[data-g-tabs]` (sublinhado deslizante), `.g-icon-tabs` (ícone expande rótulo), `.g-sidenav[data-g-spotlight]` (indicador com barra lima), `.g-menu[data-g-glide]` + `.g-popover` (menus).
@@ -195,7 +197,7 @@ O graao club é **mobile-first**: escreva o CSS para 375px e expanda. Todo compo
 - **Toque** (`@media (pointer: coarse)`, já no CSS): alvos ≥ 44px, sem atraso de toque nem realce azul, `:hover` decorativo vira `:active` (leve escala).
 - **Inputs** com 16px no mobile (evita o zoom automático do iOS) — já aplicado.
 - **Áreas seguras:** use `--g-safe-top/bottom/left/right` (`env(safe-area-inset-*)`) em tudo que encosta nas bordas; páginas usam `viewport-fit=cover`.
-- **Navegação:** no app, menu lateral vira gaveta + `.g-tabbar` inferior com Início, Aulas, Comunidade, Notícias, Perfil. Conteúdo ganha folga inferior para não ficar sob a barra.
+- **Navegação:** no app, menu lateral vira gaveta + `.g-tabbar` inferior com Meu Dia, Projetos, Academia, Copiloto, Perfil (IA para TDAH, 1.2). Áreas legadas ficam no menu lateral, em "Outras áreas". Conteúdo ganha folga inferior para não ficar sob a barra.
 - **Layout:** gutter lateral 16px; grades de 2–4 colunas viram 1 coluna; trilhos horizontais (`.g-scroll--x`) em vez de grades largas; tabelas viram listas `.g-row`.
 - **Overlays:** modais viram bottom sheet; popovers longos viram sheet; toasts sobem acima da barra de abas.
 - **Movimento:** rolagem com inércia e efeito magnético ficam desligados no toque (o JS já cuida disso); swipe nativo sempre preferido.
@@ -235,7 +237,8 @@ Regras: layout em tabela, largura máx. 560px, raios 28px (cartão) e pílula (b
 
 ## 7. Voz e conteúdo
 
-- Português do Brasil, próximo e direto ("você"). Metáfora de cultivo com moderação: **Plante · Cultive · Colha**, Semente/Broto/Colheita para planos.
+- Português do Brasil, próximo e direto ("você"). Metáfora de cultivo com moderação: **Plante · Cultive · Colha**, Semente/Broto/Colheita para planos (voz do graao club).
+- **IA para TDAH** (oferta apresentada ao público desde 1.2): assinatura **"Sua mente cria. Seu sistema entrega."**. Clareza + identificação + possibilidade concreta + autonomia. Situações reais de trabalho criativo (briefing, cliente, revisão, entrega). Proibido: promessa de cura ou de produtividade garantida, generalizações sobre TDAH, culpa, urgência ou escassez artificial, depoimentos e números inventados. Recurso que não existe aparece como "Em preparação"; demonstração aparece rotulada como demonstração.
 - Botões começam com verbo e têm até 3 palavras.
 - Números sempre formatados em pt-BR (`48.290`, `R$ 29,90`).
 - Nunca inventar depoimentos, clientes ou números reais: use marcadores claros até ter o dado.
@@ -269,7 +272,9 @@ Regras: layout em tabela, largura máx. 560px, raios 28px (cartão) e pílula (b
 
 ## 10. Evolução
 
-Versão atual: **1.1 (Safra)** — novembro de 2026.
+Versão atual: **1.2 (Safra)** — novembro de 2026.
+
+- **1.2** (11/11/2026): `G.motion` (reduzir animações por escolha da pessoa, `html[data-g-motion="reduce"]`), rótulo fixo para `select`/`date` dentro de `.g-field`, ícones `folder`, `target` e `orbit` (mesmo traço 1.7), navegação do app do IA para TDAH e voz do IA para TDAH na seção 7. Nenhuma classe existente mudou.
 
 - **1.1** (09/11/2026): troca de tema com varredura diagonal (`G.theme`), botão principal com luz na borda, contorno do `--swap` alinhado ao orbe e item ativo da barra de abas com a largura do rótulo. A paleta lima segue a mesma. (Uma paleta "Céu de verão" com acento amarelo foi testada e descartada.)
 - **1.0** (11/2026): versão inicial.
