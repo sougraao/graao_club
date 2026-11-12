@@ -477,6 +477,29 @@
 .academy-card__orbita { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .academy-now { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
 
+/* Academia — grade da formação IA para TDAH */
+.academy-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--g-space-5); margin-bottom: var(--g-space-5); }
+.academy-card__cover { justify-content: space-between; align-items: flex-end; }
+.academy-card__n { font-family: var(--g-font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+.academy-card__meta { font-size: 13px; color: var(--g-text-2); }
+.academy-lessons { margin-top: 8px; border-top: 1px solid var(--g-line); }
+.academy-lessons summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; padding-top: 10px; cursor: pointer; list-style: none; font-size: 14px; font-weight: 500; color: var(--g-text); border-radius: var(--g-radius-sm); transition: color var(--g-dur-2); }
+.academy-lessons summary::-webkit-details-marker { display: none; }
+.academy-lessons summary:hover { color: var(--g-accent-text); }
+.academy-lessons summary .g-icon { transition: transform var(--g-dur-3) var(--g-ease-out); }
+.academy-lessons[open] summary .g-icon { transform: rotate(180deg); }
+.academy-lessons ol { display: grid; gap: 4px; margin-top: 6px; }
+.academy-lesson { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-top: 1px solid var(--g-line); }
+.academy-lesson:first-child { border-top: 0; }
+.academy-lesson__n { font-size: 12px; color: var(--g-text-3); padding-top: 2px; }
+.academy-lesson__title { font-size: 14px; font-weight: 500; color: var(--g-text); line-height: 1.4; margin-bottom: 4px; }
+.academy-lesson__material { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 12.5px; color: var(--g-text-2); }
+.academy-lesson__min { font-size: 12px; color: var(--g-text-3); white-space: nowrap; padding-top: 2px; }
+.academy-projects { display: grid; gap: var(--g-space-4); margin-top: var(--g-space-6); }
+.academy-projects__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 16px; }
+.academy-note { margin-top: var(--g-space-5); text-align: center; }
+@media (max-width: 860px) { .academy-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
 /* Copiloto */
 .copilot-how { display: flex; gap: 12px; align-items: flex-start; }
 .copilot-how p { line-height: 1.6; }

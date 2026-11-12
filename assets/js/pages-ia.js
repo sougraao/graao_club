@@ -68,14 +68,14 @@
         <h3 class="g-h4" style="color:var(--g-text)">${delivered ? "Seus projetos estão entregues" : "Seu Meu Dia começa com um projeto"}</h3>
         <p class="g-caption" style="max-width:46ch">${delivered ? "Quando começar outro trabalho, ele aparece aqui com a próxima ação." : "Cadastre um trabalho real: um briefing de cliente ou um projeto pessoal. Daqui você vê a próxima ação e onde parou."}</p>
         <a class="g-btn g-btn--accent g-btn--arrow" href="projetos.html#novo">${delivered ? "Começar um projeto" : "Criar meu primeiro projeto"} ${icon("arrow-right", "g-icon--sm")}</a>
-        <a class="link-more" href="conteudos.html#trilha-orbita">Conhecer o Método ÓRBITA ${icon("arrow-up-right", "g-icon--sm")}</a></div>`;
+        <a class="link-more" href="conteudos.html#trilha-m04-orbita-ideia-plano">Conhecer o Método ÓRBITA ${icon("arrow-up-right", "g-icon--sm")}</a></div>`;
     };
 
     const renderDay = (proj, steps, acts, stats, all) => {
       const next = steps.find((s) => s.is_next && !s.done) || steps.find((s) => !s.done) || null;
       const done = steps.filter((s) => s.done).length, pct = steps.length ? Math.round((done / steps.length) * 100) : 0;
       const focus = P.orbita(next?.orbita || proj.orbita);
-      const track = P.ACADEMY.find((t) => focus && t.orbita.length === 1 && t.orbita.includes(focus.k)) || P.ACADEMY.find((t) => t.id === "orbita");
+      const track = P.ACADEMY.find((t) => focus && t.orbita.length === 1 && t.orbita.includes(focus.k)) || P.ACADEMY.find((t) => t.id === "m04-orbita-ideia-plano");
       const others = all.filter((p) => p.id !== proj.id && p.status !== "entregue");
       box.innerHTML = `
         <div class="day-top">
@@ -466,30 +466,55 @@
   };
 
   /* =====================================================================
-     ACADEMIA (conteudos.html) — plano das trilhas, sem aulas anunciadas como publicadas
+     ACADEMIA (conteudos.html) — grade da formação IA para TDAH.
+     Tudo "Em preparação": nenhuma aula é anunciada como publicada.
      ===================================================================== */
+  const fmtMin = (min) => (min >= 60 ? `${Math.floor(min / 60)}<small>h</small>${String(min % 60).padStart(2, "0")}` : `${min}<small>min</small>`);
   RENDER.conteudos = (main) => {
+    const A = P.ACADEMY, M = P.ACADEMY_META;
     main.innerHTML = `
-      <div class="page-head"><div><p class="g-body" style="max-width:62ch">Trilhas para aprender inteligência artificial aplicada ao trabalho criativo. As aulas estão em preparação: aqui você vê o plano de cada trilha.</p></div>
+      <div class="page-head"><div><p class="g-body" style="max-width:62ch">A formação IA para TDAH em 8 módulos de aulas curtas: cada uma com um objetivo, uma demonstração e uma ação prática. As aulas estão em preparação; aqui você vê a grade completa e os materiais previstos.</p></div>
         <div class="status-legend" aria-label="Legenda"><span class="g-status g-status--on">Disponível</span><span class="g-status g-status--warn">Em preparação</span></div></div>
-      <div class="academy-grid">${P.ACADEMY.map((t) => `
+      <section class="g-card academy-summary" aria-label="Resumo da formação">
+        <div class="g-stat"><span class="g-stat__label">Módulos</span><span class="g-num g-num--lg">${A.length}</span></div>
+        <div class="g-stat"><span class="g-stat__label">Aulas</span><span class="g-num g-num--lg">${P.ACADEMY_LESSONS}</span></div>
+        <div class="g-stat"><span class="g-stat__label">Duração estimada</span><span class="g-num g-num--lg">${fmtMin(P.ACADEMY_MINUTES)}</span></div>
+        <div class="g-stat"><span class="g-stat__label">Projetos práticos</span><span class="g-num g-num--lg">${M.projects.length}</span></div>
+      </section>
+      <div class="academy-grid">${A.map((t) => {
+        const mins = t.lessons.reduce((a, l) => a + l.min, 0);
+        return `
         <article class="g-card academy-card" id="trilha-${t.id}">
-          <div class="g-cover g-cover--${t.safra} academy-card__cover"><span class="academy-card__letters">${t.orbita.join(" ")}</span></div>
+          <div class="g-cover g-cover--${t.safra} academy-card__cover"><span class="academy-card__n">Módulo ${String(t.n).padStart(2, "0")}</span>${t.orbita.length ? `<span class="academy-card__letters">${t.orbita.join(" ")}</span>` : ""}</div>
           <div class="academy-card__body">
             <span class="g-status g-status--warn">Em preparação</span>
             <h2 class="g-h4">${esc(t.name)}</h2>
             <p class="g-caption">${esc(t.desc)}</p>
-            <span class="g-eyebrow" style="margin-top:6px">Temas previstos</span>
-            <ul class="academy-card__topics">${t.topics.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
-            <div class="academy-card__orbita">${t.orbita.map(chip).join("")}</div>
+            <p class="academy-card__meta">${t.lessons.length} aulas · ${mins >= 60 ? `${Math.floor(mins / 60)}h${String(mins % 60).padStart(2, "0")}` : `${mins} min`} estimados · ${esc(t.level)}</p>
+            ${t.orbita.length ? `<div class="academy-card__orbita">${t.orbita.map(chip).join("")}</div>` : ""}
+            <details class="academy-lessons">
+              <summary>Ver as ${t.lessons.length} aulas ${icon("chevron-down", "g-icon--sm")}</summary>
+              <ol>${t.lessons.map((l) => `
+                <li class="academy-lesson">
+                  <span class="academy-lesson__n g-mono">${String(l.n).padStart(2, "0")}</span>
+                  <div><p class="academy-lesson__title">${esc(l.title)}</p><p class="g-caption">${esc(l.text)}</p><p class="academy-lesson__material">${icon("book", "g-icon--sm")}Material previsto: ${esc(l.material)}</p></div>
+                  <span class="academy-lesson__min g-mono">${l.min} min</span>
+                </li>`).join("")}</ol>
+            </details>
           </div>
-        </article>`).join("")}</div>
+        </article>`;
+      }).join("")}</div>
+      <section class="academy-projects" aria-labelledby="projetos-praticos">
+        <h2 class="g-h4" id="projetos-praticos">Projetos práticos da formação</h2>
+        <div class="academy-projects__grid">${M.projects.map(([t, d]) => `<div class="g-card g-card--flat"><span class="g-status g-status--warn">Em preparação</span><h3 class="g-h4" style="margin-top:8px">${esc(t)}</h3><p class="g-caption" style="margin-top:6px">${esc(d)}</p></div>`).join("")}</div>
+      </section>
       <section class="g-card academy-now">
         <div><h2 class="g-h4">Enquanto as aulas não chegam</h2><p class="g-caption" style="margin-top:4px">Você já pode organizar um projeto real e montar prompts com o contexto dele.</p></div>
         <div class="toolbar"><a class="g-btn g-btn--accent g-btn--arrow" href="projetos.html">Ir para Projetos ${icon("arrow-right", "g-icon--sm")}</a><a class="g-btn" href="ferramentas.html">Abrir o Copiloto</a></div>
-      </section>`;
+      </section>
+      <p class="g-caption academy-note">O curso não realiza diagnóstico, não constitui tratamento e não substitui acompanhamento profissional de saúde.</p>`;
     mount(main);
-    if (location.hash) setTimeout(() => $(location.hash)?.scrollIntoView({ block: "start" }), 60);
+    if (location.hash) setTimeout(() => { const el = $(location.hash); if (el) { el.querySelector("details")?.setAttribute("open", ""); el.scrollIntoView({ block: "start" }); } }, 60);
   };
 
   /* =====================================================================
