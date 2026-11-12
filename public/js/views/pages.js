@@ -3,6 +3,7 @@ import { BRAND, TRACKS, CHANNEL, COURSE, PLAN_TIER, PLANS, NEWS, NEWS_CATS, USER
 import { esc, avatar, ago, $, $$, toast, openModal } from "../ui.js";
 import { store } from "../store.js";
 import { mk, fuse } from "../microkit.js";
+import { rb } from "../reactbits.js";
 
 import { fmtMin } from "../course-ia-para-tdah.js";
 export const tierOf = (m) => m.tier ?? (m.free ? 0 : 1);
@@ -64,7 +65,7 @@ export function cursosPage() {
       const first = mods.find((m) => canAccess(m) && store.progress(m.id).length < m.lessons.length) || mods[0];
       const mins = mods.reduce((s, m) => s + m.lessons.reduce((a, l) => a + l.min, 0), 0);
       return `<section class="course-hero glass" style="--art:${art(COURSE.hue, 3).replace(/"/g, "'")}">
-        <div class="course-hero-art" aria-hidden="true"></div>
+        <div class="course-hero-art rb-tilt rb-glare" aria-hidden="true"></div>
         <div class="course-hero-copy">
           <p class="eyebrow tx-brand">Primeiro curso</p>
           <h2>${esc(COURSE.title)}</h2>
@@ -438,13 +439,14 @@ export function cursoPage(id) {
       <header class="course-top glass">
         <div class="course-top-copy">
           <p class="eyebrow tx-brand">Formação prática · Método ÓRBITA</p>
-          <h1>${esc(COURSE.title)}</h1>
+          <h1>${rb.blur(COURSE.title)}</h1>
           <p class="course-headline big">${esc(COURSE.headline)}</p>
+          <p class="course-rotate">Use a IA para ${rb.rotate(["começar", "organizar", "retomar", "entregar"])}</p>
           <p class="course-sub">${esc(COURSE.subheadline)}</p>
           <div class="course-hero-meta"><span>${icon("layers")}${mods.length} módulos</span><span>${icon("play-outline")}${total} aulas</span><span>${icon("clock")}${fmtMin(mins)}</span><span>${icon("award")}${COURSE.projects.length} projetos práticos</span></div>
           <div class="course-hero-actions">${mk.glow(done ? "Continuar curso" : "Começar grátis", store.user ? "/modulo/" + start.id : "/cadastro?callbackUrl=/curso/" + COURSE.id)}<span class="muted sm">${store.user ? `${done}/${total} aulas vistas` : "Módulo 01 liberado no plano Semente"}</span></div>
         </div>
-        <div class="course-top-art" style="--art:${art(COURSE.hue, 3).replace(/"/g, "'")}"><span>${esc(COURSE.headline)}</span></div>
+        <div class="course-top-art rb-tilt rb-glare" style="--art:${art(COURSE.hue, 3).replace(/"/g, "'")}"><span>${esc(COURSE.headline)}</span></div>
       </header>
 
       <section class="course-sec two">
@@ -455,7 +457,7 @@ export function cursoPage(id) {
 
       <section class="course-sec">
         <div class="sec-head"><p class="eyebrow tx-brand">Metodologia</p><h2>Método <span class="grad">ÓRBITA</span></h2><p class="muted">Seis etapas para levar uma ideia até a entrega.</p></div>
-        <ol class="orbita mk-glide">${COURSE.orbita.map(([l, t, d], i) => `<li class="card"><span class="orb-l">${l}</span><small>Etapa ${i + 1}</small><b>${t}</b><p>${esc(d)}</p></li>`).join("")}</ol>
+        ${rb.stepper(COURSE.orbita)}
       </section>
 
       <section class="course-sec">
@@ -465,14 +467,14 @@ export function cursoPage(id) {
           return `<details class="card syl" ${m.n === 1 ? "open" : ""}>
             <summary><span class="syl-n">${String(m.n).padStart(2, "0")}</span><span class="syl-t"><b>${esc(m.title)}</b><small>${m.lessons.length} aulas · ${fmtMin(mm)} · ${esc(m.level)}</small></span><span class="pill ${ok ? "" : "lock"}">${ok ? (m.tier === 0 ? "Grátis" : "Liberado") : icon("lock") + tierName(m.tier)}</span>${icon("chevron-down")}</summary>
             <p class="syl-obj">${esc(m.objective)}</p>
-            <ol>${m.lessons.map((l) => `<li><a href="/aula/${m.id}/${l.id}">${mk.ring(d.has(l.id) ? "done" : "pending", d.has(l.id) ? 1 : 0)}<span><b>${String(l.n).padStart(2, "0")} · ${esc(l.title)}</b><small>${esc(l.material)}</small></span><em>${l.min} min</em></a></li>`).join("")}</ol>
+            <ol class="rb-list">${m.lessons.map((l) => `<li><a href="/aula/${m.id}/${l.id}">${mk.ring(d.has(l.id) ? "done" : "pending", d.has(l.id) ? 1 : 0)}<span><b>${String(l.n).padStart(2, "0")} · ${esc(l.title)}</b><small>${esc(l.material)}</small></span><em>${l.min} min</em></a></li>`).join("")}</ol>
           </details>`;
         }).join("")}</div>
       </section>
 
       <section class="course-sec">
         <div class="sec-head"><p class="eyebrow tx-brand">Na prática</p><h2>3 projetos práticos</h2></div>
-        <div class="projects mk-glide">${COURSE.projects.map(([t, d], i) => `<div class="card"><span class="ico-box accent">${icon(["sparkles", "layers", "settings"][i])}</span><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join("")}</div>
+        <div class="projects">${COURSE.projects.map(([t, d], i) => `<div class="card rb-spotlight"><span class="ico-box accent">${icon(["sparkles", "layers", "settings"][i])}</span><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join("")}</div>
       </section>
 
       <section class="course-sec two">

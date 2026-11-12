@@ -3,6 +3,7 @@ import { BRAND, AREAS, PLANS, FAQ, TESTIMONIALS, TRACKS, COURSE, NEWS, SEED_POST
 import { esc, brandHTML, letters, avatar, $, $$, observeReveals } from "../ui.js";
 import { store } from "../store.js";
 import { mk } from "../microkit.js";
+import { rb } from "../reactbits.js";
 
 const A = (href, label, cls = "btn-primary", extra = "") => `<a class="btn ${cls}" href="${href}" ${extra}><span>${label}</span>${btnArrow()}</a>`;
 
@@ -42,7 +43,7 @@ const SCENES = [
 
 const planCard = (p, billing) => {
   const pr = p.price[billing];
-  return `<article class="plan ${p.featured ? "featured" : ""}" data-reveal aria-labelledby="plan-${p.id}">
+  return `<article class="plan rb-spotlight ${p.featured ? "featured rb-star" : ""}" data-reveal aria-labelledby="plan-${p.id}">
     <div class="plan-top"><span class="plan-icon ${p.free ? "free" : ""}" aria-hidden="true">${icon(p.icon)}</span><h3 id="plan-${p.id}">${p.name}</h3></div>
     <div class="price"><span>${pr.pre}</span><strong>${pr.big}</strong>${pr.post ? `<span>${pr.post}</span>` : ""}</div>
     <p class="price-note">${p.note[billing]}</p>
@@ -79,11 +80,11 @@ export function renderLanding() {
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-grid">
           <div>
-            <p class="hero-kicker" data-hero-copy><span class="dot"></span>Primeiro curso: ${esc(COURSE.title)}</p>
+            <p class="hero-kicker" data-hero-copy><span class="dot"></span>${rb.shiny("Primeiro curso: " + COURSE.title)}</p>
             <h1 id="hero-title">
               <span class="line"><span style="--i:0">Aprenda.</span></span>
               <span class="line"><span style="--i:1">Organize.</span></span>
-              <span class="line accent"><span style="--i:2">Floresça${icon("arrow-up-right", "hero-arrow")}</span></span>
+              <span class="line accent"><span style="--i:2">${rb.gradient("Floresça")}${icon("arrow-up-right", "hero-arrow")}</span></span>
               <span class="sr-only"> com IA e uma comunidade que entende o seu ritmo</span>
             </h1>
             <p class="hero-sub" data-hero-copy aria-hidden="true">com IA e uma comunidade<br><em>que entende o seu ritmo.</em></p>

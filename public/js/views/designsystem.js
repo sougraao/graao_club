@@ -2,6 +2,7 @@
 import { icon, btnArrow } from "../icons.js";
 import { esc, toast } from "../ui.js";
 import { mk } from "../microkit.js";
+import { rb } from "../reactbits.js";
 
 const COLORS = [
   ["Neutros", [["--gc-white", "#FFFFFF", "Superfície"], ["--gc-bg", "#F7F9FB", "Fundo da página"], ["--gc-mist", "#EFF4F9", "Superfície suave"], ["--gc-border", "#D8DCE5", "Bordas e divisores"], ["--gc-muted", "#667071", "Texto secundário"], ["--gc-ink", "#1F212D", "Texto principal"], ["--gc-night", "#111516", "Fundo do tema escuro"]]],
@@ -44,6 +45,22 @@ const COMPONENTS = [
   ["Read More Swap", "read-more-swap", "Links \"Ver tudo\".", () => mk.more("Ver tudo", "#")],
 ];
 
+const RB_COMPONENTS = [
+  ["Blur Text", "text-animations/blur-text", "Títulos de página entrando palavra a palavra.", () => `<b class="ds-link" style="font-size:24px">${rb.blur("Sua mente cria.")}</b>`],
+  ["Rotating Text", "text-animations/rotating-text", "Uma palavra que alterna (máx. 4 opções).", () => `<span style="font-size:18px;font-weight:600">Use a IA para ${rb.rotate(["começar", "organizar", "entregar"])}</span>`],
+  ["Shiny Text", "text-animations/shiny-text", "Selos e destaques curtos.", () => `<span class="pill" style="height:30px;font-size:13px">${rb.shiny("Primeiro curso: IA para TDAH")}</span>`],
+  ["Gradient Text", "text-animations/gradient-text", "Palavra de ênfase do hero (uma por página).", () => `<b style="font:700 34px var(--font-display)">${rb.gradient("Floresça")}</b>`],
+  ["Spotlight Card", "components/spotlight-card", "Cards de planos, projetos e princípios.", () => `<div class="card rb-spotlight" style="width:100%;padding:22px;text-align:center">Passe o mouse</div>`],
+  ["Tilted Card + Glare Hover", "components/tilted-card", "Capa do curso.", () => `<div class="rb-tilt rb-glare" style="width:160px;height:100px;border-radius:14px;background:var(--gc-grad-dream);box-shadow:var(--shadow-md)"></div>`],
+  ["Stepper", "components/stepper", "Conteúdo em etapas (Método ÓRBITA).", () => `<span class="muted sm">Veja em /curso/ia-para-tdah</span>`],
+  ["Animated List", "components/animated-list", "Listas de aulas entrando em cascata.", () => `<ul class="rb-list" style="display:grid;gap:6px;width:100%">${["Aula 01", "Aula 02", "Aula 03"].map((t) => `<li class="card" style="padding:8px 12px;font-size:13px">${t}</li>`).join("")}</ul>`],
+  ["Click Spark", "animations/click-spark", "Faíscas ao clicar em CTAs primários.", () => `<button class="ui-btn primary">Clique aqui</button>`],
+  ["Counter", "components/counter", "Pontos na sidebar (dígitos rolando).", () => `<b style="font:700 36px var(--font-display);color:var(--brand)">${rb.counter(148)}</b>`],
+  ["Pulse Heart", "micro/pulse-heart", "Curtir posts e novidades.", () => `<button class="act" data-like-demo onclick="this.classList.toggle('on');this.setAttribute('data-like','')" aria-label="Curtir"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><span>12</span></button>`],
+  ["Squish Switch", "micro/squish-switch", "Interruptores em Configurações.", () => `<label class="toggle-row" style="width:100%"><span><b>Avisos</b></span><input type="checkbox" checked><span class="switch" aria-hidden="true"></span></label>`],
+  ["Star Border", "animations/star-border", "Plano em destaque (Colheita).", () => `<div class="card rb-star" style="padding:18px 26px;font-weight:600">Colheita</div>`],
+];
+
 const swatch = ([token, hex, use]) => `<li class="ds-swatch"><span class="chip-color" style="background:${hex}"></span><div><b>${token.replace("--gc-", "")}</b><code>${hex}</code><small>${use}</small><span class="ds-contrast" data-hex="${hex}"></span></div></li>`;
 
 export function designSystemPage() {
@@ -55,11 +72,11 @@ export function designSystemPage() {
         <p class="eyebrow tx-brand">Design System · v2.0</p>
         <h1>graao <em>club</em></h1>
         <p>Clean, criativo e suave. Vidro translúcido sobre uma aurora de verde-água, violeta e azul, com toques de coral e amarelo. Esta página é a referência viva; a fonte dos tokens é <code>css/base.css</code> e as regras completas estão em <code>DESIGN-SYSTEM.md</code>.</p>
-        <nav class="ds-toc">${["Princípios", "Cores", "Gradientes", "Tipografia", "Vidro", "Forma", "Componentes", "Regras"].map((t) => `<a href="#ds-${t.toLowerCase()}">${t}</a>`).join("")}</nav>
+        <nav class="ds-toc">${["Princípios", "Cores", "Gradientes", "Tipografia", "Vidro", "Forma", "Componentes", "React Bits", "Regras"].map((t) => `<a href="#ds-${t.toLowerCase().replace(/ /g, "-")}">${t}</a>`).join("")}</nav>
       </header>
 
       <section id="ds-princípios" class="ds-sec"><h2>Princípios</h2>
-        <div class="ds-grid4 mk-glide">${PRINCIPLES.map(([ic, t, d]) => `<div class="card"><span class="ico-box accent">${icon(ic)}</span><b>${t}</b><p>${d}</p></div>`).join("")}</div></section>
+        <div class="ds-grid4">${PRINCIPLES.map(([ic, t, d]) => `<div class="card rb-spotlight"><span class="ico-box accent">${icon(ic)}</span><b>${t}</b><p>${d}</p></div>`).join("")}</div></section>
 
       <section id="ds-cores" class="ds-sec"><h2>Cores</h2><p class="muted">Paleta v2 enviada pelo time (“Moodboard — Design System Palette”). Itens marcados com * foram harmonizados. O contraste é calculado ao vivo contra o fundo #F7F9FB.</p>
         ${COLORS.map(([g, list]) => `<h3>${g}</h3><ul class="ds-swatches">${list.map(swatch).join("")}</ul>`).join("")}
@@ -104,6 +121,9 @@ backdrop-filter: blur(var(--glass-blur)) saturate(160%);</pre></section>
 
       <section id="ds-componentes" class="ds-sec"><h2>Componentes · MicroKit</h2><p class="muted">Microinterações de <a class="link" href="https://microkit.co" target="_blank" rel="noopener">microkit.co</a> (licença MIT), reescritas em HTML/CSS/JS sem dependências e com os tokens do graao club. Arquivos: <code>css/microkit.css</code> e <code>js/microkit.js</code>.</p>
         <div class="ds-comps">${COMPONENTS.map(([name, slug, use, demo]) => `<article class="card ds-comp"><div class="ds-demo">${demo()}</div><div class="ds-meta"><b>${name}</b><small>${use}</small><code>microkit/${slug}</code></div></article>`).join("")}</div></section>
+
+      <section id="ds-react-bits" class="ds-sec" data-ds-rb><h2>Componentes · React Bits</h2><p class="muted">Inspirados em <a class="link" href="https://reactbits.dev" target="_blank" rel="noopener">reactbits.dev</a> (licença MIT + Commons Clause: uso no produto permitido; não redistribuir os componentes isoladamente), reescritos em HTML/CSS/JS. Arquivos: <code>css/reactbits.css</code> e <code>js/reactbits.js</code>. Só entraram componentes que ajudam a leitura e o feedback; cursores, glitch e partículas ficaram de fora.</p>
+        <div class="ds-comps">${RB_COMPONENTS.map(([name, slug, use, demo]) => `<article class="card ds-comp"><div class="ds-demo">${demo()}</div><div class="ds-meta"><b>${name}</b><small>${use}</small><code>reactbits/${slug}</code></div></article>`).join("")}</div></section>
 
       <section id="ds-regras" class="ds-sec"><h2>Regras</h2>
         <div class="ds-rules">${RULES.map(([t, list]) => `<div class="card"><b>${t}</b><ul>${list.map((r) => `<li>${esc(r)}</li>`).join("")}</ul></div>`).join("")}</div></section>

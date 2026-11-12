@@ -86,3 +86,6 @@
 @media (max-width: 860px) { .course-top, .course-sec.two { grid-template-columns: 1fr; } .course-top-art { min-height: 200px; } .orbita { grid-template-columns: 1fr 1fr; } .syl-obj { padding-left: 18px; } .syl ol { padding-left: 6px; } }
 
 .course-hero-copy .course-headline { color: var(--brand); }
+
+.course-rotate { font-size: 17px; font-weight: 600; }
+.ds-comp .rb-rotate { font-size: 18px; }

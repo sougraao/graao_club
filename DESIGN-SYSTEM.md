@@ -141,12 +141,34 @@ Microinterações de [microkit.co](https://microkit.co) (licença MIT), reescrit
 
 **Não faça**: dois `mk.glow` na mesma tela, `mk.hold` para ações reversíveis, ou animação nova fora desta lista sem antes adicioná-la aqui.
 
+## 6b. Componentes — React Bits
+
+Inspirados em [reactbits.dev](https://reactbits.dev) (licença **MIT + Commons Clause**: uso dentro do produto permitido, inclusive comercial; **não** vender, sublicenciar ou redistribuir os componentes isoladamente). Reescritos em JS/CSS puro, prefixo `.rb-*`, helpers `rb.*` em `js/reactbits.js` e `initReactbits(root)` após cada render.
+
+**Critério de escolha:** só entram componentes que ajudam a leitura e o feedback. Cursores animados, glitch, partículas e fundos WebGL ficam de fora (diretriz de baixa carga cognitiva do curso).
+
+| Componente (React Bits) | Helper / classe | Regra de uso no graao |
+|---|---|---|
+| Blur Text | `rb.blur(texto)` | Título principal de páginas de conteúdo (uma vez por página) |
+| Rotating Text | `rb.rotate([palavras])` | Uma frase por página, no máximo 4 palavras alternando |
+| Shiny Text | `rb.shiny(texto)` | Selos curtos (ex.: "Primeiro curso") |
+| Gradient Text | `rb.gradient(texto)` | Palavra de ênfase do hero, uma por página |
+| Spotlight Card | `.rb-spotlight` | Cards de planos, projetos e princípios |
+| Tilted Card + Glare Hover | `.rb-tilt.rb-glare` | Capa do curso (só mouse; desliga no toque) |
+| Stepper | `rb.stepper(etapas)` | Conteúdo em etapas (Método ÓRBITA) |
+| Animated List | `.rb-list` | Listas de aulas entrando em cascata |
+| Click Spark | automático em CTAs primários | Feedback de clique (`[data-rb-spark]` para outros) |
+| Counter | `rb.counter(n)` | Pontos na sidebar |
+| Pulse Heart | automático em `[data-like]` | Curtir posts e novidades |
+| Squish Switch | automático em `.toggle-row` | Interruptores de Configurações |
+| Star Border | `.rb-star` | Plano em destaque (Colheita), um por tela |
+
 ## 7. Checklist de revisão (todo PR de UI)
 
 - [ ] Só tokens; nenhum hex/raio/sombra solto.
 - [ ] Texto passa em AA (4,5:1); primária com texto branco; acentos (coral, amarelo, azul, violeta) com texto tinta.
 - [ ] Vidro com aurora atrás e no máximo 2 camadas.
-- [ ] No máximo um CTA `mk.glow` por tela.
+- [ ] No máximo um CTA `mk.glow`, uma `rb.gradient` e uma `.rb-star` por tela.
 - [ ] Funciona no tema claro **e** no escuro.
 - [ ] Funciona em 390px de largura, sem rolagem horizontal.
 - [ ] Com `prefers-reduced-motion`, nada se move além do necessário.

@@ -4,6 +4,7 @@ import { icon } from "../icons.js";
 import { BRAND, ONBOARDING } from "../data.js";
 import { esc, brandHTML, avatar } from "../ui.js";
 import { store } from "../store.js";
+import { rb } from "../reactbits.js";
 
 const NAV = [
   ["Principal", [["inicio", "/inicio", "Dashboard", "grid"], ["cursos", "/cursos", "Conteúdos", "play-outline"], ["comunidade", "/comunidade", "Comunidade", "message"], ["ranking", "/ranking", "Ranking", "star-outline"]]],
@@ -58,7 +59,7 @@ export function appShell(active, inner, { title = "", search = "" } = {}) {
       </nav>
       <a href="/ranking" class="points-card" title="${pts} pontos">
         <span class="points-ico">${icon("trophy")}</span>
-        <span><b>${pts} pontos</b><small>nesta temporada</small></span>
+        <span><b>${rb.counter(pts)} pontos</b><small>nesta temporada</small></span>
       </a>
     </aside>
     <div class="sidebar-scrim" data-action="close-drawer"></div>

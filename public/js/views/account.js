@@ -157,7 +157,7 @@ export function planosPage(params) {
       <div class="card current-plan">${icon("check")}<div><b>Seu plano atual é o ${planName(u.plan)}</b><small>${u.plan === "free" ? "Compare abaixo o que muda ao assinar." : "Você pode trocar ou voltar ao gratuito quando quiser."}</small></div><a class="small-link tx-brand" href="/conta/plano">Ver situação da conta</a></div>
       <div class="plan-cards">${paid.map((p) => {
         const current = u.plan === p.id;
-        return `<article class="card plan-card ${p.featured ? "featured" : ""} ${pre === p.id ? "is-pre" : ""}">
+        return `<article class="card plan-card rb-spotlight ${p.featured ? "featured rb-star" : ""} ${pre === p.id ? "is-pre" : ""}">
           ${p.featured ? `<span class="most">Mais escolhido</span>` : ""}
           <div class="plan-card-top"><span class="ico-box ${p.featured ? "solid" : ""}">${icon(p.icon)}</span><div><b>${p.name}</b><small>${esc(p.desc)}</small></div></div>
           <div class="plan-price"><strong>R$ ${p.price.yearly.big}</strong><span>${p.price.yearly.post || ""}</span></div>

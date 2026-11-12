@@ -9,6 +9,7 @@ import { BRAND } from "./data.js";
 import { icon } from "./icons.js";
 import { $, openModal, closeAllModals, toast } from "./ui.js";
 import { initMicrokit } from "./microkit.js";
+import { initReactbits } from "./reactbits.js";
 import { designSystemPage } from "./views/designsystem.js";
 
 const app = $("#app");
@@ -77,6 +78,7 @@ function render({ keepScroll = false } = {}) {
     }
   }
   initMicrokit(document);
+  initReactbits(document);
   if (keepScroll) scrollTo(0, y);
   else if (location.hash) requestAnimationFrame(() => document.getElementById(location.hash.slice(1))?.scrollIntoView());
   else scrollTo(0, 0);
