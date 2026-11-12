@@ -77,6 +77,15 @@
     get teamRole() { return teamRole; },
     can: (perm) => perms.includes(perm),
 
+    /* Catálogo real: nunca usa data.js ou localStorage como alternativa. */
+    async academyCatalog() {
+      if (!enabled) throw new Error("A Academia precisa de conexão com o servidor.");
+      const { data, error } = await client.rpc("academy_catalog");
+      if (error) throw new Error(friendly(error));
+      if (!Array.isArray(data)) throw new Error("Não foi possível carregar o catálogo.");
+      return data;
+    },
+
     /* Resolve a sessão atual (e o perfil). Retorna null se não houver login. */
     async ready() {
       if (!enabled) return null;

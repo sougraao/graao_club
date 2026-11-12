@@ -1,3 +1,23 @@
+/* Grade de curso: detalhes nativos preservam teclado e estado expandido. */
+.g-course { display: grid; gap: 16px; margin-bottom: 24px; }
+.g-course > .g-btn { justify-self: start; }
+.g-course > ul { padding-inline-start: 20px; }
+.g-course__meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.g-course__modules { display: grid; gap: 12px; }
+.g-course-module { padding: 0; margin-bottom: 0; min-width: 0; }
+.g-course-module__summary { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 20px; cursor: pointer; list-style: none; border-radius: var(--g-radius-lg); transition: background var(--g-dur-2) var(--g-ease-out); }
+.g-course-module__summary::-webkit-details-marker { display: none; }
+.g-course-module__summary > span:not(.g-badge) { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.g-course-module__summary > .g-icon { flex: none; transition: transform var(--g-dur-2) var(--g-ease-out); }
+.g-course-module__summary:hover { background: var(--g-surface-raised); }
+.g-course-module[open] > summary > .g-icon { transform: rotate(180deg); }
+.g-course-module__meta { display: block; margin-top: 8px; }
+.g-course-module__body { padding: 0 20px 20px; }
+.g-course__lessons { display: grid; gap: 24px; padding-inline-start: 24px; margin-top: 24px; }
+.g-course__lessons > li { padding-inline-start: 4px; overflow-wrap: anywhere; }
+.g-course__lessons > li::marker { color: var(--g-text-2); font-family: var(--g-font-mono); }
+.g-course__lessons p { margin-top: 8px; }
+
 /* =====================================================================
    GRAAO DESIGN SYSTEM · v1.0  ("Safra")
    Fonte única de verdade para tokens e componentes do graao club.
