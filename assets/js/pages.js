@@ -1,4 +1,4 @@
-/* graao club — renderização das páginas do app (dados de demonstração em data.js).
+/* IA para TDAH — renderização das páginas do app (dados de demonstração em data.js).
    Toda a UI usa componentes do design system (DESIGN_SYSTEM.md). */
 (function () {
   "use strict";
@@ -338,7 +338,7 @@
     const id = new URLSearchParams(location.search).get("id");
     const n = NEWS().find((x) => x.id === id) || NEWS()[0];
     const s = CAT_LOOK[n.cat] || "noite";
-    document.title = `${n.title} · graao club`;
+    document.title = `${n.title} · IA para TDAH`;
     const liked = store.get(CONFIG.storage.likes, []).includes(n.id), sv = store.get(CONFIG.storage.saved, []).includes(n.id);
     main.innerHTML = `
       <div class="g-scroll-progress" data-g-scroll-progress aria-hidden="true"></div>
@@ -354,7 +354,7 @@
           <button class="g-btn g-btn--sm" id="share">${icon("share", "g-icon--sm")}Compartilhar</button>
         </div>
         <div class="article-body">${n.body.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
-        <p class="g-caption" style="margin-top:28px">Texto de demonstração do graao club.</p>
+        <p class="g-caption" style="margin-top:28px">Texto de demonstração do IA para TDAH.</p>
       </article>
       <section style="max-width:760px;margin:24px auto 0;width:100%"><div class="card-head"><h3 class="g-h4">Leia também</h3><a class="link-more" href="noticias.html">Todas ${icon("arrow-up-right", "g-icon--sm")}</a></div>
         <div class="g-card" style="display:grid;gap:2px;padding:12px">${NEWS().filter((x) => x.id !== n.id).slice(0, 3).map(newsRow).join("")}</div></section>`;
@@ -499,7 +499,7 @@
   RENDER.perfil = (main) => {
     const uid = new URLSearchParams(location.search).get("u");
     const other = uid && uid !== "me" ? userById(uid) : null;
-    const user = other ? { ...other, username: other.id, bio: "Membro do graao club.", skills: [], links: {} } : getUser();
+    const user = other ? { ...other, username: other.id, bio: "Membro do IA para TDAH.", skills: [], links: {} } : getUser();
     const posts = other ? D.posts.filter((p) => p.user === other.id) : store.get(CONFIG.storage.posts, []);
     const pts = other ? other.points : GRAAO.points();
     const certs = other ? 0 : TRAILS().filter((t) => trailProgress(t).pct === 100 && trailProgress(t).total).length;
@@ -699,7 +699,7 @@
       },
       aparencia() {
         const cur = store.get(CONFIG.storage.theme, null) || "dark";
-        return `<h2 class="g-h3">Aparência</h2><p class="g-caption">Escolha como o graao club aparece para você.</p>
+        return `<h2 class="g-h3">Aparência</h2><p class="g-caption">Escolha como o IA para TDAH aparece para você.</p>
           <div class="g-card" style="display:grid;gap:18px">
             <div class="g-segment" data-g-segment id="theme" role="tablist" style="justify-self:start">${[["system", "monitor", "Sistema"], ["dark", "moon", "Noite"], ["light", "sun", "Dia"]].map(([v, ic, l]) => `<button role="tab" data-value="${v}" aria-selected="${cur === v}">${icon(ic, "g-icon--sm")}${l}</button>`).join("")}</div>
             <div class="theme-previews"><div class="g-noite tp"><span></span><i></i><i></i></div><div class="g-dia tp"><span></span><i></i><i></i></div></div>

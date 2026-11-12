@@ -1,4 +1,4 @@
-/* graao club — ambiente.
+/* IA para TDAH — ambiente.
    Valores PÚBLICOS por design (URL do projeto + chave anon/publishable). Nunca coloque aqui a
    service role, chaves do R2 ou do Asaas — essas ficam só nos secrets das Edge Functions.
    Deixe supabaseUrl vazio para rodar em modo demonstração (dados locais, sem backend).

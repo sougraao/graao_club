@@ -1,6 +1,6 @@
-# Safra — Design System do graao club
+# Safra — Design System do IA para TDAH
 
-> **Documento primordial.** Toda tela, componente, página, e-mail ou peça nova do graao club parte daqui.
+> **Documento primordial.** Toda tela, componente, página, e-mail ou peça nova do IA para TDAH parte daqui.
 > Se algo não está coberto, estenda o sistema seguindo estas regras e registre a adição neste arquivo.
 > Vitrine viva: [`design-system.html`](design-system.html) · Código: [`assets/css/graao-ds.css`](assets/css/graao-ds.css), [`assets/js/graao-ds.js`](assets/js/graao-ds.js), [`assets/js/graao-icons.js`](assets/js/graao-icons.js)
 
@@ -8,7 +8,7 @@
 
 ## 1. Essência
 
-**"Detalhe é colheita."** O graao club é premium pela precisão: superfícies grafite profundas, uma única cor de energia (o **Broto**, verde-lima), números grandes e leves, mídia vibrante e micro-interações que respondem a cada gesto.
+**"Detalhe é colheita."** O IA para TDAH é premium pela precisão: superfícies grafite profundas, uma única cor de energia (o **Broto**, verde-lima), números grandes e leves, mídia vibrante e micro-interações que respondem a cada gesto.
 
 Origem da linguagem:
 | Referência | O que herdamos |
@@ -99,6 +99,8 @@ Família única **Geist** (300–800) + **Geist Mono** para rótulos técnicos.
 
 Regras: títulos nunca em negrito 800+; nunca texto em CAIXA ALTA fora do `.g-eyebrow`; frases curtas.
 
+**Exceção (12/11/2026, pedido do responsável):** o cabeçalho, o menu em tela cheia e o hero com vídeo da landing usam a tipografia do prompt do hero: `.font-podium` ("FSP DEMO - PODIUM Sharp 4.11", via onlinewebfonts.com, para a marca, o título e os links do menu) e `.font-inter` (Inter 400–700, para texto, navegação e botões), em CAIXA ALTA com tracking largo. Só nesses três blocos; o resto do site e o app seguem Geist. A fonte é uma versão DEMO com crédito obrigatório (link no rodapé); confirmar a licença antes de publicar.
+
 ### 3.4 Espaço, raio, elevação
 
 - **Espaço:** base 4px → `4 · 8 · 12 · 16 · 20 · 24 · 32 · 40 · 48 · 64 · 80 · 96`. Gap entre cards: 16px. Padding de card: 24px (raised: 16px).
@@ -177,6 +179,18 @@ Todos vivos em `design-system.html`. Classe → quando usar.
 | Gráfico de barras | `.g-bars` (`--max`, `--h`) com `.g-bar` (`--v`, `data-label`, `data-value`; `.is-peak` destaca) dentro de `.g-bars-wrap` | Séries curtas (semanas, dias); tooltip no hover |
 | Barra de ações em massa | `.g-actionbar` (+ `.is-open`) | Ações sobre itens selecionados numa lista |
 
+### Área do aluno (`assets/css/club-layout.css`)
+Toda página com `data-app-page` (exceto admin) carrega `club-layout.css` depois de `styles.css`; o shell recebe `.g-club-shell` via `app.js`. Usa só tokens `--g-*`.
+
+| Componente | Classe | Quando |
+|---|---|---|
+| Primeiros passos | `.g-club-onboarding` + `.g-club-section-head` + `ol > li(.is-done) > a` com `.g-club-step-number` | Checklist de ativação no topo do Meu Dia; o estado vem dos dados, nunca do clique |
+| Próximo passo | `.g-club-next` (`.g-eyebrow`, `.g-h3`, `p`, `.g-club-next__actions`) | Card dominante com uma ação; usado no Meu Dia sem projeto |
+| Indicadores | `.g-club-stats` (3 células) | Números pessoais em faixa única |
+| Bloco de conteúdo | `.g-club-learning` + `.g-club-card-heading` + `.g-club-lessons` | Lista curta de cursos/aulas com link "ver todos" |
+| Coluna de apoio | `.g-club-grid > .g-club-main + .g-club-aside` (`.g-club-side-list`) | Duas colunas ≥ 1200px; abaixo, empilha |
+| Atalho flutuante | `.g-club-float` | Contador de primeiros passos que devolve o foco ao checklist |
+
 ### Mobile
 | Componente | Classe / API | Quando |
 |---|---|---|
@@ -191,7 +205,7 @@ Todos vivos em `design-system.html`. Classe → quando usar.
 
 ## 5. Mobile (regras de plataforma)
 
-O graao club é **mobile-first**: escreva o CSS para 375px e expanda. Todo componente da seção 4 já se adapta.
+O IA para TDAH é **mobile-first**: escreva o CSS para 375px e expanda. Todo componente da seção 4 já se adapta.
 
 - **Breakpoints (valores exatos):** `sm 520px` · `md 860px` (troca de navegação: menu lateral → barra de abas) · `lg 1100px` (colunas laterais descem) · `xl 1360px` (largura máxima).
 - **Toque** (`@media (pointer: coarse)`, já no CSS): alvos ≥ 44px, sem atraso de toque nem realce azul, `:hover` decorativo vira `:active` (leve escala).
@@ -212,6 +226,7 @@ O graao club é **mobile-first**: escreva o CSS para 375px e expanda. Todo compo
 - **Lista + detalhe:** `.g-sheet` clara com `.g-notch` de filtros; à esquerda `.g-row` (selecionada invertida), à direita card Noite com detalhes e ação lima.
 - **Filtros:** linha de `.g-pill-input` com rótulo "Filtros ativos" + `.g-count`.
 - **Site público:** modo Dia, seções escuras pontuais (`.g-noite`) para ritmo. Hero com `.g-display` e carrossel de mídia.
+- **Hero com vídeo (landing, 12/11/2026):** `.hero--video.g-noite` em tela cheia (`100svh`) com `<video muted loop playsinline>` em `object-fit: cover`, véu `.hero-shade` em `--g-ink-1000` para contraste e conteúdo à esquerda com entrada escalonada `.hero-in` (`--i` = ordem, 200ms entre itens). Obrigatório: botão `.hero-pause` (pausar/reproduzir, `aria-pressed`), vídeo parado com movimento reduzido e fora da tela. O cabeçalho `.site-header--hero` fica fixo sobre o vídeo em modo Noite e volta ao Dia depois dele; abaixo de 1100px a navegação abre o `.site-menu` em tela cheia (Esc fecha, foco preso, links com entrada escalonada).
 - **Vazio:** sempre `.g-empty` com ícone, uma frase e uma ação.
 - **Admin (painel da equipe):** mesmo shell do app com o selo "Painel administrativo" e menu agrupado por área (Visão geral, Conteúdo, Comunidade, Engajamento, Pessoas, Vendas, Sistema). Cada área exige uma permissão; o menu mostra só o que o papel (Administrador, Equipe, Editor) pode acessar, e uma rota sem permissão mostra `.g-empty` com cadeado.
   - **Lista + detalhe:** busca + filtros em `.g-segment` + ação "Novo" lima → lista de `.g-row` à esquerda (selecionada invertida), formulário à direita. No celular o detalhe abre em bottom sheet.
@@ -233,12 +248,13 @@ Clientes de e-mail (Gmail, Outlook, Apple Mail) **não suportam variáveis CSS, 
 | Fundo | `--g-mist-100` | `#eeeef2` |
 | Texto secundário / terciário | `--g-text-2` / `--g-text-3` (Dia) | `#5c636d` / `#7d848e` |
 
-Regras: layout em tabela, largura máx. 560px, raios 28px (cartão) e pílula (botão), uma única ação Broto, link de reserva abaixo do botão, aviso de segurança em faixa clara, assinatura "Plante. Cultive. Colha.". Todos os modelos saem de [`supabase/templates/_build.py`](supabase/templates/_build.py) — nunca edite o HTML gerado à mão.
+Regras: layout em tabela, largura máx. 560px, raios 28px (cartão) e pílula (botão), uma única ação Broto, link de reserva abaixo do botão, aviso de segurança em faixa clara, assinatura "Sua mente cria. Seu sistema entrega.". Todos os modelos saem de [`supabase/templates/_build.py`](supabase/templates/_build.py) — nunca edite o HTML gerado à mão.
 
 ## 7. Voz e conteúdo
 
-- Português do Brasil, próximo e direto ("você"). Metáfora de cultivo com moderação: **Plante · Cultive · Colha**, Semente/Broto/Colheita para planos (voz do graao club).
+- Português do Brasil, próximo e direto ("você"). Metáfora de cultivo com moderação: **Plante · Cultive · Colha**, Semente/Broto/Colheita para planos (voz do IA para TDAH).
 - **IA para TDAH** (oferta apresentada ao público desde 1.2): assinatura **"Sua mente cria. Seu sistema entrega."**. Clareza + identificação + possibilidade concreta + autonomia. Situações reais de trabalho criativo (briefing, cliente, revisão, entrega). Proibido: promessa de cura ou de produtividade garantida, generalizações sobre TDAH, culpa, urgência ou escassez artificial, depoimentos e números inventados. Recurso que não existe aparece como "Em preparação"; demonstração aparece rotulada como demonstração.
+- **Logo (wordmark):** isotipo + `<b>IA</b><span class="brand-para">para</span><b>TDAH</b>` dentro de `.brand` (ou `.brand-word` no menu do app). "IA" e "TDAH" em negrito na cor do texto; o conectivo "para" com metade do tamanho, peso 500, 62% de opacidade da cor atual e centrado na altura das maiúsculas (padrão de títulos com palavra de ligação reduzida). Leitores de tela usam o `aria-label` "IA para TDAH". Não escrever o nome todo no mesmo tamanho dentro do logo.
 - Botões começam com verbo e têm até 3 palavras.
 - Números sempre formatados em pt-BR (`48.290`, `R$ 29,90`).
 - Nunca inventar depoimentos, clientes ou números reais: use marcadores claros até ter o dado.
@@ -276,6 +292,7 @@ Versão atual: **1.2 (Safra)** — novembro de 2026.
 
 - **1.2** (11/11/2026): `G.motion` (reduzir animações por escolha da pessoa, `html[data-g-motion="reduce"]`), rótulo fixo para `select`/`date` dentro de `.g-field`, ícones `folder`, `target` e `orbit` (mesmo traço 1.7), navegação do app do IA para TDAH e voz do IA para TDAH na seção 7. Nenhuma classe existente mudou.
 
+- **1.2.1** (12/11/2026): ícone `pause`; padrão de hero com vídeo de fundo na landing (seção 6).
 - **1.1** (09/11/2026): troca de tema com varredura diagonal (`G.theme`), botão principal com luz na borda, contorno do `--swap` alinhado ao orbe e item ativo da barra de abas com a largura do rótulo. A paleta lima segue a mesma. (Uma paleta "Céu de verão" com acento amarelo foi testada e descartada.)
 - **1.0** (11/2026): versão inicial.
 Para propor mudança: altere tokens/componentes no CSS, demonstre na vitrine e registre aqui (seção + data). Mudanças que quebram classes existentes exigem nova versão maior.

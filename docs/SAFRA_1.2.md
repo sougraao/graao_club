@@ -1,6 +1,6 @@
-# Safra — Design System do graao club
+# Safra — Design System do IA para TDAH
 
-> **Documento primordial.** Toda tela, componente, página, e-mail ou peça nova do graao club parte daqui.
+> **Documento primordial.** Toda tela, componente, página, e-mail ou peça nova do IA para TDAH parte daqui.
 > Se algo não está coberto, estenda o sistema seguindo estas regras e registre a adição neste arquivo.
 > Vitrine viva: [`design-system.html`](design-system.html) · Código: [`assets/css/graao-ds.css`](assets/css/graao-ds.css), [`assets/js/graao-ds.js`](assets/js/graao-ds.js), [`assets/js/graao-icons.js`](assets/js/graao-icons.js)
 
@@ -8,7 +8,7 @@
 
 ## 1. Essência
 
-**"Detalhe é colheita."** O graao club é premium pela precisão: superfícies grafite profundas, uma única cor de energia (o **Broto**, verde-lima), números grandes e leves, mídia vibrante e micro-interações que respondem a cada gesto.
+**"Detalhe é colheita."** O IA para TDAH é premium pela precisão: superfícies grafite profundas, uma única cor de energia (o **Broto**, verde-lima), números grandes e leves, mídia vibrante e micro-interações que respondem a cada gesto.
 
 Origem da linguagem:
 | Referência | O que herdamos |
@@ -194,7 +194,7 @@ Todos vivos em `design-system.html`. Classe → quando usar.
 
 ## 5. Mobile (regras de plataforma)
 
-O graao club é **mobile-first**: escreva o CSS para 375px e expanda. Todo componente da seção 4 já se adapta.
+O IA para TDAH é **mobile-first**: escreva o CSS para 375px e expanda. Todo componente da seção 4 já se adapta.
 
 - **Breakpoints (valores exatos):** `sm 520px` · `md 860px` (troca de navegação: menu lateral → barra de abas) · `lg 1100px` (colunas laterais descem) · `xl 1360px` (largura máxima).
 - **Toque** (`@media (pointer: coarse)`, já no CSS): alvos ≥ 44px, sem atraso de toque nem realce azul, `:hover` decorativo vira `:active` (leve escala).
@@ -240,7 +240,7 @@ Regras: layout em tabela, largura máx. 560px, raios 28px (cartão) e pílula (b
 
 ## 7. Voz e conteúdo
 
-- Português do Brasil, próximo e direto ("você"). Metáfora de cultivo com moderação: **Plante · Cultive · Colha**, Semente/Broto/Colheita para planos (voz do graao club).
+- Português do Brasil, próximo e direto ("você"). Metáfora de cultivo com moderação: **Plante · Cultive · Colha**, Semente/Broto/Colheita para planos (voz do IA para TDAH).
 - **IA para TDAH** (oferta apresentada ao público desde 1.2): assinatura **"Sua mente cria. Seu sistema entrega."**. Clareza + identificação + possibilidade concreta + autonomia. Situações reais de trabalho criativo (briefing, cliente, revisão, entrega). Proibido: promessa de cura ou de produtividade garantida, generalizações sobre TDAH, culpa, urgência ou escassez artificial, depoimentos e números inventados. Recurso que não existe aparece como "Em preparação"; demonstração aparece rotulada como demonstração.
 - Botões começam com verbo e têm até 3 palavras.
 - Números sempre formatados em pt-BR (`48.290`, `R$ 29,90`).

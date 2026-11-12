@@ -1,4 +1,4 @@
-# IA para TDAH sobre o graao club — auditoria, decisões e rollback
+# IA para TDAH — auditoria, decisões e rollback
 
 > Reposicionamento feito em 2026-11-11 sobre a base existente (sem refazer do zero).
 > Fonte da verdade: o "Prompt mestre" do usuário. Os documentos estratégicos citados nele
@@ -28,7 +28,7 @@ Rotas mapeadas: `index`, `entrar`, `inicio`, `conteudos`, `ferramentas`, `comuni
 2. **Escrita pública** (cadastro de interesse) é o primeiro ponto em que visitantes gravam no banco: protegido por RPC com validação, armadilha anti-robô, tempo mínimo, limite por origem (8/10 min) e teto global (500/h). Não há confirmação por e-mail (double opt-in): alguém pode cadastrar o e-mail de outra pessoa. Mitigação futura: e-mail de confirmação.
 3. **localStorage do admin** (`graao:db`) pode sobrescrever padrões novos de `data.js` em navegadores que já editaram dados no admin (ex.: avisos antigos).
 4. **Briefings privados**: dados de clientes podem ser colados nos projetos. A equipe não tem política de leitura; os avisos na interface pedem para evitar dados pessoais e de saúde.
-5. **Marca**: e-mails transacionais, logo e domínio seguem "graao club" até a decisão de marca.
+5. **Marca**: decidida em 2026-11-12 — a plataforma se chama "IA para TDAH". O domínio (`graao.com`) e o remetente dos e-mails ainda usam graao.
 
 ### Estratégia de rollback
 - **Front-end:** todas as mudanças estão em arquivos versionados a partir de `e286b12`. Para voltar: reverter o commit (ou `git checkout e286b12 -- <arquivos>`). As telas antigas continuam no código (`pages.js`) e a versão anterior das áreas legadas abre em `?legado=1`.
@@ -79,7 +79,7 @@ Migração `20261112192223_academy_catalog` aplicada pelo MCP Supabase. A RPC pe
 Publicação na `main` de `sougraao/graao_club`, commit `69fe360131571f0c7ec8dff9dd0db3d3fefefe29`, deploy Vercel confirmado como sucesso. Requisição a `https://www.graao.com/assets/js/pages-ia.js` confirmou a nova consulta e ausência de `P.ACADEMY`. Publicação restrita à integração, estilos da grade e migrações; alterações locais do redesign foram preservadas e não incluídas.
 
 ## 3. Decisões de comunicação
-- A marca visível segue "graao club" no logo; "IA para TDAH" é a oferta (títulos, hero, seções). Sem migração de marca.
+- **2026-11-12:** a plataforma passou a se chamar **IA para TDAH** (decisão do dono). "graao club" saiu de todo texto visível: logo (wordmark "IA para TDAH", mesmo isotipo), títulos, rodapés, `<noscript>`, e-mails de autenticação (assuntos, rodapé "Sua mente cria. Seu sistema entrega.") e metáforas de clube/cultivo nos e-mails. Identificadores técnicos (`graao:db`, `GRAAO_*`, arquivos `graao-*`, Supabase `graao-club`, repositório, domínio) não mudaram. Migrações antigas não foram editadas; `settings.general.name` no banco ainda diz "graao club" (não aparece na interface).
 - ÓRBITA é usado sem ® ou ™ (nome de trabalho).
 - Os exemplos e o conteúdo dos movimentos ÓRBITA (objetivo, exemplo, como a IA ajuda, resultado) foram escritos nesta etapa: revisar com o dono do método.
 - O texto "Por que existimos" usa só o texto-base do prompt; nada sobre o fundador foi inventado.
@@ -90,7 +90,7 @@ Publicação na `main` de `sougraao/graao_club`, commit `69fe360131571f0c7ec8dff
 |---|---|
 | Preço, condições, datas, vagas, parcelamento | Não publicados. Hipótese R$ 297–497 do documento mestre **não** usada. Divisão de módulos por plano (Semente/Broto/Colheita) proposta em 12/11/2026, não publicada |
 | Formato de seis semanas | Marcado como proposta em validação |
-| Relação de marca graao club × IA para TDAH (logo, domínio, e-mails transacionais) | Mantido como está |
+| Marca IA para TDAH: domínio próprio, isotipo novo, remetente dos e-mails (`Sender name` no SMTP do Supabase) e modelos de e-mail colados no painel do Supabase | Nome trocado no código em 2026-11-12; domínio, isotipo e painel do Supabase pendentes |
 | ÓRBITA como marca definitiva/registrada | Pendente |
 | Política de Privacidade e Termos | Rascunhos com faixa "pendente de aprovação jurídica", `noindex`; faltam controlador, CNPJ, operadores, retenção, canal de direitos, foro |
 | Canal de contato | `contato@graao.com` sem caixa (sem MX). Nenhum canal público foi anunciado |

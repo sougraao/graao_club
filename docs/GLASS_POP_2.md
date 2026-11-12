@@ -1,6 +1,6 @@
 # Glass Pop 2.0 — Iridescent Editorial Glass
 
-Versão 2.0.0 · 12/11/2026 · Fonte central para a evolução visual do graao club.
+Versão 2.0.0 · 12/11/2026 · Fonte central para a evolução visual do IA para TDAH.
 
 [Experiências-piloto](../glass-pop.html) · [Biblioteca viva](../design-system.html) · [Contratos de componentes](GLASS_POP_COMPONENTS.md) · [Tokens JSON](../assets/tokens/glass-pop.json) · [CSS](../assets/css/glass-pop.css)
 

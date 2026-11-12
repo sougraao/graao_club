@@ -1,6 +1,6 @@
 # Estrutura da área de membros — referência Rise Club
 
-12/11/2026 · Escopo: adaptar a composição e a navegação da área do aluno à estrutura observada em [riseclub.tech/inicio](https://riseclub.tech/inicio), com a identidade Glass Pop e as funções do graao club.
+12/11/2026 · Escopo: adaptar a composição e a navegação da área do aluno à estrutura observada em [riseclub.tech/inicio](https://riseclub.tech/inicio), com a identidade Glass Pop e as funções do IA para TDAH.
 
 ## Evidência e método
 
@@ -16,14 +16,14 @@ O REA exige um endpoint CDP loopback. A interface do navegador integrado fornece
 - REA: 2 arquivos JavaScript analisados, 26.473 nós AST visitados, 24 findings, zero parse failures.
 - Limites: cobertura de aplicação parcial, cobertura semântica desconhecida, 5.543 unknowns semânticos. O parser estático não executou os chunks; os comportamentos visuais abaixo vêm da observação da aba, não de suposta equivalência de código.
 
-Código, fotos, textos de membros, logotipo, artigos e ranking da referência não foram incorporados ao projeto. A implementação local é própria e usa os componentes e dados do graao club.
+Código, fotos, textos de membros, logotipo, artigos e ranking da referência não foram incorporados ao projeto. A implementação local é própria e usa os componentes e dados do IA para TDAH.
 
 ## O que foi observado
 
-| Região | Estrutura observada | Aplicação no graao club |
+| Região | Estrutura observada | Aplicação no IA para TDAH |
 |---|---|---|
 | Shell | Sidebar esquerda persistente, botão recolher, grupos Principal/Informação/Conta | Sidebar de 256px, grupos equivalentes, navegação existente preservada |
-| Cabeçalho | 64px, marca/breadcrumb à esquerda, notificações e usuário à direita | Breadcrumb graao club / página, tema, avisos, perfil |
+| Cabeçalho | 64px, marca/breadcrumb à esquerda, notificações e usuário à direita | Breadcrumb IA para TDAH / página, tema, avisos, perfil |
 | Primeiro acesso | Card amplo com cinco etapas, estado de conclusão, progresso e atalhos | Cinco passos ligados aos projetos e entregas reais |
 | Saudação | Texto curto seguido de título pessoal | Saudação com nome quando disponível e orientação de próxima ação |
 | Próxima ação | Card dominante e CTA explícito | Microtarefa do projeto principal, concluir/definir ação existentes |
@@ -63,3 +63,11 @@ Medição visual em viewport 1440px: sidebar 256px, cabeçalho 64px; área com p
 - `node --check` nos scripts alterados e verificador de referências/tokens do projeto.
 - Conta de teste configurada em `.env.test` foi recusada pelo servidor com mensagem de credenciais incorretas. Nenhuma senha foi alterada e nenhuma conta foi criada. A verificação autenticada completa continua pendente; o layout foi testado com fixture local identificada.
 - O relatório não declara equivalência integral com o Rise Club, nem reconstrução de seu backend ou de suas permissões.
+
+## Atualização 12/11/2026 — estilo ausente nas páginas reais
+
+- Sintoma: em `inicio.html` (e demais páginas do app), "Primeiros passos" e os cards do Meu Dia apareciam sem estilo. Causa: só `inicio-preview.html` carregava `club-layout.css`; as páginas reais tinham apenas `graao-ds.css` + `styles.css`.
+- Correção: `club-layout.css?v=1.1.0` passa a ser carregado em certificados, comunidade, configuracoes, conteudos, ferramentas, inicio, noticia, noticias, perfil, projetos e ranking. O brilho do card de próxima ação tem fallback para `--g-accent-soft` quando Glass Pop não está carregado.
+- Nova captura do Rise (`/inicio`, aba autenticada, somente leitura): onboarding 24px/raio 16, saudação, card "Seu próximo passo" com eyebrow e orbe de 208px, faixa de 3 indicadores, card "Novas aulas" com padding 20, aside com ranking/atividade. REA (`analyze_javascript_application`, chunks públicos `0y00y8ozobxbf.js` e `18fnu5t72cfks.js`): Evidence `ev_786907e999f4e468ae61ca0a2d7b7814f28ff22e02689c955ecb9836242280ee`, 26.473 nós AST, 0 falhas de parse, cobertura parcial.
+- Aplicado: estado vazio do Meu Dia virou `.g-club-next` (eyebrow "Seu próximo passo"); bloco da Academia virou card `.g-club-learning`. Plano/upsell e ranking do Rise não foram reproduzidos (sem oferta aprovada; ranking em pausa).
+- Verificado em página temporária com os mesmos estilos de `inicio.html` (removida): 1440px Dia com e sem projeto e 375px sem overflow horizontal. A página autenticada real não foi aberta com sessão.

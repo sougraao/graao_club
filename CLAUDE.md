@@ -1,4 +1,4 @@
-# graao club
+# IA para TDAH
 
 Plataforma de aprendizado e comunidade (site estático HTML/CSS/JS, sem build). Servir localmente com `python -m http.server 5173`.
 
@@ -14,7 +14,7 @@ Plataforma de aprendizado e comunidade (site estático HTML/CSS/JS, sem build). 
 
 ## Estrutura
 
-- **Produto: IA para TDAH** ("Sua mente cria. Seu sistema entrega."), sobre a infraestrutura do graao club. Decisões, auditoria, rollback e pendências em [docs/IA_PARA_TDAH.md](docs/IA_PARA_TDAH.md). Não divulgar preço, datas, vagas, depoimentos ou números sem aprovação; recurso inexistente aparece como "Em preparação".
+- **Nome da plataforma: IA para TDAH** ("Sua mente cria. Seu sistema entrega."). Desde 2026-11-12 substitui "graao club" em todo texto visível (logo, títulos, rodapés, e-mails). Identificadores técnicos continuam com "graao" (`graao:db`, `GRAAO_*`, `graao-ds.css`, `graao-mark.svg`, projeto Supabase `graao-club`, repositório, domínio `graao.com`) e não devem ser renomeados sem migração planejada. Decisões, auditoria, rollback e pendências em [docs/IA_PARA_TDAH.md](docs/IA_PARA_TDAH.md). Não divulgar preço, datas, vagas, depoimentos ou números sem aprovação; recurso inexistente aparece como "Em preparação".
 - `index.html` (landing do IA para TDAH, modo Dia, comportamento em `assets/js/landing.js`: demonstração, abas do ÓRBITA, cadastro de interesse via RPC `register_interest`), `privacidade.html` e `termos.html` (rascunhos, `noindex`, pendentes de aprovação jurídica), `descadastro.html`, `entrar.html` (login/cadastro), páginas do app (`inicio.html` etc., modo Noite).
 - Área do aluno: Meu Dia (`inicio.html`), Projetos (`projetos.html`), Academia (`conteudos.html`), Copiloto (`ferramentas.html`, só monta prompts para copiar, não executa IA), Perfil. Telas em `assets/js/pages-ia.js` (registra-se em `GRAAO_RENDER` de `pages.js`); dados de projetos em `assets/js/projects.js` (Supabase com RLS por usuário; sem backend = localStorage rotulado como demonstração); método ÓRBITA e plano da Academia em `assets/js/ia-tdah.js`. Comunidade, notícias, ranking e certificados ficam "em pausa" com a versão antiga em `?legado=1`.
 - Páginas do app declaram `<body data-app-page="id" data-app-title="Título">` e um `<main class="content">`; o shell (menu, topo, rodapé) é montado por `assets/js/app.js`.

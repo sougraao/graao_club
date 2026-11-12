@@ -1,4 +1,4 @@
-/* graao club — comportamento compartilhado (site, login, shell do app).
+/* IA para TDAH — comportamento compartilhado (site, login, shell do app).
    Depende de graao-icons.js e graao-ds.js (design system). Ver DESIGN_SYSTEM.md.
    Páginas do app: <body data-app-page="id" data-app-title="Título"> + <main class="content">. */
 (function () {
@@ -7,7 +7,7 @@
   /* ---------- Config: edite aqui ---------- */
   const CONFIG = {
     plans: {
-      // Valores de exemplo — ajuste para os preços reais do graao club.
+      // Valores de exemplo — ajuste para os preços reais do IA para TDAH.
       broto:    { monthly: 29.9, yearly: 249.9 },
       colheita: { monthly: 99.9, yearly: 875.8 },
     },
@@ -148,7 +148,7 @@
     app.innerHTML = `
       <aside class="sidebar" aria-label="Navegação do app">
         <div class="sidebar-top">
-          <a href="index.html" class="brand" aria-label="graao club — site"><img src="assets/img/graao-mark.svg?v=20261112-isotipo" alt=""><span class="brand-word"><b style="color:var(--g-text)">graao</b><span style="margin:0">club</span></span></a>
+          <a href="index.html" class="brand" aria-label="IA para TDAH — site"><img src="assets/img/graao-mark.svg?v=20261112-isotipo" alt=""><span class="brand-word"><b>IA</b><span class="brand-para">para</span><b>TDAH</b></span></a>
           <button class="g-icon-btn g-icon-btn--sm g-icon-btn--ghost" id="collapse" type="button" aria-label="Recolher menu">${icon("chevron-left", "g-icon--sm")}</button>
         </div>
         ${admin ? `<span class="g-badge g-badge--soft" style="margin:0 6px 6px">${icon("shield", "g-icon--sm")}Painel administrativo</span>` : ""}
@@ -161,7 +161,7 @@
             <div class="crumbs">
               <button class="g-icon-btn mobile-menu" id="open-drawer" type="button" aria-label="Abrir menu">${icon("menu", "g-icon--sm")}</button>
               ${back ? `<a class="g-icon-btn" href="${esc(back)}" aria-label="Voltar">${icon("arrow-left", "g-icon--sm")}</a>` : ""}
-              ${admin ? "" : '<a class="g-club-crumb" href="inicio.html">graao club</a><span class="g-club-crumb-sep" aria-hidden="true">/</span>'}
+              ${admin ? "" : '<a class="g-club-crumb" href="inicio.html">IA para TDAH</a><span class="g-club-crumb-sep" aria-hidden="true">/</span>'}
               <h1 id="page-title">${esc(title)}</h1>
             </div>
             <div class="top-actions">
@@ -188,7 +188,7 @@
           </header>
           <div class="main-slot"></div>
           <footer class="app-footer">
-            <span>© ${new Date().getFullYear()} graao club</span>
+            <span>© ${new Date().getFullYear()} IA para TDAH</span>
             <nav aria-label="Rodapé"><a href="index.html#faq">Perguntas frequentes</a><a href="termos.html">Termos</a><a href="privacidade.html">Privacidade</a><a href="design-system.html">Design system</a></nav>
           </footer>
         </div>
@@ -204,7 +204,7 @@
       .map(([id, href, ic, label]) => `<a href="${href}" aria-label="${label}" data-tab="${id}"${id === page ? ' aria-current="page"' : ""}>${icon(ic)}<span>${label}</span></a>`).join("");
     document.body.append(tabbar);
 
-    // (a bolha "primeiros passos" do graao club saiu: o Meu Dia agora mostra a próxima ação do projeto)
+    // (a bolha "primeiros passos" do IA para TDAH saiu: o Meu Dia agora mostra a próxima ação do projeto)
   }
 
   function initShell() {

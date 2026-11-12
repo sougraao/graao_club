@@ -1,6 +1,6 @@
 /* =====================================================================
    OFFLINE — Cinematic Power-Button Hero Scene Controller
-   Glass Pop 2.0 / graao club — IA para TDAH
+   Glass Pop 2.0 / IA para TDAH
    Preserva nossa copy; implementa o prompt "offline" power-button.
    ===================================================================== */
 

@@ -1,6 +1,6 @@
 # Academia — catálogo visual
 
-12/11/2026. Referência estrutural: [Rise Club / Conteúdos](https://riseclub.tech/cursos), observada na aba do navegador interno. Implementação e imagens próprias do graao club.
+12/11/2026. Referência estrutural: [Rise Club / Conteúdos](https://riseclub.tech/cursos), observada na aba do navegador interno. Implementação e imagens próprias do IA para TDAH.
 
 ## Auditoria e direção
 
@@ -57,4 +57,4 @@ Prompt utilizado:
 
 ## Crédito do processo
 
-Revisão orientada pelo workflow [unslop, de Damir Sokolovsky / @heydamir](https://heydamir.design/unslop), licença CC BY 4.0. Crédito mantido para a adaptação do processo; componentes e arte desta página foram produzidos para o graao club.
+Revisão orientada pelo workflow [unslop, de Damir Sokolovsky / @heydamir](https://heydamir.design/unslop), licença CC BY 4.0. Crédito mantido para a adaptação do processo; componentes e arte desta página foram produzidos para o IA para TDAH.

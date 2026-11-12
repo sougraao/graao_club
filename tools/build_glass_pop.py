@@ -18,7 +18,7 @@ def ramp(hex_value):
             result=[c*(1-amount) for c in rgb]
         out[str(level)]={'$type':'color','$value':'#'+''.join(f'{round(c*255):02x}' for c in result)}
     return out
-tokens={'$description':'Glass Pop 2.0 / graao club. 500 preserves the supplied source color; ramps are sRGB mixtures, not perceptually uniform.', 'color':{k:ramp(v) for k,v in colors.items()},'themes':{},'space':{},'radius':{},'motion':{},'glass':{},'type':{},'zIndex':{},'layout':{}}
+tokens={'$description':'Glass Pop 2.0 / IA para TDAH. 500 preserves the supplied source color; ramps are sRGB mixtures, not perceptually uniform.', 'color':{k:ramp(v) for k,v in colors.items()},'themes':{},'space':{},'radius':{},'motion':{},'glass':{},'type':{},'zIndex':{},'layout':{}}
 for theme,values in {
  'light':{'background':'#f9fafc','canvas':'#fcf8ff','surface':'#ffffff','text':'#181820','text-secondary':'#505260','text-muted':'#666879','accent':'#ff3da5','on-accent':'#181820','accent-text':'#a8005b','success':'#116149','warning':'#785400','danger':'#b82039','info':'#155e92'},
  'dark':{'background':'#11131d','canvas':'#181a27','surface':'#211e30','text':'#fcf8ff','text-secondary':'#d2cede','text-muted':'#aaa6bb','accent':'#ff3da5','on-accent':'#181820','accent-text':'#ff8bca','success':'#91e6be','warning':'#ffda69','danger':'#ff9baa','info':'#9fd8ff'},

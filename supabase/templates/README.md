@@ -1,4 +1,4 @@
-# E-mails de autenticação do graao club
+# E-mails de autenticação do IA para TDAH
 
 Modelos em português no visual do design system (faixa grafite, marca, botão Broto, aviso de segurança).
 Gerados por [`_build.py`](_build.py) a partir de um layout único — **edite o script, não os .html**, e rode:
@@ -11,12 +11,12 @@ python supabase/templates/_build.py --preview
 
 | Modelo no Supabase | Arquivo | Assunto |
 |---|---|---|
-| Confirm signup | `confirmacao.html` | Confirme seu e-mail · graao club |
-| Invite user | `convite.html` | Você foi convidado para o graao club |
-| Magic Link | `link-magico.html` | Seu link de acesso ao graao club |
-| Change Email Address | `troca-de-email.html` | Confirme seu novo e-mail · graao club |
-| Reset Password | `redefinir-senha.html` | Redefinir sua senha do graao club |
-| Reauthentication | `reautenticacao.html` | Seu código de verificação · graao club |
+| Confirm signup | `confirmacao.html` | Confirme seu e-mail · IA para TDAH |
+| Invite user | `convite.html` | Você foi convidado para o IA para TDAH |
+| Magic Link | `link-magico.html` | Seu link de acesso ao IA para TDAH |
+| Change Email Address | `troca-de-email.html` | Confirme seu novo e-mail · IA para TDAH |
+| Reset Password | `redefinir-senha.html` | Redefinir sua senha do IA para TDAH |
+| Reauthentication | `reautenticacao.html` | Seu código de verificação · IA para TDAH |
 
 ## Como instalar (por projeto: dev e, depois, prod)
 
@@ -40,10 +40,10 @@ O painel tem a área **Sistema → E-mails** (permissão `settings.manage`, só 
 ## Remetente ("De:")
 
 Com o envio padrão do Supabase o remetente é sempre **Supabase Auth &lt;noreply@mail.app.supabase.io&gt;**, há limite baixo de envios por hora e só chegam e-mails para membros da equipe do projeto.
-Para enviar como **graao club &lt;nao-responda@graao.com&gt;** é preciso SMTP próprio:
+Para enviar como **IA para TDAH &lt;nao-responda@graao.com&gt;** é preciso SMTP próprio:
 
 1. Criar conta num serviço de envio (ex.: Resend, Amazon SES, Brevo) e **verificar o domínio** (registros SPF/DKIM no DNS).
-2. Supabase → **Authentication → Emails → SMTP Settings** → ativar *Custom SMTP* com host, porta, usuário e senha do serviço; *Sender name* = `graao club`; *Sender email* = `nao-responda@graao.com`.
+2. Supabase → **Authentication → Emails → SMTP Settings** → ativar *Custom SMTP* com host, porta, usuário e senha do serviço; *Sender name* = `IA para TDAH`; *Sender email* = `nao-responda@graao.com`.
 3. Ajustar o limite de envios em **Authentication → Rate Limits**.
 
 A senha do SMTP fica só no painel do Supabase — nunca no repositório.

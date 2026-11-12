@@ -1,5 +1,5 @@
 """
-graao club · gerador dos e-mails de autenticação do Supabase.
+IA para TDAH · gerador dos e-mails de autenticação do Supabase.
 
 Gera um HTML por modelo em supabase/templates/ a partir de um layout único, para que
 todos os e-mails sigam o design system (DESIGN_SYSTEM.md → "E-mails transacionais").
@@ -28,37 +28,37 @@ MONO = "'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
 TEMPLATES = [
     {
         "file": "confirmacao.html", "slot": "Confirm signup",
-        "subject": "Confirme seu e-mail · graao club",
-        "preheader": "Falta um passo para plantar seu primeiro grão.",
-        "eyebrow": "Bem-vindo ao clube",
+        "subject": "Confirme seu e-mail · IA para TDAH",
+        "preheader": "Falta um passo para começar.",
+        "eyebrow": "Boas-vindas",
         "title": "Confirme seu e-mail{{ if .Data.name }}, {{ .Data.name }}{{ end }}",
-        "body": "Você está a um toque de entrar no graao club. Confirme este endereço para ativar sua conta e começar pela trilha <b>Comece Aqui</b>.",
+        "body": "Você está a um toque de entrar no IA para TDAH. Confirme este endereço para ativar sua conta e começar pela trilha <b>Comece Aqui</b>.",
         "cta": "Confirmar meu e-mail", "url": "{{ .ConfirmationURL }}",
-        "note": "Se você não criou uma conta no graao club, ignore esta mensagem — nada vai acontecer.",
+        "note": "Se você não criou uma conta no IA para TDAH, ignore esta mensagem — nada vai acontecer.",
     },
     {
         "file": "convite.html", "slot": "Invite user",
-        "subject": "Você foi convidado para o graao club",
+        "subject": "Você foi convidado para o IA para TDAH",
         "preheader": "Um lugar para aprender, compartilhar e crescer com quem vive tecnologia.",
         "eyebrow": "Convite",
-        "title": "Seu lugar no clube está reservado",
-        "body": "Alguém da equipe do graao club convidou você para entrar. Aceite o convite para criar sua senha e acessar a plataforma.",
+        "title": "Seu lugar está reservado",
+        "body": "Alguém da equipe do IA para TDAH convidou você para entrar. Aceite o convite para criar sua senha e acessar a plataforma.",
         "cta": "Aceitar convite", "url": "{{ .ConfirmationURL }}",
         "note": "Não esperava este convite? Pode ignorar este e-mail com tranquilidade.",
     },
     {
         "file": "link-magico.html", "slot": "Magic Link",
-        "subject": "Seu link de acesso ao graao club",
+        "subject": "Seu link de acesso ao IA para TDAH",
         "preheader": "Entre sem senha com um toque.",
         "eyebrow": "Acesso rápido",
-        "title": "Entre no graao club",
+        "title": "Entre no IA para TDAH",
         "body": "Use o botão abaixo para entrar na sua conta sem digitar senha. O link funciona uma única vez.",
         "cta": "Entrar agora", "url": "{{ .ConfirmationURL }}",
         "note": "Se não foi você que pediu este acesso, ignore este e-mail. Sua conta continua protegida.",
     },
     {
         "file": "troca-de-email.html", "slot": "Change Email Address",
-        "subject": "Confirme seu novo e-mail · graao club",
+        "subject": "Confirme seu novo e-mail · IA para TDAH",
         "preheader": "Confirme a troca do e-mail da sua conta.",
         "eyebrow": "Segurança da conta",
         "title": "Confirme seu novo e-mail",
@@ -68,8 +68,8 @@ TEMPLATES = [
     },
     {
         "file": "redefinir-senha.html", "slot": "Reset Password",
-        "subject": "Redefinir sua senha do graao club",
-        "preheader": "Crie uma nova senha para voltar a cultivar.",
+        "subject": "Redefinir sua senha do IA para TDAH",
+        "preheader": "Crie uma nova senha para voltar aos seus projetos.",
         "eyebrow": "Segurança da conta",
         "title": "Vamos criar uma nova senha",
         "body": "Recebemos um pedido para redefinir a senha da sua conta. Toque no botão abaixo e escolha uma nova senha.",
@@ -78,13 +78,13 @@ TEMPLATES = [
     },
     {
         "file": "reautenticacao.html", "slot": "Reauthentication",
-        "subject": "Seu código de verificação · graao club",
+        "subject": "Seu código de verificação · IA para TDAH",
         "preheader": "Use este código para confirmar que é você.",
         "eyebrow": "Verificação",
         "title": "Confirme que é você",
-        "body": "Use o código abaixo para concluir a ação sensível que você começou no graao club.",
+        "body": "Use o código abaixo para concluir a ação sensível que você começou no IA para TDAH.",
         "code": "{{ .Token }}",
-        "note": "Nunca compartilhe este código. A equipe do graao club jamais vai pedi-lo.",
+        "note": "Nunca compartilhe este código. A equipe do IA para TDAH jamais vai pedi-lo.",
     },
 ]
 
@@ -149,8 +149,8 @@ def render(t):
         <!-- Rodapé -->
         <tr><td align="center" style="padding:26px 12px 6px">
           <p style="margin:0;font-family:{FONT};font-size:12px;line-height:1.7;color:{TEXT_3}">
-            <b style="color:{INK_800}">Plante. Cultive. Colha.</b><br>
-            graao club · Aprenda, compartilhe e cresça com quem vive tecnologia e criatividade.<br>
+            <b style="color:{INK_800}">Sua mente cria. Seu sistema entrega.</b><br>
+            IA para TDAH · Da ideia à entrega.<br>
             Dúvidas? <a href="mailto:contato@graao.com" style="color:{BROTO_TEXT}">contato@graao.com</a>
           </p>
         </td></tr>

@@ -12,7 +12,6 @@
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const ENV = window.GRAAO_ENV || {};
-  const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.gMotion === "reduce";
   const startedAt = Date.now();
 
   /* Chamada RPC pública (só funções liberadas para o papel anon) */
@@ -46,20 +45,75 @@
   };
   const msgFor = (e) => MESSAGES[e?.code] || "Algo deu errado do nosso lado. Tente de novo em instantes. Seu cadastro ainda não foi confirmado.";
 
-  /* ---------- Hero: demonstração conceitual ---------- */
-  function initFlow() {
-    const list = $("[data-flow]");
-    if (!list) return;
-    const steps = $$(".flow__step", list);
-    let i = steps.findIndex((s) => s.classList.contains("is-current"));
-    let timer = null;
-    const set = (n) => { steps.forEach((s, k) => s.classList.toggle("is-current", k === n)); i = n; };
-    const play = () => { if (reduce() || timer) return; timer = setInterval(() => set((i + 1) % steps.length), 2600); };
-    const stop = () => { clearInterval(timer); timer = null; };
-    list.addEventListener("mouseenter", stop);
-    list.addEventListener("mouseleave", play);
-    document.addEventListener("visibilitychange", () => (document.hidden ? stop() : play()));
-    play();
+  /* ---------- Hero com vídeo: cabeçalho sobre o vídeo, pausa do vídeo e menu em tela cheia ---------- */
+  const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.gMotion === "reduce";
+  function initHero() {
+    const hero = $("[data-hero]");
+    const header = $("[data-hero-header]");
+    if (!hero) return;
+    const io = "IntersectionObserver" in window;
+
+    // Cabeçalho em modo Noite só enquanto passa sobre o vídeo.
+    if (header && io) new IntersectionObserver(([e]) => header.classList.toggle("g-noite", e.isIntersecting), { rootMargin: "-72px 0px 0px 0px" }).observe(hero);
+
+    // Vídeo: respeita movimento reduzido, tem pausa manual e para fora da tela.
+    const video = $("[data-hero-video]", hero);
+    const btn = $("[data-hero-pause]", hero);
+    if (video) {
+      let userPaused = reduce();
+      const play = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
+      const sync = () => {
+        if (!btn) return;
+        const paused = video.paused;
+        btn.setAttribute("aria-pressed", String(paused));
+        btn.setAttribute("aria-label", paused ? "Reproduzir vídeo de fundo" : "Pausar vídeo de fundo");
+        $("use", btn)?.setAttribute("href", paused ? "#i-play" : "#i-pause");
+      };
+      if (userPaused) { video.removeAttribute("autoplay"); video.pause(); }
+      video.addEventListener("play", sync);
+      video.addEventListener("pause", sync);
+      btn?.addEventListener("click", () => { userPaused = !video.paused; if (userPaused) video.pause(); else play(); });
+      if (io) new IntersectionObserver(([e]) => { if (!e.isIntersecting) video.pause(); else if (!userPaused) play(); }).observe(hero);
+      sync();
+    }
+
+    // Menu em tela cheia (abaixo de 1100px).
+    const menu = $("#site-menu");
+    const opener = $("[data-menu-open]");
+    if (!menu || !opener) return;
+    const closer = $("[data-menu-close]", menu);
+    let timer = 0, smooth = false;
+    const open = () => {
+      clearTimeout(timer);
+      menu.hidden = false;
+      void menu.offsetWidth; // aplica o estado inicial antes da transição
+      menu.classList.add("is-open");
+      opener.setAttribute("aria-expanded", "true");
+      document.documentElement.style.overflow = "hidden";
+      if (window.G?.smooth?.enabled) { smooth = true; G.smooth.disable(); }
+      closer?.focus();
+    };
+    const close = (restoreFocus = true) => {
+      if (!menu.classList.contains("is-open")) return;
+      menu.classList.remove("is-open");
+      opener.setAttribute("aria-expanded", "false");
+      document.documentElement.style.overflow = "";
+      if (smooth) { smooth = false; G.smooth.enable(document.documentElement.dataset.gSmooth); }
+      timer = setTimeout(() => { menu.hidden = true; }, reduce() ? 0 : 560);
+      if (restoreFocus) opener.focus();
+    };
+    opener.addEventListener("click", open);
+    closer?.addEventListener("click", () => close());
+    $$("a", menu).forEach((a) => a.addEventListener("click", () => close(false)));
+    menu.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") { e.preventDefault(); close(); return; }
+      if (e.key !== "Tab") return;
+      const items = $$("a[href], button", menu);
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+    matchMedia("(min-width: 1100px)").addEventListener("change", (e) => { if (e.matches) close(false); });
   }
 
   /* ---------- Método ÓRBITA: abas (WAI-ARIA tabs, ativação manual por clique/toque/Enter e automática por setas) ---------- */
@@ -155,5 +209,5 @@
     });
   }
 
-  document.addEventListener("DOMContentLoaded", () => { initFlow(); initOrbita(); initLeadForm(); initUnsubscribe(); });
+  document.addEventListener("DOMContentLoaded", () => { initHero(); initOrbita(); initLeadForm(); initUnsubscribe(); });
 })();

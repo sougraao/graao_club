@@ -69,7 +69,7 @@
           <div><span class="g-caption">Entregas</span><span class="g-num" data-club-delivered>—</span></div>
         </div>
         <div id="day" aria-live="polite" aria-busy="true"><div class="g-skeleton" style="height:200px;border-radius:var(--g-radius-lg)"></div></div>
-        <section aria-labelledby="g-club-learning"><div class="g-club-card-heading"><div><h2 class="g-h4" id="g-club-learning">Na Academia</h2><p class="g-caption">Cursos e grades para o seu trabalho criativo.</p></div><a class="link-more" href="conteudos.html">Ver conteúdos ${icon("arrow-up-right","g-icon--sm")}</a></div><div class="g-club-lessons" data-club-courses aria-live="polite"><p class="g-caption">Consultando o catálogo…</p></div></section>
+        <section class="g-club-learning" aria-labelledby="g-club-learning"><div class="g-club-card-heading"><div><h2 class="g-h4" id="g-club-learning">Na Academia</h2><p class="g-caption">Cursos e grades para o seu trabalho criativo.</p></div><a class="link-more" href="conteudos.html">Ver conteúdos ${icon("arrow-up-right","g-icon--sm")}</a></div><div class="g-club-lessons" data-club-courses aria-live="polite"><p class="g-caption">Consultando o catálogo…</p></div></section>
       </div><aside class="g-club-aside" aria-label="Seu espaço de apoio">
         <section class="g-card"><div class="g-club-card-heading"><h2 class="g-h4">Seu espaço</h2>${icon("grid","g-icon--sm")}</div><ul class="g-club-side-list">
           <li><a href="projetos.html"><span>${icon("folder","g-icon--sm")}</span><span><b>Meus projetos</b><small>Briefing, passos e entregas</small></span>${icon("arrow-right","g-icon--sm")}</a></li>
@@ -114,12 +114,12 @@
 
     const renderEmpty = (all) => {
       const delivered = all.filter((p) => p.status === "entregue").length;
-      box.innerHTML = `<div class="g-empty day-empty">
-        <span class="g-empty__icon">${icon("folder")}</span>
-        <h3 class="g-h4" style="color:var(--g-text)">${delivered ? "Seus projetos estão entregues" : "Seu Meu Dia começa com um projeto"}</h3>
-        <p class="g-caption" style="max-width:46ch">${delivered ? "Quando começar outro trabalho, ele aparece aqui com a próxima ação." : "Cadastre um trabalho real: um briefing de cliente ou um projeto pessoal. Daqui você vê a próxima ação e onde parou."}</p>
-        <a class="g-btn g-btn--accent g-btn--arrow" href="projetos.html#novo">${delivered ? "Começar um projeto" : "Criar meu primeiro projeto"} ${icon("arrow-right", "g-icon--sm")}</a>
-        <a class="link-more" href="conteudos.html">Conhecer o Método ÓRBITA ${icon("arrow-up-right", "g-icon--sm")}</a></div>`;
+      box.innerHTML = `<section class="g-club-next" aria-labelledby="g-club-next-title">
+        <span class="g-eyebrow">Seu próximo passo</span>
+        <h3 class="g-h3" id="g-club-next-title">${delivered ? "Seus projetos estão entregues" : "Seu Meu Dia começa com um projeto"}</h3>
+        <p>${delivered ? "Quando começar outro trabalho, ele aparece aqui com a próxima ação." : "Cadastre um trabalho real: um briefing de cliente ou um projeto pessoal. Daqui você vê a próxima ação e onde parou."}</p>
+        <div class="g-club-next__actions"><a class="g-btn g-btn--accent g-btn--arrow" href="projetos.html#novo">${delivered ? "Começar um projeto" : "Criar meu primeiro projeto"} ${icon("arrow-right", "g-icon--sm")}</a>
+        <a class="link-more" href="conteudos.html">Conhecer o Método ÓRBITA ${icon("arrow-up-right", "g-icon--sm")}</a></div></section>`;
       box.append(overview);
     };
 
@@ -131,7 +131,7 @@
       box.innerHTML = `
         <div class="day-top">
           <section class="g-card day-next" aria-labelledby="next-title">
-            <span class="g-eyebrow" style="color:var(--g-text-2)">Próxima ação · ${esc(proj.title)}</span>
+            <span class="g-eyebrow">Seu próximo passo · ${esc(proj.title)}</span>
             ${next ? `
               <h3 class="g-h3" id="next-title">${esc(next.title)}</h3>
               <p class="day-next__meta">${next.orbita ? `Movimento ${esc(P.orbita(next.orbita).name)}` : ""}${!next.is_next ? `${next.orbita ? " · " : ""}Primeira microtarefa pendente da lista` : ""}</p>
