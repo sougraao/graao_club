@@ -7,9 +7,10 @@
 
 | Item | Valor |
 |---|---|
-| Projeto Supabase (dev) | `graao-club-dev` · ref `luhjaekwowmzdzwukgdx` · região **us-east-1** (produção deve ser criada em `sa-east-1`) |
-| URL da API | `https://luhjaekwowmzdzwukgdx.supabase.co` |
-| Chave pública (publishable) | `sb_publishable_DtQrbhzSJRtrUCZ8Hzj0aw_u03o7vRh` — pública por design; a *service role* nunca sai do Supabase |
+| **Projeto Supabase em uso (desde 2026-11-11)** | `graao-club` · ref `mevtbwrfdttwulskaspb` · região **sa-east-1 (São Paulo)** · organização **sougraao's Org** (plano grátis). Criado pelo MCP; as 5 migrações do repositório aplicadas sem alteração; `rls_smoke.sql` **54/54**; Advisor igual ao do dev. `assets/js/env.js` aponta para ele |
+| Projeto Supabase antigo (dev) | `graao-club-dev` · ref `luhjaekwowmzdzwukgdx` · us-east-1 · organização holaluiz. **Não é mais usado pelo `env.js`**, mas o site publicado continua nele até o próximo deploy. Ficou nele um cadastro de interesse de teste (`qa-prod@teste.dev`) a remover |
+| URL da API | `https://mevtbwrfdttwulskaspb.supabase.co` (antigo: `https://luhjaekwowmzdzwukgdx.supabase.co`) |
+| Chave pública | `env.js` usa a chave `anon` (JWT legado) do `graao-club`; existe também `sb_publishable_7w1xPqgcrn8oroKFK9LSXw_PRjSIcyT`. Públicas por design; a *service role* nunca sai do Supabase |
 | Migrações aplicadas | `20261108000001_init` (35 tabelas, RLS em todas, gatilhos, dados iniciais) · `20261109000002_private_helpers` (funções de permissão no schema `private`, fora da API) · `20261109000003_rls_performance` (políticas com `(select auth.uid())`, uma política por ação, 27 índices de FK) |
 | Migração IA para TDAH | `20261111000005_ia_para_tdah` **aplicada no dev em 2026-11-11**: `interest_leads` (escrita pública só via RPC `register_interest`, com armadilha anti-robô, limite por origem e sem duplicados), `unsubscribe_interest`, `creative_projects` + `project_steps` + `project_activity` (RLS só do dono; equipe sem acesso aos briefings), `admin_overview()` (agregados com permissão conferida no servidor), permissões `leads.view`/`leads.manage`. Rollback preparado (não aplicado) em `supabase/rollback/` |
 | Teste de regras | [`supabase/tests/rls_smoke.sql`](supabase/tests/rls_smoke.sql) — **54/54 passou** em 2026-11-11 (22 anteriores + 32 do IA para TDAH: visitante, membro, editor e admin) |
@@ -25,7 +26,7 @@
 | Equipe (dev) | `holaluiz.mail` = **ADMIN** (concedido em 2026-11-09 via SQL com papel de serviço; registrado no `audit_log`) |
 | E-mails de autenticação | 6 modelos em português no visual graao (acento lima Broto) em [`supabase/templates/`](supabase/templates/README.md) — **instalados no `graao-club-dev` em 2026-11-09** com os assuntos do README. Ao mudar um modelo, regerar com `_build.py` e colar de novo. Os e-mails de aviso de segurança (senha trocada, e-mail trocado etc.) seguem com o texto padrão do Supabase |
 | Editor de e-mails | Admin → **Sistema → E-mails** (`admin.html#/emails`, permissão `settings.manage`): edita os 6 e-mails com prévia ao vivo e exporta o HTML para colar no Supabase. Por enquanto salva no navegador; a sincronização automática (tabela `email_templates` + Edge Function `sync-auth-emails` via Management API) entra na fase 4 — ver [`supabase/templates/README.md`](supabase/templates/README.md) |
-| Conta de teste (dev) | `membro.teste@graao.test`, plano Semente, sem papel de equipe — senha em `.env.test` (fora do Git) |
+| Conta de teste (dev) | `membro.teste@graao.test`, plano Semente, sem papel de equipe — senha em `.env.test` (fora do Git). **Existe só no `graao-club-dev`**; no `graao-club` ainda não há nenhuma conta (nem ADMIN) |
 | URLs de autenticação | *Site URL* `https://www.graao.com` · *Redirect URLs* `https://www.graao.com/**`, `https://graaoclub.vercel.app/**`, `http://localhost:5173/**`, `https://graaoclub-*-holaluiz.vercel.app/**` (prévias da Vercel) — configurado em 2026-11-09 |
 | DNS (Squarespace / Google Cloud DNS) | `graao.com` A → `216.198.79.1` · `www` CNAME → `8740425e73043c84.vercel-dns-017.com` (Vercel) · Resend: TXT `resend._domainkey` (DKIM), CNAME `send` → `send.forge.rmta.net`, CNAME `rsend` → `rsend-sae1.forge.rmta.net`, TXT `_dmarc` = `v=DMARC1; p=none;`. Sem MX (não recebe e-mail) |
 | Variáveis de ambiente | **Nenhuma na Vercel, por desenho**: o site é estático e só usa valores públicos (`assets/js/env.js`). Segredos (R2, Asaas, Resend, service role) vão em **Supabase → Edge Functions → Secrets** quando as funções forem criadas — nunca na Vercel nem no front |

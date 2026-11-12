@@ -73,6 +73,6 @@ Painel e Indicadores com `admin_overview()` (agregados reais; sem backend, aviso
 | Confirmação de e-mail do cadastro (double opt-in) e e-mails de marketing com link de descadastro | Não implementado (o descadastro por token já existe) |
 | Fotos/vídeo/história do fundador | Só com material real autorizado |
 | Imagem Open Graph | Não criada |
-| Projeto Supabase de produção | Ainda não existe; o site usa o dev |
+| Projeto Supabase de produção | **Criado em 2026-11-11**: `graao-club` (sa-east-1), migrações aplicadas, 54/54. Falta configurar no painel: URLs de autenticação, SMTP do Resend, modelos de e-mail, Google; criar a conta ADMIN |
 | Conteúdo real da Academia | A produzir |
 | Exclusão automática de conta (Edge Function) | Pendente; hoje é manual |
