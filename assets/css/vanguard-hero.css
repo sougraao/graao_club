@@ -1,0 +1,599 @@
+/* =====================================================================
+   VANGUARD — Fullscreen Hero Landing Page
+   "Design. Disrupt. Conquer."
+   ===================================================================== */
+
+@font-face {
+  font-family: "FSP DEMO - PODIUM Sharp 4.11";
+  src: url("https://db.onlinewebfonts.com/t/8b75d9dcff6a48c35a46656192adf019.woff2") format("woff2"),
+       url("https://db.onlinewebfonts.com/t/8b75d9dcff6a48c35a46656192adf019.woff") format("woff"),
+       url("https://db.onlinewebfonts.com/t/8b75d9dcff6a48c35a46656192adf019.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-podium {
+  font-family: "FSP DEMO - PODIUM Sharp 4.11", sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.font-inter {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Animations */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-up-delay-1 {
+  opacity: 0;
+  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+.animate-fade-up-delay-2 {
+  opacity: 0;
+  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+}
+
+.animate-fade-up-delay-3 {
+  opacity: 0;
+  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+}
+
+.animate-fade-up-delay-4 {
+  opacity: 0;
+  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
+}
+
+.animate-fade-in {
+  opacity: 0;
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+.animate-fade-in-delay {
+  opacity: 0;
+  animation: fade-in 0.8s ease-out 0.3s forwards;
+}
+
+/* Fullscreen Hero Container */
+.vanguard-hero {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  min-height: 100svh;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  background-color: #050505;
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+/* Video & Overlay */
+.vanguard-video-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.vanguard-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 1;
+}
+
+.vanguard-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.72) 100%);
+  backdrop-filter: contrast(1.08) brightness(0.92);
+  -webkit-backdrop-filter: contrast(1.08) brightness(0.92);
+  z-index: 2;
+}
+
+/* Vanguard Navbar */
+.vanguard-nav {
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .vanguard-nav {
+    padding: 24px 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .vanguard-nav {
+    padding: 28px 64px;
+  }
+}
+
+.vanguard-brand {
+  font-family: "FSP DEMO - PODIUM Sharp 4.11", sans-serif;
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 24px;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  line-height: 1;
+}
+
+@media (min-width: 640px) {
+  .vanguard-brand {
+    font-size: 30px;
+  }
+}
+
+/* Nav links desktop */
+.vanguard-links {
+  display: none;
+  align-items: center;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .vanguard-links {
+    display: flex;
+  }
+}
+
+@media (min-width: 1024px) {
+  .vanguard-links {
+    gap: 48px;
+  }
+}
+
+.vanguard-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+
+.vanguard-link:hover {
+  color: #ffffff;
+}
+
+/* Inquire CTA desktop */
+.vanguard-cta-desktop {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 12px 24px;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+@media (min-width: 768px) {
+  .vanguard-cta-desktop {
+    display: inline-flex;
+  }
+}
+
+.vanguard-cta-desktop:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.vanguard-cta-desktop svg {
+  transition: transform 0.2s ease;
+}
+
+.vanguard-cta-desktop:hover svg {
+  transform: translate(2px, -2px);
+}
+
+/* Hamburger button (mobile) */
+.vanguard-burger {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .vanguard-burger {
+    display: none;
+  }
+}
+
+.vanguard-burger-bar {
+  display: block;
+  height: 2px;
+  background: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.vanguard-burger-bar:nth-child(1) { width: 24px; }
+.vanguard-burger-bar:nth-child(2) { width: 24px; }
+.vanguard-burger-bar:nth-child(3) { width: 16px; }
+
+/* Mobile Menu Overlay */
+.vanguard-mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 24px 48px;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.vanguard-mobile-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.vanguard-mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.vanguard-close-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vanguard-mobile-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex: 1;
+}
+
+.vanguard-mobile-link {
+  font-family: "FSP DEMO - PODIUM Sharp 4.11", sans-serif;
+  font-size: clamp(36px, 10vw, 56px);
+  color: #ffffff;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease, color 0.2s ease;
+}
+
+.vanguard-mobile-link:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.vanguard-mobile-cta {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 14px 28px;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.vanguard-mobile-menu.is-open .vanguard-mobile-link,
+.vanguard-mobile-menu.is-open .vanguard-mobile-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hero Content Area */
+.vanguard-content {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 24px;
+  box-sizing: border-box;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .vanguard-content {
+    padding: 0 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .vanguard-content {
+    padding: 0 64px;
+  }
+}
+
+/* Tagline */
+.vanguard-tagline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(11px, 1.1vw, 14px);
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+  .vanguard-tagline {
+    margin-bottom: 32px;
+  }
+}
+
+.vanguard-tagline svg {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  flex-shrink: 0;
+}
+
+/* Main Heading */
+.vanguard-heading {
+  font-family: "FSP DEMO - PODIUM Sharp 4.11", sans-serif;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  font-size: clamp(2.8rem, 8vw, 7rem);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.vanguard-heading span {
+  display: block;
+}
+
+/* Subtext */
+.vanguard-subtext {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  max-width: 440px;
+  margin-top: 24px;
+}
+
+@media (min-width: 1024px) {
+  .vanguard-subtext {
+    margin-top: 32px;
+  }
+}
+
+.vanguard-subtext strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* CTA Row */
+.vanguard-cta-row {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .vanguard-cta-row {
+    gap: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .vanguard-cta-row {
+    margin-top: 40px;
+  }
+}
+
+.vanguard-btn-black {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 14px 24px;
+  font-size: clamp(11px, 1vw, 12px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 640px) {
+  .vanguard-btn-black {
+    padding: 16px 28px;
+  }
+}
+
+.vanguard-btn-black:hover {
+  background: #171717;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.vanguard-btn-black svg {
+  transition: transform 0.2s ease;
+}
+
+.vanguard-btn-black:hover svg {
+  transform: translate(2px, -2px);
+}
+
+.vanguard-award-badge {
+  display: none;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .vanguard-award-badge {
+    display: flex;
+  }
+}
+
+.vanguard-award-badge svg {
+  width: 32px;
+  height: 32px;
+  color: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+.vanguard-award-text {
+  display: flex;
+  flex-direction: column;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+/* Stats Row */
+.vanguard-stats {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 24px;
+}
+
+@media (min-width: 640px) {
+  .vanguard-stats {
+    margin-top: 40px;
+    gap: 48px;
+    padding-top: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .vanguard-stats {
+    margin-top: 56px;
+    gap: 64px;
+  }
+}
+
+.vanguard-stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.vanguard-stat-val {
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  font-size: clamp(24px, 3.5vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.vanguard-stat-label {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: clamp(9px, 0.9vw, 12px);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  margin-top: 6px;
+}

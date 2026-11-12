@@ -107,17 +107,17 @@
       ["projetos", "projetos.html", "folder", "Projetos"],
       ["conteudos", "conteudos.html", "book", "Academia"],
       ["ferramentas", "ferramentas.html", "sparkles", "Copiloto"],
-      ["perfil", "perfil.html", "user", "Perfil"],
+      ["comunidade", "comunidade.html", "message", "Comunidade"],
+      ["ranking", "ranking.html", "star", "Ranking"],
+    ] },
+    { group: "Informação", items: [
+      ["noticias", "noticias.html", "news", "Notícias"],
     ] },
     { group: "Conta", items: [
+      ["certificados", "certificados.html", "award", "Certificados"],
+      ["perfil", "perfil.html", "user", "Perfil"],
       ["configuracoes", "configuracoes.html", "settings", "Configurações"],
       ["ajuda", "index.html#faq", "help", "Ajuda"],
-    ] },
-    { group: "Outras áreas", items: [
-      ["comunidade", "comunidade.html", "message", "Comunidade"],
-      ["noticias", "noticias.html", "news", "Notícias"],
-      ["ranking", "ranking.html", "star", "Ranking"],
-      ["certificados", "certificados.html", "award", "Certificados"],
     ] },
   ];
   const TABBAR = [["dashboard", "inicio.html", "target", "Meu Dia"], ["projetos", "projetos.html", "folder", "Projetos"], ["conteudos", "conteudos.html", "book", "Academia"], ["ferramentas", "ferramentas.html", "sparkles", "Copiloto"], ["perfil", "perfil.html", "user", "Perfil"]];
@@ -133,7 +133,7 @@
 
     const admin = document.body.dataset.appArea === "admin" ? window.GRAAO_ADMIN : null;
     const nav = admin ? admin.navHtml() : NAV.map((g) => `<span class="g-sidenav__label">${g.group}</span>${g.items.map(([id, href, ic, label]) =>
-      `<a href="${href}"${id === page ? ' aria-current="page"' : ""}>${icon(ic)}<span class="label">${label}</span></a>`).join("")}`).join("");
+      `<a href="${href}" aria-label="${esc(label)}"${id === page ? ' aria-current="page"' : ""}>${icon(ic)}<span class="label">${label}</span></a>`).join("")}`).join("");
     const D = window.GRAAO_DATA;
     const ann = (D?.announcements || []).slice(0, 3);
     // só avisos reais cadastrados pela equipe (sem notificações de exemplo)
@@ -144,11 +144,11 @@
       : `<a class="points-card" href="projetos.html"><span class="g-icon-btn">${icon("folder", "g-icon--sm")}</span><div><b>Retomar projeto</b><div class="g-caption">continue de onde parou</div></div></a>`;
 
     const app = document.createElement("div");
-    app.className = "app";
+    app.className = "app" + (admin ? "" : " g-club-shell");
     app.innerHTML = `
       <aside class="sidebar" aria-label="Navegação do app">
         <div class="sidebar-top">
-          <a href="index.html" class="brand" aria-label="graao club — site"><img src="assets/img/graao-mark.svg" alt=""><span class="brand-word"><b style="color:var(--g-text)">graao</b><span style="margin:0">club</span></span></a>
+          <a href="index.html" class="brand" aria-label="graao club — site"><img src="assets/img/graao-mark.svg?v=20261112-isotipo" alt=""><span class="brand-word"><b style="color:var(--g-text)">graao</b><span style="margin:0">club</span></span></a>
           <button class="g-icon-btn g-icon-btn--sm g-icon-btn--ghost" id="collapse" type="button" aria-label="Recolher menu">${icon("chevron-left", "g-icon--sm")}</button>
         </div>
         ${admin ? `<span class="g-badge g-badge--soft" style="margin:0 6px 6px">${icon("shield", "g-icon--sm")}Painel administrativo</span>` : ""}
@@ -161,6 +161,7 @@
             <div class="crumbs">
               <button class="g-icon-btn mobile-menu" id="open-drawer" type="button" aria-label="Abrir menu">${icon("menu", "g-icon--sm")}</button>
               ${back ? `<a class="g-icon-btn" href="${esc(back)}" aria-label="Voltar">${icon("arrow-left", "g-icon--sm")}</a>` : ""}
+              ${admin ? "" : '<a class="g-club-crumb" href="inicio.html">graao club</a><span class="g-club-crumb-sep" aria-hidden="true">/</span>'}
               <h1 id="page-title">${esc(title)}</h1>
             </div>
             <div class="top-actions">
@@ -173,7 +174,7 @@
                 </div></div>
               </div>
               <div class="user-wrap">
-                <button class="user-pill" type="button" data-g-popover="user-menu">${avatar(user.name, user.hue, "g-avatar--sm")}<span class="name">${esc(user.name.split(" ")[0])}</span>${icon("chevron-down", "g-icon--sm")}</button>
+                <button class="user-pill" type="button" data-g-popover="user-menu" aria-label="Menu do usuário">${avatar(user.name, user.hue, "g-avatar--sm")}<span class="name">${esc(user.name.split(" ")[0])}</span>${icon("chevron-down", "g-icon--sm")}</button>
                 <div class="g-popover" id="user-menu"><div class="g-menu" data-g-glide role="menu">
                   <a class="g-menu__item" href="perfil.html" role="menuitem">${icon("user", "g-icon--sm")}Meu perfil</a>
                   <a class="g-menu__item" href="configuracoes.html" role="menuitem">${icon("settings", "g-icon--sm")}Configurações</a>
@@ -210,9 +211,26 @@
     const app = $(".app");
     if (!app) return;
     if (store.get(CONFIG.storage.sidebar, false)) app.classList.add("collapsed");
-    $("#collapse").addEventListener("click", () => { store.set(CONFIG.storage.sidebar, app.classList.toggle("collapsed")); $(".g-sidenav").dispatchEvent(new Event("mouseleave")); });
-    $("#open-drawer").addEventListener("click", (e) => { e.stopPropagation(); app.classList.add("drawer"); });
-    document.addEventListener("click", (e) => { if (app.classList.contains("drawer") && !e.target.closest(".sidebar")) app.classList.remove("drawer"); });
+    const collapse = $("#collapse");
+    const phoneNav = matchMedia("(max-width: 860px)");
+    const sidebar = $(".sidebar", app), drawerButton = $("#open-drawer");
+    sidebar.id = "g-club-navigation";
+    drawerButton.setAttribute("aria-controls", sidebar.id);
+    const setDrawer = (open) => {
+      app.classList.toggle("drawer", open);
+      sidebar.inert = phoneNav.matches && !open;
+      $(".app-main", app).inert = phoneNav.matches && open;
+      const tabbar = $(".g-tabbar"); if (tabbar) tabbar.inert = phoneNav.matches && open;
+      drawerButton.setAttribute("aria-expanded", String(open));
+    };
+    const updateCollapse = () => { collapse.setAttribute("aria-expanded", String(!app.classList.contains("collapsed"))); collapse.setAttribute("aria-label", phoneNav.matches ? "Fechar menu" : app.classList.contains("collapsed") ? "Expandir menu" : "Recolher menu"); };
+    updateCollapse();
+    setDrawer(false);
+    phoneNav.addEventListener("change", () => { setDrawer(false); updateCollapse(); });
+    collapse.addEventListener("click", () => { if (phoneNav.matches) { setDrawer(false); drawerButton.focus(); return; } store.set(CONFIG.storage.sidebar, app.classList.toggle("collapsed")); updateCollapse(); $(".g-sidenav").dispatchEvent(new Event("mouseleave")); });
+    drawerButton.addEventListener("click", (e) => { e.stopPropagation(); setDrawer(true); collapse.focus(); });
+    document.addEventListener("click", (e) => { if (app.classList.contains("drawer") && !e.target.closest(".sidebar")) setDrawer(false); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && app.classList.contains("drawer")) { setDrawer(false); drawerButton.focus(); } });
     $("[data-g-popover='notif-menu'] .g-dot")?.parentElement.addEventListener("click", (e) => e.currentTarget.querySelector(".g-dot")?.remove(), { once: true });
     $("#logout").addEventListener("click", async () => {
       if (window.GRAAO_API?.enabled) await window.GRAAO_API.signOut(); else store.del(CONFIG.storage.user);

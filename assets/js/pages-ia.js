@@ -26,7 +26,7 @@
     return days === 1 ? "ontem" : days < 30 ? `há ${days} dias` : new Date(iso).toLocaleDateString("pt-BR");
   };
   const hhmm = () => new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-  const demoNote = () => (PR.live ? "" : `<p class="g-card g-card--raised demo-note">${icon("lock", "g-icon--sm")}<span><b>Modo demonstração.</b> Sem conexão com o servidor: seus projetos ficam salvos só neste navegador.</span></p>`);
+  const demoNote = () => (PR.live ? "" : `<p class="g-card g-card--raised demo-note">${icon("lock", "g-icon--sm")}<span><b>Modo demonstração.</b> ${document.body.dataset.clubPreview ? "Prévia local com dados fictícios em memória. Recarregar restaura o exemplo; nenhuma alteração é enviada ao servidor." : "Sem conexão com o servidor: seus projetos ficam salvos só neste navegador."}</span></p>`);
   const errorBox = (msg) => `<div class="g-empty"><span class="g-empty__icon">${icon("x")}</span><b style="color:var(--g-text)">Não foi possível carregar</b><p class="g-caption">${esc(msg)}</p><button class="g-btn" type="button" data-retry>Tentar de novo</button></div>`;
   const orbitaSelect = (id, val, label = "Movimento ÓRBITA (opcional)") => `<div class="g-field"><select id="${id}">
       <option value="">Sem movimento</option>${P.ORBITA.map((m) => `<option value="${m.k}" ${val === m.k ? "selected" : ""}>${m.k} · ${m.name}</option>`).join("")}</select><label for="${id}">${label}</label></div>`;
@@ -55,11 +55,62 @@
   RENDER.dashboard = (main) => {
     const first = esc(String(getUser().name || "").split(" ")[0]);
     main.innerHTML = `
-      <div class="page-head"><div><span class="g-eyebrow">Meu Dia</span><h2 class="g-h2" style="margin-top:8px">Vamos encontrar seu próximo passo?</h2>
-        <p class="g-body" style="margin-top:8px">${first && first !== "Visitante" ? `Olá, ${first}. ` : ""}Uma ação de cada vez, no seu ritmo.</p></div></div>
       ${demoNote()}
-      <div id="day" aria-live="polite" aria-busy="true"><div class="g-skeleton" style="height:200px;border-radius:var(--g-radius-lg)"></div></div>`;
+      <section class="g-club-onboarding" id="g-club-first" aria-labelledby="g-club-first-title">
+        <div class="g-club-section-head"><div><h2 class="g-h4" id="g-club-first-title">Primeiros passos</h2><p class="g-caption">Prepare seu espaço e transforme uma ideia em entrega.</p></div><span class="g-badge" data-club-count>Carregando</span></div>
+        <div class="g-progress g-progress--thin"><div class="g-progress__fill" data-club-bar style="--v:0%"></div></div>
+        <ol data-club-steps aria-label="Seu caminho até a primeira entrega"><li class="g-caption">Consultando seus projetos…</li></ol>
+      </section>
+      <div class="g-club-grid"><div class="g-club-main">
+        <header class="g-club-greeting"><p>Bom te ver por aqui</p><h2>${first && first !== "Visitante" ? `Olá, ${first}!` : "Vamos encontrar seu próximo passo?"}</h2></header>
+        <div class="g-club-stats" aria-label="Seu progresso pessoal">
+          <div><span class="g-caption">Projetos ativos</span><span class="g-num" data-club-active>—</span></div>
+          <div><span class="g-caption">Ações concluídas</span><span class="g-num" data-club-done>—</span></div>
+          <div><span class="g-caption">Entregas</span><span class="g-num" data-club-delivered>—</span></div>
+        </div>
+        <div id="day" aria-live="polite" aria-busy="true"><div class="g-skeleton" style="height:200px;border-radius:var(--g-radius-lg)"></div></div>
+        <section aria-labelledby="g-club-learning"><div class="g-club-card-heading"><div><h2 class="g-h4" id="g-club-learning">Na Academia</h2><p class="g-caption">Cursos e grades para o seu trabalho criativo.</p></div><a class="link-more" href="conteudos.html">Ver conteúdos ${icon("arrow-up-right","g-icon--sm")}</a></div><div class="g-club-lessons" data-club-courses aria-live="polite"><p class="g-caption">Consultando o catálogo…</p></div></section>
+      </div><aside class="g-club-aside" aria-label="Seu espaço de apoio">
+        <section class="g-card"><div class="g-club-card-heading"><h2 class="g-h4">Seu espaço</h2>${icon("grid","g-icon--sm")}</div><ul class="g-club-side-list">
+          <li><a href="projetos.html"><span>${icon("folder","g-icon--sm")}</span><span><b>Meus projetos</b><small>Briefing, passos e entregas</small></span>${icon("arrow-right","g-icon--sm")}</a></li>
+          <li><a href="conteudos.html"><span>${icon("book","g-icon--sm")}</span><span><b>Academia</b><small>Consulte cursos e módulos</small></span>${icon("arrow-right","g-icon--sm")}</a></li>
+          <li><a href="ferramentas.html"><span>${icon("sparkles","g-icon--sm")}</span><span><b>Copiloto</b><small>Prepare um prompt para sua tarefa</small></span>${icon("arrow-right","g-icon--sm")}</a></li></ul></section>
+        <section class="g-card"><div class="g-club-card-heading"><h2 class="g-h4">Uma coisa de cada vez</h2>${icon("target","g-icon--sm")}</div><p class="g-club-guide">Seu progresso é privado. Uma pequena ação concluída ajuda a construir o próximo passo, sem comparação com ninguém.</p><a class="link-more" href="projetos.html#novo">Começar um projeto ${icon("arrow-up-right","g-icon--sm")}</a></section>
+        <section class="g-card"><div class="g-club-card-heading"><h2 class="g-h4">Na plataforma</h2></div><ul class="g-club-side-list"><li><a href="comunidade.html"><span>${icon("message","g-icon--sm")}</span><span><b>Comunidade</b><small>Área em pausa</small></span>${icon("arrow-right","g-icon--sm")}</a></li><li><a href="noticias.html"><span>${icon("news","g-icon--sm")}</span><span><b>Notícias</b><small>Área em pausa</small></span>${icon("arrow-right","g-icon--sm")}</a></li></ul></section>
+      </aside></div>
+      <button class="g-club-float" type="button" data-club-jump aria-label="Voltar aos primeiros passos">…</button>`;
     const box = $("#day", main);
+    const overview = $(".g-club-stats", main);
+    $("[data-club-jump]", main).addEventListener("click", () => { const el = $("#g-club-first-title", main); el.tabIndex = -1; el.focus({ preventScroll: true }); el.scrollIntoView({ block: "start", behavior: "auto" }); });
+    const updateOverview = (all, steps, stats) => {
+      const projectLink = "projetos.html";
+      const checks = [
+        [all.length > 0, "Crie seu primeiro projeto", "Um trabalho real ou uma ideia que quer tirar do papel.", projectLink + "#novo"],
+        [all.some(p => String(p.objective || "").trim()), "Defina um objetivo", "Escreva o que precisa estar pronto no final.", projectLink],
+        [steps.length > 0 || stats.stepsDone > 0, "Escolha uma microtarefa", "Separe um próximo passo pequeno no projeto principal.", projectLink],
+        [stats.stepsDone > 0, "Conclua uma ação", "Registre um avanço no seu próprio ritmo.", "inicio.html#day"],
+        [stats.delivered > 0, "Registre uma entrega", "Marque como entregue quando o projeto estiver pronto.", projectLink],
+      ];
+      const completed = checks.filter(c => c[0]).length;
+      $("[data-club-count]", main).textContent = `${completed}/5`;
+      $("[data-club-bar]", main).style.setProperty("--v", `${completed * 20}%`);
+      const jump = $("[data-club-jump]", main); jump.textContent = `${completed}/5`; jump.setAttribute("aria-label", `Primeiros passos, ${completed} de 5 concluídos`);
+      $("[data-club-steps]", main).innerHTML = checks.map(([done,title,description,href], i) => `<li${done ? ' class="is-done"' : ""}><a href="${href}"><span class="g-club-step-number" aria-label="${done ? "Concluído" : "Pendente"}">${done ? icon("check","g-icon--sm") : i+1}</span><span><b>${title}</b><small>${description}</small></span>${icon("arrow-right","g-icon--sm")}</a></li>`).join("");
+      $("[data-club-active]", main).textContent = all.filter(p => p.status === "ativo").length;
+      $("[data-club-done]", main).textContent = stats.stepsDone;
+      $("[data-club-delivered]", main).textContent = stats.delivered;
+      mount(main);
+    };
+    const loadCatalog = async () => {
+      const coursesEl = $("[data-club-courses]", main);
+      try {
+        if (!window.GRAAO_API?.enabled) throw new Error("Conecte-se ao servidor para consultar a Academia.");
+        const courses = await window.GRAAO_API.academyCatalog();
+        coursesEl.innerHTML = courses.length ? courses.slice(0,3).map(c => `<a href="conteudos.html#${encodeURIComponent(c.id)}-course-name"><img src="assets/img/glass-pop/orbit-768.webp" width="88" height="64" loading="lazy" alt=""><span><b>${esc(c.name)}</b><small>${esc(c.tagline || "Consulte a grade do curso")} · Em preparação</small></span>${icon("arrow-up-right","g-icon--sm")}</a>`).join("") : '<p class="g-caption">Os cursos cadastrados aparecerão aqui quando a grade estiver disponível.</p>';
+      } catch (error) { coursesEl.innerHTML = `<p class="g-caption">${esc(error.message)}</p><a class="link-more" href="conteudos.html">Abrir Academia ${icon("arrow-up-right","g-icon--sm")}</a>`; }
+      mount(coursesEl);
+    };
+    loadCatalog();
 
     const renderEmpty = (all) => {
       const delivered = all.filter((p) => p.status === "entregue").length;
@@ -69,6 +120,7 @@
         <p class="g-caption" style="max-width:46ch">${delivered ? "Quando começar outro trabalho, ele aparece aqui com a próxima ação." : "Cadastre um trabalho real: um briefing de cliente ou um projeto pessoal. Daqui você vê a próxima ação e onde parou."}</p>
         <a class="g-btn g-btn--accent g-btn--arrow" href="projetos.html#novo">${delivered ? "Começar um projeto" : "Criar meu primeiro projeto"} ${icon("arrow-right", "g-icon--sm")}</a>
         <a class="link-more" href="conteudos.html">Conhecer o Método ÓRBITA ${icon("arrow-up-right", "g-icon--sm")}</a></div>`;
+      box.append(overview);
     };
 
     const renderDay = (proj, steps, acts, stats, all) => {
@@ -78,7 +130,7 @@
       const others = all.filter((p) => p.id !== proj.id && p.status !== "entregue");
       box.innerHTML = `
         <div class="day-top">
-          <section class="g-card g-card--accent day-next" aria-labelledby="next-title">
+          <section class="g-card day-next" aria-labelledby="next-title">
             <span class="g-eyebrow" style="color:var(--g-text-2)">Próxima ação · ${esc(proj.title)}</span>
             ${next ? `
               <h3 class="g-h3" id="next-title">${esc(next.title)}</h3>
@@ -121,6 +173,7 @@
             </section>
           </aside>
         </div>`;
+      $(".day-next", box).after(overview);
       mount(box);
 
       $("[data-done]", box)?.addEventListener("click", async (e) => {
@@ -153,15 +206,21 @@
     const load = async () => {
       box.setAttribute("aria-busy", "true");
       try {
-        const all = (await PR.list()).filter((p) => p.status !== "arquivado");
+        const [projects, stats] = await Promise.all([PR.list(), PR.stats()]);
+        const all = projects.filter((p) => p.status !== "arquivado");
         const proj = all.find((p) => p.is_main && p.status !== "entregue") || all.find((p) => p.status === "ativo") || all.find((p) => p.status === "pausado") || null;
-        if (!proj) renderEmpty(all);
+        if (!proj) { renderEmpty(all); updateOverview(all, [], stats); }
         else {
-          const [steps, acts, stats] = await Promise.all([PR.steps(proj.id), PR.activity(proj.id, 4), PR.stats()]);
+          const [steps, acts] = await Promise.all([PR.steps(proj.id), PR.activity(proj.id, 4)]);
           renderDay(proj, steps, acts, stats, all);
+          updateOverview(all, steps, stats);
         }
       } catch (err) {
+        $("[data-club-count]", main).textContent = "Indisponível";
+        $("[data-club-steps]", main).innerHTML = '<li class="g-caption">Não foi possível consultar seu progresso. Tente novamente abaixo.</li>';
         box.innerHTML = errorBox(err.message);
+        box.before(overview);
+        overview.querySelectorAll(".g-num").forEach(el => { el.textContent = "—"; });
         $("[data-retry]", box).addEventListener("click", load);
       } finally { box.setAttribute("aria-busy", "false"); }
     };
@@ -467,70 +526,7 @@
   /* =====================================================================
      ACADEMIA (conteudos.html) — catálogo do Supabase, sem alternativa de demonstração
      ===================================================================== */
-  RENDER.conteudos = async (main) => {
-    main.setAttribute("aria-busy", "true");
-    main.innerHTML = `<p class="g-body" role="status">Carregando cursos…</p>`;
-    const duration = (n) => n < 60 ? `${n} min` : `${Math.floor(n / 60)}h${n % 60 ? String(n % 60).padStart(2, "0") : ""}`;
-    try {
-      const courses = await window.GRAAO_API.academyCatalog();
-      if (!courses.length) {
-        main.innerHTML = `<div class="g-empty"><h2 class="g-h4">Nenhum curso disponível</h2><p class="g-caption">Os cursos cadastrados aparecerão aqui quando a grade estiver disponível.</p></div>`;
-        return;
-      }
-      main.innerHTML = courses.map((c) => {
-        const lessonCount = c.modules.reduce((n, m) => n + m.lessons.length, 0);
-        return `
-      <section class="g-card g-course" id="${esc(c.id)}" aria-labelledby="${esc(c.id)}-course-name">
-        <span class="g-status g-status--warn">Em preparação</span>
-        <h2 class="g-h2" id="${esc(c.id)}-course-name">${esc(c.name)}</h2>
-        <p class="g-lead">${esc(c.tagline)}</p>
-        <p class="g-body">${esc(c.summary)}</p>
-        <div class="g-course__meta"><span class="g-badge">${c.modules.length} módulos</span><span class="g-badge">${lessonCount} aulas</span><span class="g-badge">${duration(c.durationMinutes)} estimadas</span><span class="g-badge">${c.projects.length} projetos práticos</span></div>
-        <p class="g-caption">Aulas curtas, demonstrações práticas, exercícios guiados e materiais reutilizáveis. A grade está planejada; os vídeos e materiais de apoio ainda estão em produção.</p>
-        <a class="g-btn g-btn--accent" href="#${esc(c.id)}-grade-curso">Explorar módulos</a>
-      </section>
-      <section class="g-course" aria-labelledby="${esc(c.id)}-grade-curso">
-        <h2 class="g-h3" id="${esc(c.id)}-grade-curso">O que você vai aprender</h2>
-        <p class="g-body">Abra um módulo para consultar as aulas. As durações são estimativas.</p>
-        <div class="g-course__modules">${c.modules.map((m) => `
-          <details class="g-card g-course-module" id="${esc(m.id)}">
-            <summary class="g-course-module__summary">
-              <span class="g-badge">${String(m.number).padStart(2, "0")}</span>
-              <span><span class="g-h4">${esc(m.title)}</span><span class="g-caption g-course-module__meta">${m.lessons.length} aulas · ${duration(m.lessons.reduce((n, l) => n + l.durationMinutes, 0))} · ${esc(m.level)}</span></span>
-              ${icon("chevron-down", "g-icon--sm")}
-            </summary>
-            <div class="g-course-module__body">
-              <p class="g-body">${esc(m.objective)}</p>
-              <ol class="g-course__lessons" start="${m.lessons[0]?.number || 1}">${m.lessons.map((l) => `
-                <li id="${esc(l.id)}"><h3 class="g-h4">${esc(l.title)}</h3><p class="g-caption">${l.durationMinutes} min estimados · Em preparação</p><p class="g-body">${esc(l.text)}</p><p class="g-caption"><b>Material previsto:</b> ${esc(l.material)}</p></li>`).join("")}</ol>
-            </div>
-          </details>`).join("")}</div>
-      </section>
-      <section class="g-card g-course" aria-labelledby="${esc(c.id)}-course-projects">
-        <h2 class="g-h3" id="${esc(c.id)}-course-projects">Projetos para aplicar</h2>
-        ${c.projects.map((p, i) => `<div><h3 class="g-h4">${String(i + 1).padStart(2, "0")} · ${esc(p.name)}</h3><p class="g-body">${esc(p.description)}</p></div>`).join("")}
-      </section>
-      <section class="g-card g-course" aria-labelledby="${esc(c.id)}-course-about">
-        <h2 class="g-h3" id="${esc(c.id)}-course-about">Para quem é</h2><p class="g-body">${esc(c.audience)}</p>
-        <h3 class="g-h4">Para começar</h3><ul class="g-body">${c.prerequisites.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
-        <p class="g-caption">${esc(c.notice)}</p>
-      </section>
-`;
-      }).join("");
-      mount(main);
-      const target = document.getElementById(location.hash.slice(1));
-      if (target) {
-        const module = target.closest("details");
-        if (module) module.open = true;
-        target.scrollIntoView({ block: "start" });
-      }
-    } catch (error) {
-      main.innerHTML = errorBox(error.message || "Não foi possível consultar os cursos.");
-      $("[data-retry]", main)?.addEventListener("click", () => RENDER.conteudos(main));
-    } finally {
-      main.setAttribute("aria-busy", "false");
-    }
-  };
+  RENDER.conteudos = (main) => window.GRAAO_ACADEMY.render(main);
 
   /* =====================================================================
      COPILOTO DE ENTREGA (ferramentas.html) — monta prompts para copiar.

@@ -1,0 +1,74 @@
+/* Member shell and dashboard composition. Reference ledger: docs/RISE_STRUCTURE.md. */
+.g-club-shell { grid-template-columns:256px minmax(0,1fr); }
+.g-club-shell .sidebar { padding:0 12px 12px; border-right:1px solid var(--g-line); background:var(--g-surface); gap:12px; }
+.g-club-shell .sidebar-top { min-height:64px; padding:12px 4px; border-bottom:1px solid var(--g-line); }
+.g-club-shell .g-sidenav__label { padding:16px 12px 8px; font-family:var(--g-font-sans); font-size:11px; text-transform:uppercase; letter-spacing:.04em; }
+.g-club-shell .g-sidenav a { height:38px; border-radius:var(--g-radius-sm); }
+.g-club-shell .g-sidenav a[aria-current=page] { background:var(--g-accent-soft); }
+.g-club-shell .app-main { padding:0; }
+.g-club-shell .workspace { border:0; border-radius:0; box-shadow:none; background:var(--g-bg); }
+.g-club-shell .topbar { height:64px; padding-inline:32px; border-radius:0; border-bottom:1px solid var(--g-line); background:var(--g-glass); }
+.g-club-shell .crumbs { gap:10px; }
+.g-club-shell .crumbs h1 { font:500 14px var(--g-font-sans); letter-spacing:0; }
+.g-club-crumb { color:var(--g-text); font-size:14px; font-weight:600; text-decoration:none; white-space:nowrap; }
+.g-club-crumb-sep { color:var(--g-text-3); }
+.g-club-shell .content { max-width:1600px; padding:32px; gap:24px; }
+.g-club-shell .points-card { border-radius:var(--g-radius-md); }
+.g-club-shell .app-footer { padding-inline:32px; }
+.g-club-shell.collapsed .sidebar-top { min-height:100px; }
+.g-club-shell.collapsed .g-sidenav a { position:relative; }
+.g-club-shell.collapsed .g-sidenav a:hover::after { content:attr(aria-label); position:absolute; left:100%; background:var(--g-surface); color:var(--g-text); padding:8px; border:1px solid var(--g-line); border-radius:var(--g-radius-sm); z-index:60; white-space:nowrap; }
+.g-club-onboarding { padding:24px; border-radius:var(--g-radius-md); border:1px solid var(--g-line); background:var(--g-surface); }
+.g-club-section-head { display:flex; justify-content:space-between; align-items:start; gap:16px; margin-bottom:20px; }
+.g-club-section-head p { margin-top:6px; }
+.g-club-onboarding ol { list-style:none; display:grid; gap:4px; margin-top:16px; }
+.g-club-onboarding li a { display:grid; grid-template-columns:28px minmax(0,1fr) 20px; gap:12px; align-items:center; min-height:60px; padding:8px; border-radius:var(--g-radius-sm); text-decoration:none; transition:background var(--g-dur-2); }
+.g-club-onboarding li a:hover { background:var(--g-hover); }
+.g-club-step-number { display:grid; place-items:center; width:28px; height:28px; border-radius:var(--g-radius-pill); background:var(--g-surface-raised); color:var(--g-text-2); font-size:12px; }
+.g-club-onboarding li.is-done .g-club-step-number { background:var(--g-accent-soft); color:var(--g-accent-text); }
+.g-club-onboarding b { display:block; font-size:14px; font-weight:600; color:var(--g-text); }
+.g-club-onboarding small { display:block; margin-top:3px; color:var(--g-text-2); font-size:13px; }
+.g-club-onboarding .g-icon { color:var(--g-accent-text); }
+.g-club-grid { display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:32px; align-items:start; }
+.g-club-grid>* { min-width:0; }
+.g-club-main,.g-club-aside { display:grid; gap:24px; align-content:start; }
+.g-club-greeting p { color:var(--g-text-2); font-size:14px; margin-bottom:8px; }
+.g-club-greeting h2 { font-size:clamp(26px,2.6vw,34px); line-height:1.15; font-family:var(--g-font-heading); letter-spacing:-.04em; }
+.g-club-grid .g-card { border-radius:var(--g-radius-md); box-shadow:none; }
+.g-club-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border:1px solid var(--g-line); border-radius:var(--g-radius-md); background:var(--g-surface); }
+.g-club-stats>div { padding:20px; min-width:0; }
+.g-club-stats>div+div { border-left:1px solid var(--g-line); }
+.g-club-stats .g-num { margin-top:8px; display:block; }
+.g-club-main #day { display:grid; gap:24px; }
+.g-club-main .day-top { grid-template-columns:minmax(0,1fr); }
+.g-club-main .day-next { background:var(--g-surface); border-color:var(--g-line); position:relative; overflow:hidden; }
+.g-club-main .day-next::before { content:""; position:absolute; right:0; top:0; width:35%; height:100%; background:var(--g-gradient-bloom); opacity:.15; pointer-events:none; }
+.g-club-main .day-next>* { position:relative; }
+.g-club-main .day-next .g-h3,.g-club-main .day-next__actions .g-btn--quiet { color:var(--g-text); }
+.g-club-main .day-next .form-error { color:var(--g-danger); }
+.g-club-main .day-next .g-btn--solid { background:var(--g-accent); color:var(--g-on-accent); }
+.g-club-main .day-next__meta { color:var(--g-text-2); }
+.g-club-main #day .split { grid-template-columns:1fr; }
+.g-club-main #day .split>aside { position:static; grid-template-columns:repeat(2,minmax(0,1fr)); }
+.g-club-main .day-empty { min-height:230px; padding:32px; border:1px solid var(--g-line); border-radius:var(--g-radius-md); background:var(--g-surface); align-items:start; text-align:left; justify-items:start; }
+.g-club-aside { position:sticky; top:88px; }
+.g-club-side-list { display:grid; gap:16px; list-style:none; }
+.g-club-side-list a { display:grid; grid-template-columns:36px minmax(0,1fr) 16px; align-items:center; gap:12px; text-decoration:none; }
+.g-club-side-list a>span:first-child { display:grid; place-items:center; width:36px; height:36px; background:var(--g-accent-soft); border-radius:var(--g-radius-sm); color:var(--g-accent-text); }
+.g-club-side-list b { font-size:13px; color:var(--g-text); display:block; }
+.g-club-side-list small { display:block; font-size:12px; color:var(--g-text-2); margin-top:3px; }
+.g-club-card-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:20px; }
+.g-club-guide { font-size:14px; line-height:1.6; color:var(--g-text-2); }
+.g-club-guide + a { margin-top:16px; }
+.g-club-lessons { display:grid; gap:12px; }
+.g-club-lessons a { display:flex; align-items:center; gap:16px; padding:16px; background:var(--g-surface); border:1px solid var(--g-line); border-radius:var(--g-radius-md); text-decoration:none; }
+.g-club-lessons a>span { flex:1; min-width:0; }
+.g-club-lessons img { width:88px; height:64px; border-radius:var(--g-radius-sm); object-fit:cover; }
+.g-club-lessons b { display:block; font-size:14px; color:var(--g-text); }
+.g-club-lessons small { display:block; margin-top:4px; font-size:12px; color:var(--g-text-2); }
+.g-club-float { position:fixed; right:24px; bottom:24px; z-index:50; width:56px; height:56px; border:1px solid var(--g-line-strong); border-radius:var(--g-radius-pill); background:var(--g-accent-soft); color:var(--g-accent-text); box-shadow:var(--g-shadow-2); font-size:13px; font-weight:600; }
+@media(min-width:1600px) { .g-club-grid { grid-template-columns:minmax(0,1fr) 360px; } }
+@media(max-width:1200px) { .g-club-grid { grid-template-columns:minmax(0,1fr); } .g-club-aside { position:static; grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:860px) { .g-club-shell,.g-club-shell.collapsed { grid-template-columns:1fr; } .g-club-shell .sidebar { width:256px; position:fixed; z-index:100; } .g-club-shell .topbar { padding-inline:16px; } .g-club-shell .content { padding:24px 16px 40px; } .g-club-float { bottom:calc(88px + var(--g-safe-bottom)); right:16px; } .g-club-shell .g-club-crumb,.g-club-shell .g-club-crumb-sep { display:none; } }
+@media(max-width:520px) { .g-club-onboarding { padding:20px 16px; } .g-club-onboarding li a { padding-inline:0; } .g-club-aside,.g-club-main #day .split>aside { grid-template-columns:1fr; } .g-club-stats>div { padding:16px 12px; } .g-club-stats .g-caption { font-size:12px; } .g-club-stats .g-num { font-size:26px; } .g-club-shell .user-pill .name { display:none; } .g-club-main .day-empty { padding:24px; } }
+@media(max-width:860px) { .g-club-shell.collapsed .sidebar .label,.g-club-shell.collapsed .brand-word,.g-club-shell.collapsed .points-card>div { display:initial; } .g-club-shell.collapsed .g-sidenav__label { display:block; } .g-club-shell.collapsed .g-sidenav a { justify-content:flex-start; padding-inline:12px; } .g-club-shell.collapsed .sidebar-top { flex-direction:row; min-height:64px; } .g-club-shell .sidebar-top #collapse { display:inline-grid; } }

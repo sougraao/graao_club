@@ -481,7 +481,7 @@
     main.innerHTML = `
       <div class="page-head"><p class="g-body">Conclua uma trilha para emitir um certificado verificável.</p></div>
       ${done.length ? `<div class="cert-grid">${done.map(({ t }) => `
-        <article class="g-sheet cert"><div style="display:flex;justify-content:space-between;align-items:start"><img src="assets/img/graao-mark.svg" alt="" style="width:36px"><span class="g-badge g-badge--sm">${icon("qr", "g-icon--sm")}Verificável</span></div>
+        <article class="g-sheet cert"><div style="display:flex;justify-content:space-between;align-items:start"><img src="assets/img/graao-mark.svg?v=20261112-isotipo" alt="" style="width:36px"><span class="g-badge g-badge--sm">${icon("qr", "g-icon--sm")}Verificável</span></div>
           <span class="g-eyebrow" style="margin-top:28px;display:block">Certificado de conclusão</span><h3 class="g-h3" style="margin-top:8px">${esc(t.name)}</h3>
           <p class="g-caption" style="margin-top:4px">Concedido a <b style="color:var(--g-on-inverse)">${esc(user.name)}</b> · ${new Date().toLocaleDateString("pt-BR")}</p>
           <div style="display:flex;gap:8px;margin-top:20px"><button class="g-btn g-btn--sm g-btn--solid" data-dl>${icon("download", "g-icon--sm")}Baixar</button><button class="g-btn g-btn--sm" data-share style="color:var(--g-on-inverse);border-color:#0b0d1022">${icon("link", "g-icon--sm")}Copiar link</button></div></article>`).join("")}</div>`

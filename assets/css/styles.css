@@ -8,10 +8,10 @@
 .skip-link:focus { left: 8px; }
 
 /* ---------- Marca ---------- */
-.brand { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; letter-spacing: -.035em; line-height: 1; }
+.brand { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; gap: 4px; font-size: 20px; letter-spacing: -.035em; line-height: 1; }
 .brand img { width: 34px; height: 34px; flex: none; }
 .brand b { font-weight: 700; }
-.brand b + span { color: var(--g-text-3); font-weight: 400; margin-left: -10px; }
+.brand b + span { color: var(--g-text-3); font-weight: 400; margin-left: -4px; }
 .brand-word { color: var(--g-text-3); font-weight: 400; }
 
 /* =====================================================================
@@ -130,14 +130,16 @@
 .app { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; min-height: 100dvh; background: var(--g-bg); }
 .app.collapsed { grid-template-columns: 76px minmax(0, 1fr); }
 .sidebar { position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column; gap: 6px; padding: 16px 12px; overflow-y: auto; scrollbar-width: none; }
-.sidebar-top { display: flex; align-items: center; justify-content: space-between; padding: 2px 4px 10px; }
-.sidebar .brand { font-size: 18px; }
+.sidebar-top { position: relative; display: flex; align-items: center; justify-content: center; padding: 2px 4px 10px; }
+.sidebar-top #collapse { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); }
+.sidebar .brand { font-size: 18px; justify-content: center; }
 .sidebar .brand img { width: 30px; height: 30px; }
 .points-card { margin-top: auto; display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--g-radius-md); background: var(--g-surface); border: 1px solid var(--g-line); box-shadow: var(--g-highlight); transition: border-color var(--g-dur-2); }
 .points-card:hover { border-color: var(--g-line-strong); }
 .points-card .g-icon-btn { background: var(--g-accent); color: var(--g-on-accent); border: 0; }
 .app.collapsed .sidebar .label, .app.collapsed .brand-word, .app.collapsed .g-sidenav__label, .app.collapsed .points-card > div { display: none; }
-.app.collapsed .sidebar-top { flex-direction: column; gap: 12px; }
+.app.collapsed .sidebar-top { flex-direction: column; gap: 12px; justify-content: center; }
+.app.collapsed .sidebar-top #collapse { position: static; transform: none; }
 .app.collapsed .g-sidenav a { justify-content: center; padding: 0; }
 .app.collapsed .points-card { justify-content: center; padding: 8px; }
 .app.collapsed #collapse .g-icon { transform: rotate(180deg); }
