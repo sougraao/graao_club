@@ -4,12 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Safra · Design System graao</title>
-  <meta name="description" content="Design system do graao club: tokens, componentes e micro-interações.">
+  <meta name="description" content="Design system do IA para TDAH: tokens, componentes e micro-interações.">
   <link rel="icon" href="assets/img/graao-mark.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/graao-ds.css">
+  <link rel="stylesheet" href="assets/css/club-layout.css?v=1.1.0">
   <script>try{var t=JSON.parse(localStorage.getItem("graao:ds-theme"));if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
   <script src="assets/js/graao-icons.js" defer></script>
   <script src="assets/js/graao-ds.js" defer></script>
@@ -98,7 +99,7 @@
 
   <main class="doc-main">
     <div class="doc-top">
-      <span class="g-eyebrow">graao club · design system v1.0</span>
+      <span class="g-eyebrow">IA para TDAH · design system v1.0</span>
       <div style="display:flex;gap:8px;align-items:center">
         <div class="g-segment" data-g-segment id="theme-seg" role="tablist" aria-label="Modo de cor">
           <button type="button" role="tab" data-value="dark" aria-selected="true"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-moon"/></svg>Noite</button>
@@ -111,7 +112,7 @@
       <img class="obj" src="assets/img/obj-grao.svg" alt="">
       <span class="g-eyebrow">Safra · v1.0</span>
       <h1 class="g-display" style="margin-top:16px;max-width:9ch">Detalhe é <span class="g-accent-text">colheita.</span></h1>
-      <p class="g-lead" style="margin-top:20px;max-width:54ch">A linguagem visual do graao club: grafite profundo, broto neon, números leves, mídia vibrante e micro-interações que respondem a cada gesto. Toda tela nova nasce daqui.</p>
+      <p class="g-lead" style="margin-top:20px;max-width:54ch">A linguagem visual do IA para TDAH: grafite profundo, broto neon, números leves, mídia vibrante e micro-interações que respondem a cada gesto. Toda tela nova nasce daqui.</p>
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:28px">
         <a class="g-btn g-btn--accent g-btn--lg g-btn--arrow" href="#botoes">Ver componentes <svg class="g-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
         <a class="g-btn g-btn--lg" href="DESIGN_SYSTEM.md">Ler as regras <svg class="g-icon" aria-hidden="true"><use href="#i-book"/></svg></a>
@@ -247,9 +248,9 @@
         <div class="demo"><div class="demo-stage center" style="min-height:150px"><button class="g-btn g-btn--accent g-btn--lg g-btn--arrow">Ver em ação <svg class="g-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button></div><div class="demo-label"><b>Primário com luz na borda</b><code>.g-btn--accent · automático (data-g-edge="off" desliga)</code></div></div>
         <div class="demo"><div class="demo-stage center" style="min-height:150px"><button class="g-btn g-btn--lg" type="button" id="demo-theme"><svg class="g-icon" aria-hidden="true"><use href="#i-sun"/></svg>Trocar Noite ↔ Dia</button></div><div class="demo-label"><b>Troca de modo (varredura diagonal)</b><code>G.theme("light" | "dark")</code></div></div>
         <div class="demo"><div class="demo-stage center" style="min-height:150px"><label class="g-row" style="grid-template-columns:1fr auto;cursor:pointer;min-width:260px"><span><span class="g-row__title">Reduzir animações</span><br><span class="g-row__sub">vale a partir do próximo carregamento</span></span><span class="g-switch"><input type="checkbox" id="demo-motion"><span class="g-switch__track"></span></span></label></div><div class="demo-label"><b>Movimento reduzido por escolha (1.2)</b><code>G.motion("reduce" | "auto") · html[data-g-motion]</code></div></div>
-        <div class="demo"><div class="demo-stage center" style="min-height:150px;gap:14px"><svg class="g-icon" aria-hidden="true"><use href="#i-folder"/></svg><svg class="g-icon" aria-hidden="true"><use href="#i-target"/></svg><svg class="g-icon" aria-hidden="true"><use href="#i-orbit"/></svg></div><div class="demo-label"><b>Ícones novos (1.2)</b><code>#i-folder · #i-target · #i-orbit</code></div></div>
+        <div class="demo"><div class="demo-stage center" style="min-height:150px;gap:14px"><svg class="g-icon" aria-hidden="true"><use href="#i-folder"/></svg><svg class="g-icon" aria-hidden="true"><use href="#i-target"/></svg><svg class="g-icon" aria-hidden="true"><use href="#i-orbit"/></svg><svg class="g-icon" aria-hidden="true"><use href="#i-pause"/></svg></div><div class="demo-label"><b>Ícones novos (1.2)</b><code>#i-folder · #i-target · #i-orbit · #i-pause</code></div></div>
         <div class="demo"><div class="demo-stage"><button class="g-btn g-btn--sm">Pequeno</button><button class="g-btn">Médio</button><button class="g-btn g-btn--lg">Grande</button><button class="g-btn" disabled>Desabilitado</button></div><div class="demo-label"><b>Tamanhos</b><code>--sm 32 · md 40 · --lg 52</code></div></div>
-        <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--lg g-btn--swap"><span class="g-btn__orb"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>Entrar para o clube</button></div><div class="demo-label"><b>Circle swap</b><code>.g-btn--swap</code></div></div>
+        <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--lg g-btn--swap"><span class="g-btn__orb"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>Entrare</button></div><div class="demo-label"><b>Circle swap</b><code>.g-btn--swap</code></div></div>
         <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--lg g-btn--solid"><span class="g-roll"><span>Ver trilhas</span><span>Ver trilhas</span></span><svg class="g-icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></button></div><div class="demo-label"><b>Text roll</b><code>.g-roll</code></div></div>
         <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--lg g-btn--shine g-btn--accent">ASSINAR COLHEITA</button></div><div class="demo-label"><b>Shine</b><code>.g-btn--shine</code></div></div>
         <div class="demo"><div class="demo-stage center"><button class="g-btn g-btn--lg g-btn--hold" data-g-hold="1200" data-done="Excluído"><svg class="g-icon" aria-hidden="true"><use href="#i-trash"/></svg><span data-label>Segure para excluir</span></button></div><div class="demo-label"><b>Hold to confirm</b><code>data-g-hold="1200"</code></div></div>
@@ -317,6 +318,22 @@
           <div class="g-bars-wrap"><div class="g-bars" style="--max:126"><div class="g-bar" style="--v:42" data-label="S1" data-value="42"></div><div class="g-bar" style="--v:58" data-label="S2" data-value="58"></div><div class="g-bar" style="--v:51" data-label="S3" data-value="51"></div><div class="g-bar" style="--v:73" data-label="S4" data-value="73"></div><div class="g-bar" style="--v:88" data-label="S5" data-value="88"></div><div class="g-bar" style="--v:94" data-label="S6" data-value="94"></div><div class="g-bar is-peak" style="--v:126" data-label="S7" data-value="126"></div></div></div></div>
       </div>
       <div class="demo-label" style="margin-top:12px"><b>Tabela · status · barras</b><code>.g-table .g-status .g-bars</code></div>
+    </section>
+
+    <!-- ÁREA DO ALUNO -->
+    <section class="ds" id="area-aluno">
+      <div class="ds-head"><span class="g-eyebrow">09c · Componentes</span><h2 class="g-h2">Área do aluno</h2><p class="g-body">Peças do Meu Dia em <code>club-layout.css</code>: primeiros passos, próximo passo e indicadores.</p></div>
+      <div class="grid g2">
+        <section class="g-club-onboarding"><div class="g-club-section-head"><div><h3 class="g-h4">Primeiros passos</h3><p class="g-caption">Prepare seu espaço.</p></div><span class="g-badge">1/2</span></div>
+          <div class="g-progress g-progress--thin"><div class="g-progress__fill" style="--v:50%"></div></div>
+          <ol><li class="is-done"><a href="#area-aluno"><span class="g-club-step-number"><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-check"/></svg></span><span><b>Crie seu primeiro projeto</b><small>Um trabalho real.</small></span><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></li>
+            <li><a href="#area-aluno"><span class="g-club-step-number">2</span><span><b>Defina um objetivo</b><small>O que precisa estar pronto.</small></span><svg class="g-icon g-icon--sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></li></ol></section>
+        <div style="display:grid;gap:16px">
+          <section class="g-club-next"><span class="g-eyebrow">Seu próximo passo</span><h3 class="g-h3">Seu Meu Dia começa com um projeto</h3><p>Cadastre um trabalho real e veja a próxima ação.</p><div class="g-club-next__actions"><a class="g-btn g-btn--accent" href="#area-aluno">Criar projeto</a></div></section>
+          <div class="g-club-stats"><div><span class="g-caption">Projetos ativos</span><span class="g-num">1</span></div><div><span class="g-caption">Ações</span><span class="g-num">3</span></div><div><span class="g-caption">Entregas</span><span class="g-num">0</span></div></div>
+        </div>
+      </div>
+      <div class="demo-label" style="margin-top:12px"><b>Onboarding · próximo passo · indicadores</b><code>.g-club-onboarding .g-club-next .g-club-stats</code></div>
     </section>
 
     <!-- SUPERFÍCIES -->

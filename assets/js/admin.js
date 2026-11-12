@@ -1,5 +1,5 @@
 /* =====================================================================
-   graao club — Painel administrativo (admin.html#/rota)
+   IA para TDAH — Painel administrativo (admin.html#/rota)
    Arquitetura: rotas → permissões → papéis (ADMIN / STAFF / EDITOR), prefixo mais específico vence.
    Tudo usa o design system Safra (DESIGN_SYSTEM.md). Dados: window.GRAAO_DATA + GRAAO_DB.save().
    ATENÇÃO: controle de acesso aqui é só demonstração no navegador — em produção, valide no servidor.
@@ -144,7 +144,7 @@
         <tr><td align="center" style="padding:26px 12px 6px">
           <p style="margin:0;font-family:${M.font};font-size:12px;line-height:1.7;color:${M.text3}">
             <b style="color:${M.ink800}">Plante. Cultive. Colha.</b><br>
-            graao club · Aprenda, compartilhe e cresça com quem vive tecnologia e criatividade.<br>
+            IA para TDAH · Da ideia à entrega.<br>
             Dúvidas? <a href="mailto:contato@graao.com" style="color:${M.accentText}">contato@graao.com</a>
           </p>
         </td></tr>
@@ -655,7 +655,7 @@
     };
 
     S.emails = () => {
-      main.innerHTML = head("Os e-mails que o graao club envia para os membros. Edite os textos e veja a prévia ao vivo.") +
+      main.innerHTML = head("Os e-mails que o IA para TDAH envia para os membros. Edite os textos e veja a prévia ao vivo.") +
         `<div class="g-card g-card--raised email-note">${icon("help", "g-icon--sm")}<p class="g-caption">Os textos ficam salvos neste painel. Para valerem nos e-mails reais, use <b>Copiar HTML</b> e cole em Supabase → Authentication → Emails → Templates, no modelo indicado. A sincronização automática chega quando o painel estiver ligado ao banco.</p></div>`;
       const DEF = (id) => DB.defaults.emails.find((e) => e.id === id) || {};
       const KEYS = ["subject", "preheader", "eyebrow", "title", "body", "cta", "note"];
@@ -689,7 +689,7 @@
               <div class="email-preview-col">
                 <div class="email-preview-head"><span class="g-eyebrow">Prévia</span>
                   <div class="g-segment" data-g-segment data-device role="tablist" aria-label="Tamanho da prévia"><button type="button" role="tab" data-value="desk" aria-selected="true">${icon("monitor", "g-icon--sm")}Computador</button><button type="button" role="tab" data-value="phone" aria-selected="false">${icon("phone", "g-icon--sm")}Celular</button></div></div>
-                <div class="g-row email-inbox" aria-label="Como aparece na caixa de entrada"><span class="g-avatar g-avatar--sm email-inbox__logo">g</span><span><span class="g-row__title">graao club <span class="g-caption">· agora</span></span><br><span class="email-inbox__line"><b data-pv-subject></b> <span data-pv-pre></span></span></span></div>
+                <div class="g-row email-inbox" aria-label="Como aparece na caixa de entrada"><span class="g-avatar g-avatar--sm email-inbox__logo">g</span><span><span class="g-row__title">IA para TDAH <span class="g-caption">· agora</span></span><br><span class="email-inbox__line"><b data-pv-subject></b> <span data-pv-pre></span></span></span></div>
                 <div class="email-frame" data-frame><iframe title="Prévia do e-mail" sandbox="allow-same-origin" data-pv></iframe></div>
               </div>
             </div>

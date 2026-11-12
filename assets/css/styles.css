@@ -1,5 +1,5 @@
 /* =====================================================================
-   graao club — layouts de página.
+   IA para TDAH — layouts de página.
    Usa SOMENTE tokens e componentes de graao-ds.css (ver DESIGN_SYSTEM.md).
    ===================================================================== */
 
@@ -8,11 +8,14 @@
 .skip-link:focus { left: 8px; }
 
 /* ---------- Marca ---------- */
-.brand { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; letter-spacing: -.035em; line-height: 1; }
+.brand { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; gap: 4px; font-size: 20px; letter-spacing: -.035em; line-height: 1; }
 .brand img { width: 34px; height: 34px; flex: none; }
 .brand b { font-weight: 700; }
-.brand b + span { color: var(--g-text-3); font-weight: 400; margin-left: -10px; }
-.brand-word { color: var(--g-text-3); font-weight: 400; }
+.brand b + span { color: var(--g-text-3); font-weight: 400; }
+/* Wordmark "IA para TDAH": palavras-chave grandes, conectivo pequeno no centro das maiúsculas */
+.brand-word { display: inline-flex; align-items: center; gap: 4px; color: var(--g-text-3); font-weight: 400; }
+.brand-word b { color: var(--g-text); }
+.brand .brand-para { font-size: .5em; font-weight: 500; letter-spacing: .01em; line-height: 1; color: currentColor; opacity: .62; position: relative; top: -.12em; }
 
 /* =====================================================================
    SITE PÚBLICO
@@ -24,7 +27,7 @@
 .site-header .menu-toggle { display: none; }
 
 .hero { position: relative; padding: clamp(32px, 6vw, 72px) 0 0; overflow: hidden; }
-.hero-grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.2fr); gap: 40px; align-items: center; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; align-items: center; }
 .hero h1 .g-icon { display: inline-block; width: .38em; height: .38em; stroke-width: 1.4; vertical-align: .12em; }
 .hero-grid > *, .feature > *, .app-band > *, .faq-grid > *, .plans > *, .quotes > *, .footer-grid > * { min-width: 0; }
 .hero-sub { margin-top: 28px; font-size: clamp(20px, 2vw, 24px); letter-spacing: -.02em; line-height: 1.3; }
@@ -130,14 +133,16 @@
 .app { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; min-height: 100dvh; background: var(--g-bg); }
 .app.collapsed { grid-template-columns: 76px minmax(0, 1fr); }
 .sidebar { position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column; gap: 6px; padding: 16px 12px; overflow-y: auto; scrollbar-width: none; }
-.sidebar-top { display: flex; align-items: center; justify-content: space-between; padding: 2px 4px 10px; }
-.sidebar .brand { font-size: 18px; }
+.sidebar-top { position: relative; display: flex; align-items: center; justify-content: center; padding: 2px 4px 10px; }
+.sidebar-top #collapse { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); }
+.sidebar .brand { font-size: 18px; justify-content: center; }
 .sidebar .brand img { width: 30px; height: 30px; }
 .points-card { margin-top: auto; display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--g-radius-md); background: var(--g-surface); border: 1px solid var(--g-line); box-shadow: var(--g-highlight); transition: border-color var(--g-dur-2); }
 .points-card:hover { border-color: var(--g-line-strong); }
 .points-card .g-icon-btn { background: var(--g-accent); color: var(--g-on-accent); border: 0; }
 .app.collapsed .sidebar .label, .app.collapsed .brand-word, .app.collapsed .g-sidenav__label, .app.collapsed .points-card > div { display: none; }
-.app.collapsed .sidebar-top { flex-direction: column; gap: 12px; }
+.app.collapsed .sidebar-top { flex-direction: column; gap: 12px; justify-content: center; }
+.app.collapsed .sidebar-top #collapse { position: static; transform: none; }
 .app.collapsed .g-sidenav a { justify-content: center; padding: 0; }
 .app.collapsed .points-card { justify-content: center; padding: 8px; }
 .app.collapsed #collapse .g-icon { transform: rotate(180deg); }
@@ -558,18 +563,6 @@
 .hero-micro { margin-top: 14px; }
 .hero-cta { margin-top: 28px; }
 
-/* Demonstração conceitual: briefing → entrega */
-.flow { position: relative; margin: 0; padding: clamp(18px, 3vw, 28px); border-radius: var(--g-radius-xl); background: var(--g-surface); border: 1px solid var(--g-line); box-shadow: var(--g-shadow-3); }
-.flow__cap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 18px; }
-.flow__steps { position: relative; display: grid; gap: 6px; }
-.flow__steps::before { content: ""; position: absolute; left: 21px; top: 22px; bottom: 22px; width: 1px; background: var(--g-line-strong); }
-.flow__step { position: relative; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: start; padding: 12px 14px 12px 0; border-radius: var(--g-radius-md); transition: background var(--g-dur-3) var(--g-ease-out); }
-.flow__n { position: relative; z-index: 1; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--g-surface-raised); border: 1px solid var(--g-line-strong); font-family: var(--g-font-mono); font-size: 12px; color: var(--g-text-2); transition: all var(--g-dur-3) var(--g-ease-out); }
-.flow__step b { display: block; font-size: 16px; font-weight: 600; letter-spacing: -.015em; margin-top: 3px; }
-.flow__step p { margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--g-text-2); }
-.flow__step.is-current { background: var(--g-hover); }
-.flow__step.is-current .flow__n { background: var(--g-accent); color: var(--g-on-accent); border-color: transparent; }
-
 /* Texto editorial em parágrafos curtos */
 .prose { display: grid; gap: 12px; margin-top: 22px; font-size: 16.5px; line-height: 1.7; color: var(--g-text-2); max-width: 60ch; }
 .prose p { margin: 0; }
@@ -711,4 +704,120 @@
   .hero-cta .g-btn { flex: none; width: 100%; }
   .hero-cta .g-btn--swap { width: auto; align-self: flex-start; }
   .hero-copy { justify-items: stretch; }
+}
+
+/* =====================================================================
+   LANDING · HERO COM VÍDEO EM TELA CHEIA (IA para TDAH)
+   Cabeçalho fixo sobre o vídeo (.g-noite enquanto o hero está visível),
+   menu em tela cheia abaixo de 1100px e entrada escalonada do conteúdo.
+   ===================================================================== */
+html:has(body.landing) { scroll-padding-top: 88px; }
+.landing .site-header--hero { position: fixed; inset: 0 0 auto; padding: calc(12px + var(--g-safe-top)) 0 12px; background: transparent; color: var(--g-text); transition: background var(--g-dur-3) var(--g-ease-out), border-color var(--g-dur-3); border-bottom: 1px solid transparent; }
+.landing .site-header--hero.is-scrolled { background: color-mix(in srgb, var(--g-bg) 72%, transparent); border-bottom-color: var(--g-line); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+.site-header--hero .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.site-header--hero .site-nav { display: none; }
+.site-header--hero .site-nav a { padding: 10px 2px; color: var(--g-text-2); font-size: var(--g-text-sm); font-weight: 500; text-decoration: none; transition: color var(--g-dur-2); }
+.site-header--hero .site-nav a:hover { color: var(--g-text); }
+.site-header--hero .actions { gap: 6px; }
+.site-header--hero .site-enter, .site-header--hero .site-cta { display: none; }
+.site-burger__bars { display: grid; justify-items: end; gap: 5px; }
+.site-burger__bars i { display: block; width: 20px; height: 2px; border-radius: 2px; background: currentColor; transition: width var(--g-dur-3) var(--g-ease-out); }
+.site-burger__bars i:last-child { width: 13px; }
+.site-burger:hover .site-burger__bars i:last-child { width: 20px; }
+
+.site-menu { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column; padding: calc(12px + var(--g-safe-top)) 0 calc(24px + var(--g-safe-bottom)); overflow-y: auto; overscroll-behavior: contain; background: color-mix(in srgb, var(--g-ink-1000) 95%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--g-text); opacity: 0; visibility: hidden; transition: opacity var(--g-dur-4) var(--g-ease-out), visibility 0s linear var(--g-dur-4); }
+.site-menu[hidden] { display: none; }
+.site-menu.is-open { opacity: 1; visibility: visible; transition: opacity var(--g-dur-4) var(--g-ease-out); }
+.site-menu > .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.site-menu__links { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 2px; padding-block: 32px; }
+.site-menu__links > a { padding-block: 6px; color: var(--g-text); font-size: var(--g-text-4xl); font-weight: 500; letter-spacing: -.045em; line-height: 1.1; text-decoration: none; transition: color var(--g-dur-2); }
+.site-menu__links > a:hover { color: var(--g-accent-text); }
+.site-menu__links > * { opacity: 0; transform: translateY(20px); transition: opacity var(--g-dur-4) var(--g-ease-out), transform var(--g-dur-4) var(--g-ease-out), color var(--g-dur-2); transition-delay: calc(var(--i, 0) * 80ms + 100ms), calc(var(--i, 0) * 80ms + 100ms), 0s; }
+.site-menu.is-open .site-menu__links > * { opacity: 1; transform: none; }
+.site-menu__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+
+.hero--video { display: flex; align-items: center; min-height: 100vh; min-height: 100svh; padding: calc(96px + var(--g-safe-top)) 0 calc(72px + var(--g-safe-bottom)); isolation: isolate; background: var(--g-ink-1000); color: var(--g-text); }
+.hero-media { position: absolute; inset: 0; z-index: -1; }
+.hero-video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--g-ink-1000) 84%, transparent) 0%, color-mix(in srgb, var(--g-ink-1000) 50%, transparent) 60%, color-mix(in srgb, var(--g-ink-1000) 20%, transparent) 100%), linear-gradient(0deg, color-mix(in srgb, var(--g-ink-1000) 70%, transparent), transparent 45%); }
+.hero-inner { display: grid; justify-items: start; }
+.hero-tag { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 clamp(20px, 3.5svh, 32px); color: var(--g-ink-200); }
+.hero-tag .g-icon { color: var(--g-accent-text); }
+.hero--video .hero-title { margin: 0; max-width: 17ch; font-size: min(var(--g-text-6xl), 11svh); font-weight: 500; letter-spacing: -.055em; line-height: .95; color: var(--g-text); text-wrap: balance; }
+.hero--video .hero-title span { display: block; }
+.hero-text { margin-top: clamp(20px, 3.5svh, 32px); max-width: 52ch; }
+.hero--video .hero-lead { margin: 0; color: var(--g-ink-200); font-size: var(--g-text-md); line-height: 1.65; }
+.hero--video .hero-sign { margin-top: 14px; color: var(--g-ink-200); font-size: clamp(17px, 1.6vw, 20px); font-weight: 400; }
+.hero--video .hero-sign strong { color: var(--g-text); font-weight: 600; }
+.hero--video .hero-cta { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 14px 24px; width: auto; margin-top: clamp(28px, 4.5svh, 40px); }
+.hero--video .hero-cta .g-btn { flex: none; width: auto; }
+.hero-how { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: var(--g-text); font-size: var(--g-text-sm); font-weight: 500; text-decoration: none; }
+.hero-how__orb { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--g-line-strong); transition: transform var(--g-dur-3) var(--g-ease-out), border-color var(--g-dur-2); }
+.hero-how:hover .hero-how__orb { transform: translateY(3px); border-color: var(--g-text-2); }
+.hero--video .hero-micro { margin-top: clamp(24px, 4.5svh, 48px); color: var(--g-text-2); font-size: var(--g-text-sm); }
+.hero-pause { position: absolute; right: calc(16px + var(--g-safe-right, 0px)); bottom: calc(16px + var(--g-safe-bottom)); background: var(--g-glass); color: var(--g-text); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.landing main > .marquee { margin-top: 0; }
+
+@keyframes hero-fade-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+.hero-in { opacity: 0; animation: hero-fade-up 800ms var(--g-ease-out) forwards; animation-delay: calc(var(--i, 0) * 200ms + 100ms); }
+
+@media (max-width: 519px) {
+  .hero--video .hero-cta > .g-btn { width: 100%; justify-content: center; }
+}
+@media (min-width: 520px) {
+  .site-header--hero .site-cta { display: inline-flex; }
+}
+@media (min-width: 860px) {
+  .site-header--hero .site-enter { display: inline-flex; }
+  .hero--video .hero-lead { font-size: var(--g-text-lg); }
+}
+@media (min-width: 1100px) {
+  .site-header--hero .site-nav { display: flex; gap: 28px; }
+  .site-header--hero .site-burger { display: none; }
+  .site-menu { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-in { opacity: 1; animation: none; }
+  .site-menu, .site-menu__links > * { transition: none; }
+}
+html[data-g-motion="reduce"] .hero-in { opacity: 1; animation: none; }
+html[data-g-motion="reduce"] .site-menu, html[data-g-motion="reduce"] .site-menu__links > * { transition: none; }
+
+/* ---------------------------------------------------------------------
+   Tipografia do prompt do hero (exceção documentada no DESIGN_SYSTEM.md):
+   Podium para marca e título, Inter para texto, navegação e botões.
+   Vale só no cabeçalho, no menu em tela cheia e no hero da landing.
+   --------------------------------------------------------------------- */
+.font-podium { font-family: "FSP DEMO - PODIUM Sharp 4.11", var(--g-font-sans); font-weight: 400; font-synthesis: none; }
+.font-inter { font-family: "Inter", var(--g-font-sans); }
+.font-inter .g-btn, .font-inter .g-eyebrow { font-family: inherit; }
+
+.site-header--hero .brand, .site-menu .brand { gap: 6px; font-size: 24px; letter-spacing: .05em; text-transform: uppercase; }
+.site-header--hero .brand b, .site-menu .brand b { font-weight: 400; }
+.site-header--hero .brand .brand-para, .site-menu .brand .brand-para { font-family: "Inter", var(--g-font-sans); font-size: .4em; letter-spacing: .14em; top: 0; }
+.site-header--hero .site-nav a { font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--g-text) 80%, transparent); }
+.site-header--hero .site-nav a:hover { color: var(--g-text); }
+.site-header--hero .site-enter, .site-header--hero .site-cta { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+
+.site-menu__links > a { font-size: 36px; font-weight: 400; letter-spacing: .01em; line-height: 1.05; text-transform: uppercase; }
+.site-menu__actions .g-btn { font-family: "Inter", var(--g-font-sans); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+
+.hero--video .hero-tag { font-size: 12px; font-weight: 400; letter-spacing: .3em; text-transform: uppercase; color: color-mix(in srgb, var(--g-text) 70%, transparent); }
+.hero--video .hero-title { max-width: 14ch; font-size: min(clamp(2.8rem, 8vw, 7rem), 10.5svh); font-weight: 400; letter-spacing: -.025em; line-height: .92; text-transform: uppercase; text-wrap: balance; }
+.hero-text { max-width: 28rem; }
+.hero--video .hero-lead { font-size: 14px; line-height: 1.625; color: color-mix(in srgb, var(--g-text) 70%, transparent); }
+.hero--video .hero-sign { font-size: 14px; line-height: 1.625; color: color-mix(in srgb, var(--g-text) 70%, transparent); }
+.hero--video .hero-cta .g-btn { font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+.hero-how { font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: color-mix(in srgb, var(--g-text) 60%, transparent); }
+.hero-how:hover { color: var(--g-text); }
+.hero--video .hero-micro { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--g-text) 50%, transparent); line-height: 1.6; }
+.footer-credit { margin-top: 10px; font-size: 12px; color: var(--g-text-3); }
+.footer-credit a { color: inherit; }
+
+@media (min-width: 640px) {
+  .site-header--hero .brand, .site-menu .brand { font-size: 30px; }
+  .site-menu__links > a { font-size: 48px; }
+  .hero--video .hero-tag { font-size: 14px; }
+  .hero--video .hero-lead, .hero--video .hero-sign { font-size: 16px; }
+  .hero--video .hero-cta .g-btn { font-size: 12px; }
 }

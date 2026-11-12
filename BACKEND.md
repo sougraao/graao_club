@@ -1,4 +1,4 @@
-# Backend do graao club — plano
+# Backend do IA para TDAH — plano
 
 > Status: **planejado** · Stack decidida: **Supabase** (banco, login, arquivos, funções) + **Cloudflare R2** (vídeos das aulas) + **Vercel** (hospedagem do site) + **GitHub** [`holaluiz/graaoclub`](https://github.com/holaluiz/graaoclub) (versionamento).
 > Migração inicial pronta em [`supabase/migrations/20261108000001_init.sql`](supabase/migrations/20261108000001_init.sql).
@@ -21,7 +21,7 @@
 | Front-end | **Fase 1 concluída**: login/cadastro/recuperação de senha/sair reais, páginas do app exigem sessão, perfil salvo em `profiles`, admin usa papel e permissões do banco. Conteúdo, comunidade, ranking etc. ainda usam dados de demonstração (fases 2–4) |
 | Configuração do front | [`assets/js/env.js`](assets/js/env.js) (URL + chave pública; vazio = modo demonstração) · [`assets/js/api.js`](assets/js/api.js) (supabase-js 2.49.4 via jsDelivr) |
 | Domínio | **graao.com** — DNS no Google Cloud DNS (`ns-cloud-e1…e4.googledomains.com`). Sem MX: nenhum `@graao.com` recebe e-mail ainda (contato@ precisa de caixa de entrada ou encaminhamento) |
-| Envio de e-mail | **Ativo desde 2026-11-09.** Resend (plano grátis: 3.000/mês, 100/dia), domínio `graao.com` **verificado** na região São Paulo (sa-east-1), sem rastreamento de cliques. Ligado ao Supabase `graao-club-dev` pela integração oficial *Resend → Settings → Integrations → Supabase* (a chave "Supabase Integration" foi criada e gravada pelo próprio Resend; ninguém a copiou). SMTP: `smtp.resend.com`, porta 465, usuário `resend` · remetente `graao club <nao-responda@graao.com>` · limites: 30 e-mails/h e 60 s entre e-mails para o mesmo usuário. Teste "redefinir senha" para o ADMIN entregue em 2026-11-09 |
+| Envio de e-mail | **Ativo desde 2026-11-09.** Resend (plano grátis: 3.000/mês, 100/dia), domínio `graao.com` **verificado** na região São Paulo (sa-east-1), sem rastreamento de cliques. Ligado ao Supabase `graao-club-dev` pela integração oficial *Resend → Settings → Integrations → Supabase* (a chave "Supabase Integration" foi criada e gravada pelo próprio Resend; ninguém a copiou). SMTP: `smtp.resend.com`, porta 465, usuário `resend` · remetente `IA para TDAH <nao-responda@graao.com>` · limites: 30 e-mails/h e 60 s entre e-mails para o mesmo usuário. Teste "redefinir senha" para o ADMIN entregue em 2026-11-09 |
 | Site publicado | **https://www.graao.com** desde 2026-11-11 no projeto Vercel **`graao-club`** (equipe `graao`, ligado ao GitHub **`sougraao/graao_club`**: push na `main` = produção). `graao.com` redireciona 308 para o www. Também em https://graao-club.vercel.app. O projeto antigo (`graaoclub`, ligado a `holaluiz/graaoclub`) perdeu o domínio. `.vercelignore` impede publicar `supabase/`, documentação interna e configs |
 | Equipe (dev) | `holaluiz.mail` = **ADMIN** (concedido em 2026-11-09 via SQL com papel de serviço; registrado no `audit_log`) |
 | E-mails de autenticação | 6 modelos em português no visual graao (acento lima Broto) em [`supabase/templates/`](supabase/templates/README.md) — **instalados no `graao-club-dev` em 2026-11-09** com os assuntos do README. Ao mudar um modelo, regerar com `_build.py` e colar de novo. Os e-mails de aviso de segurança (senha trocada, e-mail trocado etc.) seguem com o texto padrão do Supabase |
@@ -38,7 +38,7 @@
 Trocar a camada de demonstração do front-end (dados em `assets/js/data.js` + `localStorage`) por um backend real, **sem mudar a interface**. Hoje o controle de acesso do admin só esconde telas; no backend ele passa a ser **imposto pelo banco** (Row Level Security), que é o requisito número 1 para ir ao ar.
 
 ### O que a referência usa (observado com o MCP REA nos scripts públicos)
-| Área | Referência | graao club |
+| Área | Referência | IA para TDAH |
 |---|---|---|
 | Login | Auth.js | **Supabase Auth** (e-mail/senha + Google; sem Apple) |
 | Banco | não exposto no cliente | **Supabase Postgres** (região São Paulo) |
@@ -145,7 +145,7 @@ Projetos dos alunos (`creative_projects` e filhas) não têm política para a eq
 - **Reprodução (membro):** Edge Function `lesson-video-url` → confere `can_access_trail` da aula → devolve URL **pré-assinada de GET** curta (~1 h). Quem não tem o plano não recebe URL.
 - **v2 — streaming adaptativo (HLS):** URL pré-assinada por arquivo não serve para HLS (centenas de segmentos). Nessa fase, um **Cloudflare Worker** com binding do R2 valida um token assinado (emitido pela mesma Edge Function) e serve os segmentos. A conversão MP4 → HLS roda no upload (ffmpeg num job) ou via fila.
 - Segredos (`R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`) ficam só nos *secrets* das Edge Functions.
-- CORS do bucket liberado apenas para o domínio do graao club.
+- CORS do bucket liberado apenas para o domínio do IA para TDAH.
 
 ---
 

@@ -1,4 +1,4 @@
-/* graao club — renderização das páginas do app (dados de demonstração em data.js).
+/* IA para TDAH — renderização das páginas do app (dados de demonstração em data.js).
    Toda a UI usa componentes do design system (DESIGN_SYSTEM.md). */
 (function () {
   "use strict";
@@ -338,7 +338,7 @@
     const id = new URLSearchParams(location.search).get("id");
     const n = NEWS().find((x) => x.id === id) || NEWS()[0];
     const s = CAT_LOOK[n.cat] || "noite";
-    document.title = `${n.title} · graao club`;
+    document.title = `${n.title} · IA para TDAH`;
     const liked = store.get(CONFIG.storage.likes, []).includes(n.id), sv = store.get(CONFIG.storage.saved, []).includes(n.id);
     main.innerHTML = `
       <div class="g-scroll-progress" data-g-scroll-progress aria-hidden="true"></div>
@@ -354,7 +354,7 @@
           <button class="g-btn g-btn--sm" id="share">${icon("share", "g-icon--sm")}Compartilhar</button>
         </div>
         <div class="article-body">${n.body.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
-        <p class="g-caption" style="margin-top:28px">Texto de demonstração do graao club.</p>
+        <p class="g-caption" style="margin-top:28px">Texto de demonstração do IA para TDAH.</p>
       </article>
       <section style="max-width:760px;margin:24px auto 0;width:100%"><div class="card-head"><h3 class="g-h4">Leia também</h3><a class="link-more" href="noticias.html">Todas ${icon("arrow-up-right", "g-icon--sm")}</a></div>
         <div class="g-card" style="display:grid;gap:2px;padding:12px">${NEWS().filter((x) => x.id !== n.id).slice(0, 3).map(newsRow).join("")}</div></section>`;
@@ -481,7 +481,7 @@
     main.innerHTML = `
       <div class="page-head"><p class="g-body">Conclua uma trilha para emitir um certificado verificável.</p></div>
       ${done.length ? `<div class="cert-grid">${done.map(({ t }) => `
-        <article class="g-sheet cert"><div style="display:flex;justify-content:space-between;align-items:start"><img src="assets/img/graao-mark.svg" alt="" style="width:36px"><span class="g-badge g-badge--sm">${icon("qr", "g-icon--sm")}Verificável</span></div>
+        <article class="g-sheet cert"><div style="display:flex;justify-content:space-between;align-items:start"><img src="assets/img/graao-mark.svg?v=20261112-isotipo" alt="" style="width:36px"><span class="g-badge g-badge--sm">${icon("qr", "g-icon--sm")}Verificável</span></div>
           <span class="g-eyebrow" style="margin-top:28px;display:block">Certificado de conclusão</span><h3 class="g-h3" style="margin-top:8px">${esc(t.name)}</h3>
           <p class="g-caption" style="margin-top:4px">Concedido a <b style="color:var(--g-on-inverse)">${esc(user.name)}</b> · ${new Date().toLocaleDateString("pt-BR")}</p>
           <div style="display:flex;gap:8px;margin-top:20px"><button class="g-btn g-btn--sm g-btn--solid" data-dl>${icon("download", "g-icon--sm")}Baixar</button><button class="g-btn g-btn--sm" data-share style="color:var(--g-on-inverse);border-color:#0b0d1022">${icon("link", "g-icon--sm")}Copiar link</button></div></article>`).join("")}</div>`
@@ -499,7 +499,7 @@
   RENDER.perfil = (main) => {
     const uid = new URLSearchParams(location.search).get("u");
     const other = uid && uid !== "me" ? userById(uid) : null;
-    const user = other ? { ...other, username: other.id, bio: "Membro do graao club.", skills: [], links: {} } : getUser();
+    const user = other ? { ...other, username: other.id, bio: "Membro do IA para TDAH.", skills: [], links: {} } : getUser();
     const posts = other ? D.posts.filter((p) => p.user === other.id) : store.get(CONFIG.storage.posts, []);
     const pts = other ? other.points : GRAAO.points();
     const certs = other ? 0 : TRAILS().filter((t) => trailProgress(t).pct === 100 && trailProgress(t).total).length;
@@ -699,7 +699,7 @@
       },
       aparencia() {
         const cur = store.get(CONFIG.storage.theme, null) || "dark";
-        return `<h2 class="g-h3">Aparência</h2><p class="g-caption">Escolha como o graao club aparece para você.</p>
+        return `<h2 class="g-h3">Aparência</h2><p class="g-caption">Escolha como o IA para TDAH aparece para você.</p>
           <div class="g-card" style="display:grid;gap:18px">
             <div class="g-segment" data-g-segment id="theme" role="tablist" style="justify-self:start">${[["system", "monitor", "Sistema"], ["dark", "moon", "Noite"], ["light", "sun", "Dia"]].map(([v, ic, l]) => `<button role="tab" data-value="${v}" aria-selected="${cur === v}">${icon(ic, "g-icon--sm")}${l}</button>`).join("")}</div>
             <div class="theme-previews"><div class="g-noite tp"><span></span><i></i><i></i></div><div class="g-dia tp"><span></span><i></i><i></i></div></div>

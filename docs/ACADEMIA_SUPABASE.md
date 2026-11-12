@@ -9,3 +9,7 @@ Migrações: `20261112193000_course_ia_para_tdah.sql` (importação) e `20261112
 Validação: chamada SQL com papel authenticated retorna 1 curso, 8 módulos e 55 aulas, sem chaves de vídeo. Visitantes sem permissão de execução; curso continua rascunho. Interface testada em Chromium com o payload real da RPC (sessão de navegador isolada da autenticação), 320/375/390/768/1440px e temas dark/light/high-contrast; teclado, erro/nova tentativa e vazio. Cliente verificado para chamada RPC, erro de rede, resposta inválida e lista vazia. A conta de teste antiga não autentica neste projeto; não foi criada nem alterada uma conta para o teste. Advisors não apontaram novos alertas após a migração.
 
 Publicação limitada aos arquivos da Academia e às migrações. O redesign em andamento no workspace não faz parte desta correção publicada.
+
+## Cache dos scripts
+
+As páginas que carregam a API usam `assets/js/api.js?v=20261112-academy-1`. A tela estava versionada enquanto a API não estava; isso permitia combinar a tela atual com uma cópia em cache da API anterior à criação de `academyCatalog`. Verificação em Chromium: a cópia sem versão foi simulada como antiga e não foi solicitada pela página atual. O script real da API expôs o método e o renderizador real exibiu os 8 módulos e as 55 aulas usando o payload obtido do banco. Autenticação isolada nesse teste; não substitui uma validação de sessão real.

@@ -1,0 +1,385 @@
+/* =====================================================================
+   OFFLINE — Cinematic Power-Button Hero Scene
+   Glass Pop 2.0 / IA para TDAH
+   Preserva nossa copy; implementa o prompt "offline" power-button.
+   ===================================================================== */
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjnTLgNs.woff2') format('woff2');
+}
+
+/* Hero Stage */
+.hero.hero--cinematic {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(72px, 8vw, 96px) 0 0;
+  overflow: hidden;
+  color: #ffffff;
+  background-color: #0b0f19;
+}
+
+/* Background Scene Media */
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-scene__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  pointer-events: none;
+  z-index: 2;
+  will-change: transform;
+}
+
+.hero-scene__sky-canvas {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(18px);
+  transform: scale(1.15);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-scene__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.hero-scene__tint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 38%;
+  background: linear-gradient(
+    to bottom,
+    rgba(8, 11, 20, 0.72) 0%,
+    rgba(8, 11, 20, 0.42) 20%,
+    rgba(8, 11, 20, 0.12) 30%,
+    transparent 38%
+  );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Hero Content Grid */
+.hero--cinematic > .container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+.hero--cinematic .hero-grid {
+  display: block;
+  max-width: clamp(380px, 42vw, 580px);
+}
+
+/* Hero Copy Glass Card */
+.hero--cinematic .hero-copy {
+  display: grid;
+  justify-items: start;
+  gap: 0;
+  padding: clamp(20px, 2.8vw, 32px);
+  border-radius: var(--g-radius-xl, 24px);
+  background: rgba(12, 16, 28, 0.48);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Staggered entrance animation (10u lift, 0.9s, staggered 60ms) */
+.hero-stagger {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.hero.is-arrived .hero-stagger:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
+.hero.is-arrived .hero-stagger:nth-child(2) { transition-delay: 60ms; opacity: 1; transform: translateY(0); }
+.hero.is-arrived .hero-stagger:nth-child(3) { transition-delay: 120ms; opacity: 1; transform: translateY(0); }
+.hero.is-arrived .hero-stagger:nth-child(4) { transition-delay: 180ms; opacity: 1; transform: translateY(0); }
+.hero.is-arrived .hero-stagger:nth-child(5) { transition-delay: 240ms; opacity: 1; transform: translateY(0); }
+.hero.is-arrived .hero-stagger:nth-child(6) { transition-delay: 300ms; opacity: 1; transform: translateY(0); }
+.hero.is-arrived .hero-stagger:nth-child(7) { transition-delay: 360ms; opacity: 1; transform: translateY(0); }
+
+/* Brand Wordmark & Power Button */
+.hero-brand-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.hero-power-btn {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(40px, 4.2vw, 54px);
+  font-weight: 400;
+  line-height: 1;
+  color: #ffffff;
+  cursor: pointer;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.hero-power-btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.power-o-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 0.84em;
+  height: 1.05em;
+  vertical-align: middle;
+  transform-origin: center;
+  transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1), filter 0.25s ease;
+}
+
+.power-o-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+
+.power-o-arc,
+.power-o-tick {
+  stroke: currentColor;
+  stroke-width: 4.6;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.power-o-halo {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 6;
+  filter: blur(5px);
+  opacity: var(--lit, 0);
+  pointer-events: none;
+  transform-origin: 25px 36px;
+}
+
+/* Hover glow & press scale */
+.hero-power-btn:hover .power-o-wrap {
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 22px rgba(255, 255, 255, 0.5));
+}
+
+.hero-power-btn:active .power-o-wrap {
+  transform: scale(0.94);
+}
+
+.power-wordmark-text {
+  display: inline-block;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: normal;
+}
+
+/* Status Pill */
+.hero-power-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 12px;
+  font-family: var(--g-font-body, 'Inter', sans-serif);
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.85);
+  transition: all 0.3s ease;
+}
+
+.hero-power-pill__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
+  transition: all 0.3s ease;
+}
+
+.hero-power-btn[aria-pressed="true"] + .hero-power-pill .hero-power-pill__dot {
+  background: #94a3b8;
+  box-shadow: 0 0 6px rgba(148, 163, 184, 0.5);
+}
+
+/* Typography on dark/cinematic hero */
+.hero--cinematic .hero-eyebrow {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.hero--cinematic .hero-title {
+  color: #ffffff;
+  margin-top: 14px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  font-size: clamp(32px, 3.4vw, 46px);
+  line-height: 1.15;
+}
+
+.hero--cinematic .hero-lead {
+  color: rgba(255, 255, 255, 0.88);
+  margin-top: 16px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.6;
+}
+
+.hero--cinematic .hero-sign {
+  color: #ffffff;
+  margin-top: 16px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  font-size: clamp(16px, 1.4vw, 20px);
+}
+
+.hero--cinematic .hero-sign .g-accent-text {
+  color: #ff5eb4;
+  text-shadow: 0 0 12px rgba(255, 94, 180, 0.5);
+}
+
+.hero--cinematic .hero-micro {
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 12px;
+}
+
+
+/* Wipe Underline for Links (1.6u underline wipes in from left over 0.32s and out to right) */
+.hero--cinematic a.hero-wipe,
+.site-header .site-nav a,
+.island-nav a,
+.footer-grid nav a {
+  position: relative;
+  text-decoration: none;
+}
+
+.hero--cinematic a.hero-wipe::after,
+.site-header .site-nav a::after,
+.island-nav a::after,
+.footer-grid nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero--cinematic a.hero-wipe:hover::after,
+.site-header .site-nav a:hover::after,
+.island-nav a:hover::after,
+.footer-grid nav a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+
+/* Responsive: Phone (≤ 760px) */
+@media (max-width: 760px) {
+  .hero.hero--cinematic {
+    min-height: 100svh;
+    padding-top: clamp(16px, 3vw, 24px);
+    padding-bottom: clamp(260px, 48vh, 380px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .hero-scene__sky-canvas {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    filter: blur(18px);
+    transform: scale(1.15);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero-scene__video {
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 170%;
+    max-width: none;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    object-position: center bottom;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.85) 18%, black 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.85) 18%, black 100%);
+    z-index: 2;
+  }
+
+  .hero--cinematic .hero-grid {
+    max-width: 100%;
+  }
+
+  .hero-brand-row {
+    margin-bottom: 8px;
+  }
+}
+
+/* Reduced Motion Fallback */
+@media (prefers-reduced-motion: reduce) {
+  .hero-stagger {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .hero-scene__video {
+    display: none;
+  }
+  .hero-scene {
+    background: url('https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/af6deff1-d678-4dc6-ae24-2880b16cdb20.jpg') center bottom / cover no-repeat;
+  }
+}

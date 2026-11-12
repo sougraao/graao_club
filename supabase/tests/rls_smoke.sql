@@ -1,5 +1,5 @@
 -- =====================================================================
--- graao club · teste de fumaça das regras de acesso (RLS + gatilhos)
+-- IA para TDAH · teste de fumaça das regras de acesso (RLS + gatilhos)
 -- Rode depois de cada migração (Supabase MCP execute_sql ou SQL Editor).
 -- Tudo acontece numa transação que é DESFEITA no fim: a saída é um "erro"
 -- proposital com a lista de resultados (PASSOU/FALHOU). Nada fica no banco.

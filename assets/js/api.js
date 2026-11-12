@@ -1,5 +1,5 @@
 /* =====================================================================
-   graao club — camada de dados (Supabase).
+   IA para TDAH — camada de dados (Supabase).
    Ativa quando env.js tem supabaseUrl + supabaseKey e o supabase-js carregou.
    Sem isso, GRAAO_API.enabled = false e o app segue em modo demonstração.
    A sessão real é espelhada em localStorage["graao:user"] para que a interface

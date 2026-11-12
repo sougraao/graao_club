@@ -380,16 +380,18 @@
   }
 
   function modal(html, { onOpen, label = "Diálogo", sheet } = {}) {
-    const wrap = document.createElement("div");
+    const wrap = document.createElement("dialog");
     const asSheet = sheet ?? isPhone();
     wrap.className = "g-modal" + (asSheet ? " g-modal--sheet" : "");
-    wrap.innerHTML = `<div class="g-modal__card" role="dialog" aria-modal="true" aria-label="${label}"><button class="g-icon-btn g-icon-btn--sm g-modal__close" type="button" aria-label="Fechar">${icon("x", "g-icon--sm")}</button>${html}</div>`;
+    wrap.setAttribute("aria-label", label);
+    wrap.innerHTML = `<div class="g-modal__card"><button class="g-icon-btn g-icon-btn--sm g-modal__close" type="button" aria-label="Fechar">${icon("x", "g-icon--sm")}</button>${html}</div>`;
     const prev = document.activeElement;
-    const close = () => { wrap.classList.remove("is-open"); document.removeEventListener("keydown", onKey); setTimeout(() => { wrap.remove(); prev?.focus?.(); }, 300); };
-    const onKey = (e) => { if (e.key === "Escape") close(); };
+    let closing = false;
+    const close = () => { if (closing) return; closing = true; wrap.classList.remove("is-open"); setTimeout(() => { wrap.close(); wrap.remove(); prev?.focus?.(); }, 300); };
+    wrap.addEventListener("cancel", (e) => { e.preventDefault(); close(); });
     wrap.addEventListener("click", (e) => { if (e.target === wrap || e.target.closest(".g-modal__close") || e.target.closest("[data-close]")) close(); });
-    document.addEventListener("keydown", onKey);
     document.body.append(wrap);
+    wrap.showModal();
     if (asSheet) sheetDrag(wrap, wrap.querySelector(".g-modal__card"), close);
     mount(wrap);
     requestAnimationFrame(() => requestAnimationFrame(() => wrap.classList.add("is-open")));

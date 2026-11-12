@@ -1,4 +1,4 @@
-# IA para TDAH sobre o graao club — auditoria, decisões e rollback
+# IA para TDAH — auditoria, decisões e rollback
 
 > Reposicionamento feito em 2026-11-11 sobre a base existente (sem refazer do zero).
 > Fonte da verdade: o "Prompt mestre" do usuário. Os documentos estratégicos citados nele
@@ -28,7 +28,7 @@ Rotas mapeadas: `index`, `entrar`, `inicio`, `conteudos`, `ferramentas`, `comuni
 2. **Escrita pública** (cadastro de interesse) é o primeiro ponto em que visitantes gravam no banco: protegido por RPC com validação, armadilha anti-robô, tempo mínimo, limite por origem (8/10 min) e teto global (500/h). Não há confirmação por e-mail (double opt-in): alguém pode cadastrar o e-mail de outra pessoa. Mitigação futura: e-mail de confirmação.
 3. **localStorage do admin** (`graao:db`) pode sobrescrever padrões novos de `data.js` em navegadores que já editaram dados no admin (ex.: avisos antigos).
 4. **Briefings privados**: dados de clientes podem ser colados nos projetos. A equipe não tem política de leitura; os avisos na interface pedem para evitar dados pessoais e de saúde.
-5. **Marca**: e-mails transacionais, logo e domínio seguem "graao club" até a decisão de marca.
+5. **Marca**: decidida em 2026-11-12 — a plataforma se chama "IA para TDAH". O domínio (`graao.com`) e o remetente dos e-mails ainda usam graao.
 
 ### Estratégia de rollback
 - **Front-end:** todas as mudanças estão em arquivos versionados a partir de `e286b12`. Para voltar: reverter o commit (ou `git checkout e286b12 -- <arquivos>`). As telas antigas continuam no código (`pages.js`) e a versão anterior das áreas legadas abre em `?legado=1`.
@@ -54,8 +54,32 @@ Seções 05.1 a 05.13 com a copy do prompt; ÓRBITA em abas acessíveis (toque, 
 ### Admin (Fase D)
 Painel e Indicadores com `admin_overview()` (agregados reais; sem backend, aviso em vez de números de exemplo). Rota **Interessados** (`leads.view` para ver, `leads.manage` para editar situação/anotação, excluir e exportar CSV com proteção contra injeção de fórmula). Aviso "Dados de demonstração" nas rotas que ainda leem `data.js`.
 
+### Grade completa adicionada em 12/11/2026
+
+A Academia agora apresenta o curso IA para TDAH com 8 módulos, 55 aulas e 510 minutos estimados, importados do documento enviado pelo responsável. Cada aula inclui título, duração, descrição e material previsto; os 3 projetos, público e pré-requisitos também estão visíveis. Fonte integral: [IA_PARA_TDAH_CURRICULO.md](IA_PARA_TDAH_CURRICULO.md). Dados em `GRAAO_PRODUCT.COURSE` (`assets/js/ia-tdah.js`), compartilhados pelo front e independentes dos dados de demonstração do admin.
+
+As seis trilhas anteriores foram preservadas como percursos relacionados. Os módulos usam expansão nativa por teclado/toque, sem player fictício, downloads inexistentes ou conclusão de aulas não publicadas. A distribuição Semente/Broto/Colheita aparece como proposta, sem checkout ou preços inventados. Nenhuma regra de acesso comercial foi ativada. Vídeos, arquivos dos materiais e produção didática continuam pendentes. Esta inclusão está nos arquivos locais; não aplica migrações nem publica o site.
+
+Validação: sintaxe JavaScript; navegador Chromium em 320, 375, 390, 768 e 1440px, com temas dark/light/high-contrast; todos os módulos abertos sem overflow horizontal; expansão/recolhimento com Enter; 55 aulas, 8 módulos, 510 minutos e 3 projetos conferidos; nenhum erro de JavaScript na página. Verificação local com configuração de backend desativada apenas no navegador de teste, sem escrita no Supabase. Não verifica publicação, sessão real, vídeos ou cobrança.
+
+### Cadastro no Supabase em 12/11/2026
+
+Aplicada a migração `20261112193000_course_ia_para_tdah.sql` no projeto de produção `graao-club` (`mevtbwrfdttwulskaspb`), pelo SQL Editor autenticado na organização sougraao. O CLI local estava autenticado em outra organização; nenhuma alteração foi feita nesses outros projetos. Aplicação transacional, com registro da versão e do SQL em `supabase_migrations.schema_migrations`.
+
+Gravados 1 curso em `trails` (`slug=ia-para-tdah`, status `rascunho`), 8 registros em `modules` (`soon=true`) e 55 em `lessons`, somando 30.600 segundos / 510 minutos. Campos novos: `trails.curriculum` (grade e metadados completos em JSON), `lessons.description` e `lessons.planned_material`. Os nomes de materiais representam entregáveis futuros, não arquivos disponíveis. Nenhum vídeo foi cadastrado. Verificação no banco: 55 descrições, 55 materiais previstos, zero divergências de título/texto/material/duração entre o JSON e as aulas normalizadas; migração registrada.
+
+O plano técnico do rascunho é Colheita, sem ativação de acesso. A distribuição comercial proposta por módulos permanece apenas no JSON e não altera políticas RLS, assinaturas, preços ou cobrança. O frontend continua lendo a definição local compartilhada; esta etapa cadastra o conteúdo no banco, sem publicar site nem substituir a camada de leitura da Academia/admin.
+
+### Academia integrada e publicada em 12/11/2026
+
+A Academia deixou de usar dados fixos de `GRAAO_PRODUCT` e passou a consultar `GRAAO_API.academyCatalog()` / RPC `public.academy_catalog()`. Removidos os seis percursos de exemplo e a grade duplicada do JavaScript. Tela com carregamento, catálogo vazio e erro com nova tentativa; falhas não acionam dados de demonstração. Referências a trilhas fixas em Meu Dia foram substituídas por navegação para o catálogo.
+
+Migração `20261112192223_academy_catalog` aplicada pelo MCP Supabase. A RPC permite consultar a grade aos membros sem publicar as aulas nem expor `video_key`. Teste autenticado retorna 1 curso / 8 módulos / 55 aulas; acesso anônimo negado; curso continua rascunho. Advisors sem alertas novos. Detalhes e limites dos testes em [ACADEMIA_SUPABASE.md](ACADEMIA_SUPABASE.md).
+
+Publicação na `main` de `sougraao/graao_club`, commit `69fe360131571f0c7ec8dff9dd0db3d3fefefe29`, deploy Vercel confirmado como sucesso. Requisição a `https://www.graao.com/assets/js/pages-ia.js` confirmou a nova consulta e ausência de `P.ACADEMY`. Publicação restrita à integração, estilos da grade e migrações; alterações locais do redesign foram preservadas e não incluídas.
+
 ## 3. Decisões de comunicação
-- A marca visível segue "graao club" no logo; "IA para TDAH" é a oferta (títulos, hero, seções). Sem migração de marca.
+- **2026-11-12:** a plataforma passou a se chamar **IA para TDAH** (decisão do dono). "graao club" saiu de todo texto visível: logo (wordmark "IA para TDAH", mesmo isotipo), títulos, rodapés, `<noscript>`, e-mails de autenticação (assuntos, rodapé "Sua mente cria. Seu sistema entrega.") e metáforas de clube/cultivo nos e-mails. Identificadores técnicos (`graao:db`, `GRAAO_*`, arquivos `graao-*`, Supabase `graao-club`, repositório, domínio) não mudaram. Migrações antigas não foram editadas; `settings.general.name` no banco ainda diz "graao club" (não aparece na interface).
 - ÓRBITA é usado sem ® ou ™ (nome de trabalho).
 - Os exemplos e o conteúdo dos movimentos ÓRBITA (objetivo, exemplo, como a IA ajuda, resultado) foram escritos nesta etapa: revisar com o dono do método.
 - O texto "Por que existimos" usa só o texto-base do prompt; nada sobre o fundador foi inventado.
@@ -66,7 +90,7 @@ Painel e Indicadores com `admin_overview()` (agregados reais; sem backend, aviso
 |---|---|
 | Preço, condições, datas, vagas, parcelamento | Não publicados. Hipótese R$ 297–497 do documento mestre **não** usada. Divisão de módulos por plano (Semente/Broto/Colheita) proposta em 12/11/2026, não publicada |
 | Formato de seis semanas | Marcado como proposta em validação |
-| Relação de marca graao club × IA para TDAH (logo, domínio, e-mails transacionais) | Mantido como está |
+| Marca IA para TDAH: domínio próprio, isotipo novo, remetente dos e-mails (`Sender name` no SMTP do Supabase) e modelos de e-mail colados no painel do Supabase | Nome trocado no código em 2026-11-12; domínio, isotipo e painel do Supabase pendentes |
 | ÓRBITA como marca definitiva/registrada | Pendente |
 | Política de Privacidade e Termos | Rascunhos com faixa "pendente de aprovação jurídica", `noindex`; faltam controlador, CNPJ, operadores, retenção, canal de direitos, foro |
 | Canal de contato | `contato@graao.com` sem caixa (sem MX). Nenhum canal público foi anunciado |
