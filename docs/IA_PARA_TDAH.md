@@ -46,7 +46,7 @@ Seções 05.1 a 05.13 com a copy do prompt; ÓRBITA em abas acessíveis (toque, 
 ### Área do aluno (Fase C)
 - **Meu Dia:** próxima ação (concluir ou definir), projeto principal (trocar), "continuar de onde parei" com estado salvo/não salvo, últimos registros, progresso privado, aprendizado relacionado (marcado como em preparação).
 - **Projetos:** criar, editar briefing/objetivo/entregáveis/prazo/movimento em foco, microtarefas com movimento ÓRBITA opcional e filtro (sem ordem obrigatória), próxima ação única, concluir, excluir com desfazer, notas de progresso, "onde parei", pausar/retomar/arquivar/entregar (com desfazer), excluir projeto segurando o botão.
-- **Academia:** seis trilhas planejadas, todas "Em preparação", sem aulas anunciadas.
+- **Academia:** grade da formação enviada pelo time em 12/11/2026 — 8 módulos, 55 aulas (~8h30 estimadas) e 3 projetos práticos, com objetivo de cada módulo e texto-base, duração estimada e material previsto de cada aula. Tudo "Em preparação" (nenhum vídeo ou material publicado). A divisão por planos (Semente: módulo 01 · Broto: 01–04 · Colheita: todos) é proposta comercial **não aprovada** e não aparece no site. O movimento ÓRBITA de cada módulo (`orbita` em `ia-tdah.js`) é mapeamento editorial: revisar com o dono do método. Dados em `assets/js/ia-tdah.js` (`ACADEMY`).
 - **Copiloto:** seis apoios (briefing, escopo, próximas ações, prompt contextualizado, revisão, entrega). Monta o texto no navegador, com contexto opcional do projeto escolhido campo a campo. O conteúdo da pessoa vai delimitado como dado, não como instrução. Não executa IA nem simula respostas.
 - **Navegação:** Meu Dia, Projetos, Academia, Copiloto, Perfil (menu lateral e barra inferior). Comunidade, notícias, ranking e certificados em "Outras áreas", com tela de pausa explicativa.
 - **Perfil e Configurações:** números privados de projetos; "Acesso e turma" no lugar de planos; avisos honestos (ainda não há envio); Acessibilidade (reduzir animações); exportação inclui projetos; apagar todos os projetos; troca de senha real quando há backend.
@@ -64,7 +64,7 @@ Painel e Indicadores com `admin_overview()` (agregados reais; sem backend, aviso
 ## 4. Pendências que dependem de aprovação
 | Item | Situação |
 |---|---|
-| Preço, condições, datas, vagas, parcelamento | Não publicados. Hipótese R$ 297–497 do documento mestre **não** usada |
+| Preço, condições, datas, vagas, parcelamento | Não publicados. Hipótese R$ 297–497 do documento mestre **não** usada. Divisão de módulos por plano (Semente/Broto/Colheita) proposta em 12/11/2026, não publicada |
 | Formato de seis semanas | Marcado como proposta em validação |
 | Relação de marca graao club × IA para TDAH (logo, domínio, e-mails transacionais) | Mantido como está |
 | ÓRBITA como marca definitiva/registrada | Pendente |
@@ -74,5 +74,5 @@ Painel e Indicadores com `admin_overview()` (agregados reais; sem backend, aviso
 | Fotos/vídeo/história do fundador | Só com material real autorizado |
 | Imagem Open Graph | Não criada |
 | Projeto Supabase de produção | **Criado em 2026-11-11**: `graao-club` (sa-east-1), migrações aplicadas, 54/54. Falta configurar no painel: URLs de autenticação, SMTP do Resend, modelos de e-mail, Google; criar a conta ADMIN |
-| Conteúdo real da Academia | A produzir |
+| Conteúdo real da Academia | Grade de 55 aulas definida (12/11/2026); roteiros, vídeos e materiais a produzir |
 | Exclusão automática de conta (Edge Function) | Pendente; hoje é manual |
