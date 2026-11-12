@@ -1,0 +1,122 @@
+/* ==========================================================================
+   graao club × MicroKit
+   Microinterações adaptadas de microkit.co (MIT) para HTML/CSS/JS puro,
+   reescritas com os tokens do graao club. Prefixo: .mk-*
+   ========================================================================== */
+
+/* 1. Cursor Edge Glow Button — CTA principal ------------------------------ */
+.mk-glow { --x: .5; --left: 0; --right: 0; position: relative; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; gap: 12px; height: 54px; padding: 0 30px; border-radius: var(--r-pill); font-family: var(--font-ui); font-size: 14.5px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: var(--gc-terracota-700); background: linear-gradient(180deg, #FFFDFB, #EEF6F3); border: 1px solid rgb(255 255 255 / .9); box-shadow: inset 0 1px 0 #fff, 0 10px 30px -12px rgb(8 113 88 / .55); transition: transform .3s var(--ease-spring), box-shadow .3s; overflow: visible; }
+.mk-glow::before { /* luz que segue o cursor */ content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: radial-gradient(60% 140% at calc(var(--x) * 100%) 50%, rgb(183 242 224 / .95), transparent 70%); opacity: 0; transition: opacity .3s; }
+.mk-glow::after { /* brilhos espelhados nas bordas */ content: ""; position: absolute; inset: -2px; z-index: -2; border-radius: inherit; background:
+  radial-gradient(40% 120% at 0% 50%, rgb(63 168 138 / calc(var(--left) * .9)), transparent 70%),
+  radial-gradient(40% 120% at 100% 50%, rgb(248 151 119 / calc(var(--right) * .9)), transparent 70%); filter: blur(10px); transition: opacity .3s; }
+.mk-glow:hover { transform: translateY(-1px); box-shadow: inset 0 1px 0 #fff, 0 16px 40px -12px rgb(8 113 88 / .75); }
+.mk-glow:hover::before { opacity: 1; }
+.mk-glow:active { transform: scale(.97); }
+.mk-glow svg { width: 18px; height: 18px; transition: transform .35s var(--ease-out); }
+.mk-glow:hover svg { transform: translateX(3px); }
+:root[data-theme="dark"] .mk-glow { background: linear-gradient(180deg, #E2F8F1, #CFEFE5); }
+
+/* 2. Magnetic Fill Button ------------------------------------------------ */
+.mk-magnetic { transition: transform .35s var(--ease-out), color .25s, border-color .25s, box-shadow .3s !important; will-change: transform; }
+
+/* 3. Hold to Delete Button ---------------------------------------------- */
+.mk-hold { --hold: 1.2s; position: relative; overflow: hidden; isolation: isolate; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: var(--r-sm); font-weight: 600; font-size: 14px; color: var(--danger); background: var(--danger-soft); border: 1px solid color-mix(in srgb, var(--danger) 25%, transparent); user-select: none; -webkit-user-select: none; touch-action: none; transition: box-shadow .3s; }
+.mk-hold::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, #F89777, var(--gc-danger-600)); transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease-out); }
+.mk-hold.is-holding::before { transform: scaleX(1); transition: transform var(--hold) linear; }
+.mk-hold.is-holding { color: #fff; box-shadow: 0 0 0 4px var(--danger-soft), 0 8px 26px -6px rgb(196 56 74 / .55); }
+.mk-hold.is-done { color: #fff; animation: mkPulse .5s var(--ease-out); }
+.mk-hold.is-done::before { transform: scaleX(1); }
+.mk-hold svg { width: 16px; height: 16px; }
+@keyframes mkPulse { 40% { transform: scale(1.06); } }
+
+/* 4. Fuse Undo Button ---------------------------------------------------- */
+.mk-fuse { --p: 1; position: relative; display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--brand); background: var(--brand-soft); }
+.mk-fuse::after { content: ""; position: absolute; inset: -1px; border-radius: 11px; padding: 2px; background: conic-gradient(var(--gc-peach-500) calc(var(--p) * 360deg), transparent 0); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+
+/* 5. Progress Ring Check -------------------------------------------------- */
+.mk-ring { --p: 0; width: 22px; height: 22px; flex-shrink: 0; }
+.mk-ring circle { fill: none; stroke-width: 2.4; }
+.mk-ring .track { stroke: var(--line); stroke-dasharray: 3 3.2; }
+.mk-ring .arc { stroke: var(--gc-peach-500); stroke-linecap: round; stroke-dasharray: 56.5; stroke-dashoffset: calc(56.5 * (1 - var(--p))); transform: rotate(-90deg); transform-origin: center; transition: stroke-dashoffset .8s var(--ease-out); }
+.mk-ring .tick { fill: none; stroke: var(--on-fill); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 14; stroke-dashoffset: 14; }
+.mk-ring.is-done .track { stroke-dasharray: none; stroke: transparent; }
+.mk-ring.is-done .bg { fill: var(--fill-solid); }
+.mk-ring.is-done .tick { animation: mkDraw .45s var(--ease-out) .15s forwards; }
+.mk-ring.is-current .arc { animation: mkSpin 1.6s linear infinite; stroke-dasharray: 14 42.5; stroke-dashoffset: 0; }
+@keyframes mkDraw { to { stroke-dashoffset: 0; } }
+@keyframes mkSpin { to { transform: rotate(270deg); } }
+
+/* 6. Bounce Checkbox ---------------------------------------------------- */
+.mk-check { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; font-weight: 600; user-select: none; -webkit-user-select: none; }
+.mk-check input { position: absolute; opacity: 0; pointer-events: none; }
+.mk-check .box { position: relative; width: 22px; height: 22px; border-radius: 7px; border: 1.8px solid var(--gc-ink-300); background: var(--glass-bg-strong); display: grid; place-items: center; transition: border-color .2s; }
+.mk-check .box::before { content: ""; position: absolute; inset: -2px; border-radius: 8px; background: var(--fill); transform: scale(0); transition: transform .45s var(--ease-spring); }
+.mk-check .box svg { position: relative; width: 14px; height: 14px; fill: none; stroke: var(--on-fill); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 20; stroke-dashoffset: 20; transition: stroke-dashoffset .3s var(--ease-out) .12s; }
+.mk-check input:checked + .box { border-color: transparent; }
+.mk-check input:checked + .box::before { transform: scale(1); }
+.mk-check input:checked + .box svg { stroke-dashoffset: 0; }
+.mk-check .txt { position: relative; transition: color .3s; }
+.mk-check .txt::after { content: ""; position: absolute; left: 0; top: 52%; height: 1.5px; width: 100%; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease-out) .2s; }
+.mk-check.strike input:checked ~ .txt { color: var(--muted); }
+.mk-check.strike input:checked ~ .txt::after { transform: scaleX(1); }
+.mk-check input:focus-visible + .box { outline: 2px solid var(--gc-lavender-500); outline-offset: 3px; }
+
+/* 7. Count Up Number — só layout; o JS anima ---------------------------- */
+.mk-count { font-variant-numeric: tabular-nums; display: inline-block; text-align: left; }
+
+/* 8. Sliding Underline Tabs ---------------------------------------------- */
+.mk-tabs { --l: 0px; --w: 0px; position: relative; display: inline-flex; gap: 2px; padding: 4px; border-radius: var(--r-sm); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--glass-highlight); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.mk-tabs a, .mk-tabs button { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border-radius: 9px; font-size: 13.5px; font-weight: 550; color: var(--muted); transition: color .25s; }
+.mk-tabs a svg { width: 15px; height: 15px; }
+.mk-tabs a[aria-current="page"], .mk-tabs [aria-selected="true"] { color: var(--foreground); }
+.mk-tabs::after { content: ""; position: absolute; bottom: 4px; left: var(--l); width: var(--w); height: 2.5px; border-radius: 2px; background: var(--fill); transition: left .4s var(--ease-out), width .4s var(--ease-out); }
+.mk-tabs::before { content: ""; position: absolute; top: 4px; bottom: 4px; left: var(--l); width: var(--w); border-radius: 9px; background: var(--glass-bg-strong); box-shadow: var(--shadow-sm); transition: left .4s var(--ease-out), width .4s var(--ease-out); }
+
+/* 9. Spotlight Indicator (sidebar) --------------------------------------- */
+.mk-spotlight { position: relative; }
+.mk-spotlight-rail { position: absolute; left: 0; width: 3px; height: 22px; border-radius: 3px; background: var(--fill); box-shadow: 0 0 14px 2px rgb(8 113 88 / .65); transform: translateY(var(--y, 0)); transition: transform .45s var(--ease-out), opacity .3s; pointer-events: none; }
+
+/* 10. Expanding Icon Tabs (tabbar mobile) -------------------------------- */
+.mk-icon-tabs { gap: 6px; padding: 8px 10px calc(8px + env(safe-area-inset-bottom)) !important; }
+.mk-icon-tabs a { flex: 0 0 auto; display: flex !important; align-items: center; justify-content: center; gap: 8px; height: 44px; min-width: 44px; padding: 0 12px !important; border-radius: var(--r-pill); color: var(--muted); font-size: 13px !important; font-weight: 600; transition: flex-grow .45s var(--ease-out), background-color .3s, color .3s; }
+.mk-icon-tabs a span { max-width: 0; overflow: hidden; white-space: nowrap; transition: max-width .45s var(--ease-out); }
+.mk-icon-tabs a[aria-current="page"] { flex-grow: 1; background: var(--fill); color: var(--on-fill) !important; }
+.mk-icon-tabs a[aria-current="page"] span { max-width: 120px; }
+
+/* 11. Focus Field --------------------------------------------------------- */
+.field input, .field textarea, .select, .search, .top-search, .comment-compose input, .composer > input { position: relative; }
+.field input:focus, .field textarea:focus, .select:focus { border-color: transparent !important; box-shadow: 0 0 0 2px var(--gc-peach-400), 0 0 0 6px rgb(8 113 88 / .16) !important; }
+.search:focus-within, .top-search:focus-within { border-color: transparent !important; box-shadow: 0 0 0 2px var(--gc-peach-400), 0 0 0 6px rgb(8 113 88 / .16) !important; }
+
+/* 12. Hover Glide Cards ------------------------------------------------- */
+.mk-glide > * { position: relative; isolation: isolate; }
+.mk-glide > *::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; background: radial-gradient(260px circle at var(--mx, -999px) var(--my, -999px), rgb(183 242 224 / .55), rgb(242 218 254 / .35) 40%, transparent 70%); opacity: 0; transition: opacity .35s; }
+.mk-glide:hover > *::after { opacity: 1; }
+:root[data-theme="dark"] .mk-glide > *::after { background: radial-gradient(260px circle at var(--mx, -999px) var(--my, -999px), rgb(8 113 88 / .22), rgb(145 141 226 / .14) 40%, transparent 70%); }
+
+/* 13. Subscribe Shine Button -------------------------------------------- */
+@property --mk-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.mk-shine { position: relative; isolation: isolate; }
+.mk-shine::after { content: ""; position: absolute; inset: -1.5px; border-radius: inherit; padding: 1.5px; z-index: 2; pointer-events: none; background: conic-gradient(from var(--mk-a), transparent 0 70%, #fff 80%, var(--gc-peach-300) 85%, transparent 92%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity .3s; }
+.mk-shine:hover::after { opacity: 1; animation: mkShine 1.8s linear infinite; }
+@keyframes mkShine { to { --mk-a: 360deg; } }
+
+/* 14. Staggered Letter Text Swap --------------------------------------- */
+.mk-swap { display: inline-flex; overflow: hidden; line-height: 1.2; height: 1.2em; }
+.mk-swap > span { display: inline-flex; flex-direction: column; transition: transform .45s var(--ease-out); transition-delay: calc(var(--i) * 22ms); }
+.mk-swap > span > i { font-style: normal; height: 1.2em; white-space: pre; }
+.mk-swap > span > i:last-child { color: var(--brand); }
+a:hover > .mk-swap > span, .mk-swap:hover > span { transform: translateY(-1.2em); }
+
+/* 15. Read More Swap ------------------------------------------------------ */
+.mk-more { position: relative; display: inline-flex; align-items: center; gap: 6px; padding-left: 0; transition: padding .35s var(--ease-out), color .25s; }
+.mk-more .lead, .mk-more .trail { width: 14px; height: 14px; transition: opacity .3s, transform .35s var(--ease-out); }
+.mk-more .lead { position: absolute; left: 0; opacity: 0; transform: translateX(-8px); color: var(--gc-peach-500); }
+.mk-more:hover { padding-left: 20px; }
+.mk-more:hover .lead { opacity: 1; transform: none; }
+.mk-more:hover .trail { opacity: 0; transform: translateX(8px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .mk-glow::before, .mk-glow::after, .mk-shine::after { display: none; }
+}

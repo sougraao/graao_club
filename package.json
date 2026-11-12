@@ -1,0 +1,10 @@
+{
+  "name": "riseclub-recriacao",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Recriação de estudo da interface riseclub.tech (HTML/CSS/JS puro, sem dependências).",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs"
+  }
+}

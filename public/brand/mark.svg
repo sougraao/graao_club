@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- graao club: um grão/semente com brilho de vidro -->
+  <defs>
+    <linearGradient id="gc-g" x1="8" y1="6" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B7F2E0"/>
+      <stop offset=".5" stop-color="#3FA88A"/>
+      <stop offset="1" stop-color="#087158"/>
+    </linearGradient>
+    <radialGradient id="gc-h" cx="0" cy="0" r="1" gradientTransform="translate(24 18) rotate(50) scale(22 14)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="20" fill="url(#gc-g)"/>
+  <path d="M32 12c10.5 6.2 15 14.6 15 22.4C47 44 40.4 51 32 51s-15-7-15-16.6C17 26.6 21.5 18.2 32 12Z" fill="#FFFFFF" fill-opacity=".92"/>
+  <path d="M32 20v26" stroke="#087158" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M32 33c-3.6-1-6.2-3.4-7.2-6.8M32 39c3.8-1 6.6-3.6 7.6-7.2" stroke="#918DE2" stroke-width="2.6" stroke-linecap="round"/>
+  <rect width="64" height="64" rx="20" fill="url(#gc-h)"/>
+</svg>

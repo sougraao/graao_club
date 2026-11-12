@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>graao club — aprenda com IA, no seu ritmo</title>
+  <meta name="description" content="graao club: cursos e comunidade para aprender com IA de um jeito leve. Primeiro curso: IA para TDAH." />
+  <meta name="theme-color" content="#F7F9FB" />
+  <link rel="icon" href="/brand/mark.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/landing.css" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <link rel="stylesheet" href="/css/microkit.css" />
+  <link rel="stylesheet" href="/css/design-system.css" />
+  <link rel="stylesheet" href="/css/course.css" />
+  <script>
+    // Tema: claro por padrão; respeita a escolha salva.
+    try { const t = localStorage.getItem("rc:theme"); document.documentElement.dataset.theme = t || "light"; } catch {}
+  </script>
+</head>
+<body>
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <div id="app"></div>
+  <div id="overlay-root"></div>
+  <div id="toast-root" aria-live="polite"></div>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
